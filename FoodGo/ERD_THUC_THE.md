@@ -20,7 +20,7 @@
 **Thuộc tính:**
 | STT | Thuộc tính | Kiểu dữ liệu | Mô tả |
 |-----|-----------|-------------|-------|
-| 1 | food_id | INT (PK) | Mã món ăn (Khóa chính) |
+| 1 | food_id | VARCHAR(10) (PK) | Mã món ăn (Khóa chính) |
 | 2 | category_id | ENUM(...) | danh mục  |
 | 4 | food_name | VARCHAR(100) | Tên món ăn |
 | 5 | description | VARCHAR(255) | Mô tả chi tiết |
@@ -35,8 +35,8 @@
 **Thuộc tính:**
 | STT | Thuộc tính | Kiểu dữ liệu | Mô tả |
 |-----|-----------|-------------|-------|
-| 1 | order_id | INT (PK) | Mã đơn hàng (Khóa chính) |
-| 2 | user_id | INT (FK) | Mã khách hàng (Khóa ngoài) |
+| 1 | order_id | VARCHAR(10) (PK) | Mã đơn hàng (Khóa chính) |
+| 2 | user_id | VARCHAR(10) (FK) | Mã khách hàng (Khóa ngoài) |
 | 5 | total_amount | DECIMAL(10, 2) | Tổng tiền |
 | 6 | delivery_address | TEXT | Địa chỉ giao hàng |
 | 7 | delivery_fee | DECIMAL(10, 2) | Phí vận chuyển |
@@ -53,8 +53,8 @@
 **Thuộc tính:**
 | STT | Thuộc tính | Kiểu dữ liệu | Mô tả |
 |-----|-----------|-------------|-------|
-| 2 | order_id | INT (FK) | Mã đơn hàng (Khóa ngoài) |
-| 3 | food_id | INT (FK) | Mã món ăn (Khóa ngoài) |
+| 2 | order_id | VARCHAR(10) (FK) | Mã đơn hàng (Khóa ngoài) |
+| 3 | food_id | VARCHAR(10) (FK) | Mã món ăn (Khóa ngoài) |
 | 4 | quantity | INT | Số lượng |
 | 5 | unit_price | DECIMAL(10, 2) | Giá đơn vị |
 | 6 | subtotal | DECIMAL(10, 2) | Thành tiền |
@@ -65,7 +65,7 @@
 **Thuộc tính:**
 | STT | Thuộc tính | Kiểu dữ liệu | Mô tả |
 |-----|-----------|-------------|-------|
-| 1 | promotion_id | INT (PK) | Mã khuyến mãi (Khóa chính) |
+| 1 | promotion_id | VARCHAR(10) (PK) | Mã khuyến mãi (Khóa chính) |
 | 3 | code | VARCHAR(50) | Mã coupon |
 | 4 | description | TEXT | Mô tả khuyến mãi |
 | 5 | discount_type | ENUM('percentage', 'fixed_amount') | Loại giảm giá |
@@ -84,7 +84,7 @@
 **Thuộc tính:**
 | STT | Thuộc tính | Kiểu dữ liệu | Mô tả |
 |-----|-----------|-------------|-------|
-| 1 | order_promotion_id | INT (PK) | Mã (Khóa chính) |
+| 1 | order_promotion_id | VARCHAR(10) (PK) | Mã (Khóa chính) |
 | 2 | order_id | INT (FK) | Mã đơn hàng (Khóa ngoài) |
 | 3 | promotion_id | INT (FK) | Mã khuyến mãi (Khóa ngoài) |
 | 4 | discount_applied | DECIMAL(10, 2) | Số tiền giảm áp dụng |
@@ -95,7 +95,7 @@
 **Thuộc tính:**
 | STT | Thuộc tính | Kiểu dữ liệu | Mô tả |
 |-----|-----------|-------------|-------|
-| 2 | order_id | INT (FK) | Mã đơn hàng (Khóa ngoài) |
+| 2 | order_id | VARCHAR(10) (FK) | Mã đơn hàng (Khóa ngoài) |
 | 3 | user_id | INT (FK) | Mã người dùng (Khóa ngoài) |
 | 4 | food_id | INT (FK) | Mã món ăn (Khóa ngoài) |
 | 6 | rating_value | INT(1-5) | Điểm đánh giá (1-5 sao) |
@@ -251,4 +251,5 @@
 - Thêm bảng `Notification` cho thông báo hệ thống
 - Thêm bảng `Transaction_History` để theo dõi chi tiết các giao dịch
 - Thêm `discount_reason` hoặc `discount_code` vào Order để theo dõi mã giảm giá
+
 
