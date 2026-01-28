@@ -1,6 +1,6 @@
 -- Tạo cơ sở dữ liệu
-CREATE DATABASE IF NOT EXISTS quanlynhahang;
-USE quanlynhahang;
+CREATE DATABASE IF NOT EXISTS qlybandoan;
+USE qlybandoan;
 
 -- 1. Bảng NGUOIDUNG (Thực thể mạnh)
 CREATE TABLE NGUOIDUNG (
