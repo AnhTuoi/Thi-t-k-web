@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html class="light" lang="vi">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Tài khoản của tôi - FoodGo</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f48c25",
+                        "secondary": "#ef4444",
+                        "background-light": "#fdf8f4",
+                        "background-dark": "#1a130d",
+                        "card-dark": "#2a2015",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "2xl": "1.5rem",
+                        "3xl": "2rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        body {
+            font-family: "Plus Jakarta Sans", sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-1 {
+            font-variation-settings: 'FILL' 1;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .sidebar-item.active {
+            @apply bg-primary/10 text-primary border-r-4 border-primary;
+        }
+        /* Toast animation */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        /* Loading spinner */
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #f48c25;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Chatbot styles */
+        #chatbot-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+        }
+        #chatbot-container {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+            z-index: 1000;
+            display: none;
+        }
+        .chatbot-header {
+            background: linear-gradient(135deg, #f48c25, #ff6b35);
+            color: white;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .chatbot-messages {
+            height: 380px;
+            overflow-y: auto;
+            padding: 16px;
+            background: #f8f7f5;
+        }
+        .chatbot-input {
+            padding: 16px;
+            border-top: 1px solid #eee;
+            background: white;
+        }
+        .message {
+            margin-bottom: 12px;
+            display: flex;
+        }
+        .message.bot {
+            justify-content: flex-start;
+        }
+        .message.user {
+            justify-content: flex-end;
+        }
+        .message-content {
+            max-width: 80%;
+            padding: 10px 16px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .message.bot .message-content {
+            background: white;
+            color: #333;
+            border: 1px solid #eee;
+        }
+        .message.user .message-content {
+            background: linear-gradient(135deg, #f48c25, #ff6b35);
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#1c140d] dark:text-[#fcfaf8] min-h-screen">
+    <div class="layout-container flex flex-col items-center">
+        <!-- Header -->
+        <header class="w-full sticky top-0 z-50 bg-white/90 dark:bg-background-dark/90 backdrop-blur-md border-b border-[#f4ede7] dark:border-[#3d2e1f] px-4 md:px-6 lg:px-8 xl:px-20 py-3">
+            <div class="max-w-[1200px] mx-auto flex items-center justify-between gap-4 md:gap-8">
+                <!-- Logo -->
+                <a class="flex items-center gap-2 text-primary shrink-0" href="Trangchu.html">
+                    <span class="material-symbols-outlined text-3xl md:text-4xl font-bold">fastfood</span>
+                    <h2 class="text-xl md:text-2xl font-black tracking-tighter">FoodGo</h2>
+                </a>
+                
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="lg:hidden p-2 rounded-xl bg-[#f4ede7] dark:bg-[#3d2e1f]">
+                    <span class="material-symbols-outlined text-2xl">menu</span>
+                </button>
+                
+                <!-- Desktop Navigation -->
+                <nav class="hidden lg:flex items-center gap-6 xl:gap-8 shrink-0">
+                    <a class="text-sm font-bold text-[#9c7349] dark:text-gray-300 hover:text-primary transition-colors" href="Trangchu.html">Trang chủ</a>
+                    <a class="text-sm font-bold text-[#9c7349] dark:text-gray-300 hover:text-primary transition-colors" href="Thucdon.html">Thực đơn</a>
+                    <a class="text-sm font-bold text-[#9c7349] dark:text-gray-300 hover:text-primary transition-colors" href="Khuyenmai.html">Khuyến mãi</a>
+                    <a class="text-sm font-bold text-[#9c7349] dark:text-gray-300 hover:text-primary transition-colors" href="Donhang.html">Đơn hàng</a>
+                </nav>
+                
+                <!-- Search Bar (Desktop) -->
+                <div class="hidden md:flex flex-1 max-w-md mx-4">
+                    <label class="relative w-full">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-[#9c7349]">
+                            <span class="material-symbols-outlined text-xl">search</span>
+                        </span>
+                        <input id="search-input" class="w-full h-10 md:h-11 pl-10 pr-4 rounded-2xl border-none bg-[#f4ede7] dark:bg-[#3d2e1f] text-[#1c140d] dark:text-white placeholder:text-[#9c7349] focus:ring-2 focus:ring-primary/50 transition-all text-sm" 
+                               placeholder="Tìm kiếm món ăn..." type="text"/>
+                    </label>
+                </div>
+                
+                <!-- User Actions -->
+                <div class="flex items-center gap-3 md:gap-4 shrink-0">
+                    <!-- Search Button (Mobile) -->
+                    <button id="mobile-search-button" class="md:hidden p-2.5 rounded-2xl bg-[#f4ede7] dark:bg-[#3d2e1f] hover:bg-primary/20 transition-all">
+                        <span class="material-symbols-outlined text-2xl">search</span>
+                    </button>
+                    
+                    <!-- Auth Section -->
+                    <div id="auth-section">
+                        <!-- Not logged in -->
+                        <div id="not-logged-in" style="display: none;">
+                            <div class="flex items-center gap-2">
+                                <a href="Dangnhap.html" class="px-4 md:px-6 py-2 md:py-2.5 bg-primary text-white font-bold rounded-2xl hover:opacity-90 transition-all text-sm whitespace-nowrap">
+                                    Đăng nhập
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Logged in -->
+                        <div id="logged-in" style="display: none;">
+                            <div class="flex items-center gap-2 md:gap-3">
+                                <!-- User Info (Desktop) -->
+                                <div class="hidden md:block text-right">
+                                    <p class="text-sm font-bold truncate max-w-[120px]" id="header-user-name"></p>
+                                    <p class="text-[10px] text-[#9c7349] truncate max-w-[120px]" id="header-user-role"></p>
+                                </div>
+                                
+                                <!-- User Avatar -->
+                                <div class="h-9 md:h-10 w-9 md:w-10 rounded-2xl bg-cover bg-center border-2 border-primary cursor-pointer hover:scale-105 transition-transform" 
+                                     id="header-user-avatar">
+                                </div>
+                                
+                                <!-- Logout Button -->
+                                <button id="logout-button" class="p-2 md:p-2.5 rounded-2xl bg-[#f4ede7] dark:bg-[#3d2e1f] hover:bg-primary/20 transition-all">
+                                    <span class="material-symbols-outlined text-xl">logout</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Cart & Notifications -->
+                    <div class="flex items-center gap-1 md:gap-2">
+                        <a href="Giohang&TT.html" class="relative p-2 md:p-2.5 rounded-2xl bg-[#f4ede7] dark:bg-[#3d2e1f] hover:bg-primary/20 transition-all group">
+                            <span class="material-symbols-outlined text-2xl group-hover:text-primary transition-colors">shopping_cart</span>
+                            <span id="cart-count" class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-extrabold text-white border-2 border-white dark:border-[#221910]">0</span>
+                        </a>
+                        <button id="notifications-btn" class="relative p-2 md:p-2.5 rounded-2xl bg-[#f4ede7] dark:bg-[#3d2e1f] hover:bg-primary/20 transition-all group">
+                            <span class="material-symbols-outlined text-2xl group-hover:text-primary transition-colors">notifications</span>
+                            <span id="notification-count" class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-extrabold text-white border-2 border-white dark:border-[#221910] hidden">0</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Search Bar -->
+            <div id="mobile-search-bar" class="md:hidden mt-3 hidden">
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-[#9c7349]">
+                        <span class="material-symbols-outlined text-xl">search</span>
+                    </span>
+                    <input id="mobile-search-input" class="w-full h-11 pl-10 pr-4 rounded-2xl border-none bg-[#f4ede7] dark:bg-[#3d2e1f] text-[#1c140d] dark:text-white placeholder:text-[#9c7349] focus:ring-2 focus:ring-primary/50 transition-all text-sm" 
+                           placeholder="Tìm kiếm món ăn..." type="text"/>
+                </div>
+            </div>
+            
+            <!-- Mobile Navigation Menu -->
+            <div id="mobile-menu" class="lg:hidden mt-3 hidden bg-white dark:bg-[#2a2015] rounded-2xl border border-[#f4ede7] dark:border-[#3d2e1f] p-4">
+                <nav class="space-y-3">
+                    <a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:text-primary hover:bg-gray-50 dark:hover:bg-[#3d2e1f] rounded-xl transition-colors" href="Trangchu.html">
+                        <span class="material-symbols-outlined">home</span>
+                        Trang chủ
+                    </a>
+                    <a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:text-primary hover:bg-gray-50 dark:hover:bg-[#3d2e1f] rounded-xl transition-colors" href="Thucdon.html">
+                        <span class="material-symbols-outlined">restaurant_menu</span>
+                        Thực đơn
+                    </a>
+                    <a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:text-primary hover:bg-gray-50 dark:hover:bg-[#3d2e1f] rounded-xl transition-colors" href="Khuyenmai.html">
+                        <span class="material-symbols-outlined">redeem</span>
+                        Khuyến mãi
+                    </a>
+                    <a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:text-primary hover:bg-gray-50 dark:hover:bg-[#3d2e1f] rounded-xl transition-colors" href="Donhang.html">
+                        <span class="material-symbols-outlined">receipt_long</span>
+                        Đơn hàng
+                    </a>
+                    
+                    <!-- Mobile User Info -->
+                    <div id="mobile-user-info" class="pt-4 border-t border-[#f4ede7] dark:border-[#3d2e1f] hidden">
+                        <a href="TKcuatoi.html" class="flex items-center gap-3 px-4 py-3">
+                            <div id="mobile-user-avatar" class="h-10 w-10 rounded-xl bg-cover bg-center border-2 border-primary"></div>
+                            <div>
+                                <p class="text-sm font-bold" id="mobile-user-name">Đang tải...</p>
+                                <p class="text-xs text-[#9c7349]" id="mobile-user-role"></p>
+                            </div>
+                        </a>
+                        <button id="mobile-logout-button" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl transition-colors">
+                            <span class="material-symbols-outlined">logout</span>
+                            Đăng xuất
+                        </button>
+                    </div>
+                    
+                    <!-- Mobile Login Button -->
+                    <div id="mobile-login-button" class="pt-4 border-t border-[#f4ede7] dark:border-[#3d2e1f]">
+                        <a href="Dangnhap.html" class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-primary text-white font-bold rounded-xl hover:opacity-90 transition-all">
+                            <span class="material-symbols-outlined">login</span>
+                            Đăng nhập
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Loading Spinner -->
+        <div id="loading-spinner" class="fixed inset-0 bg-black/20 flex items-center justify-center z-[1000] hidden">
+            <div class="loading-spinner"></div>
+        </div>
+
+        <!-- Toast Notification -->
+        <div id="toast" class="fixed top-4 right-4 z-[1000] hidden">
+            <div class="bg-white dark:bg-[#2a2015] rounded-xl shadow-2xl border border-[#f4ede7] dark:border-[#3d2e1f] p-4 max-w-xs flex items-center gap-3 fade-in">
+                <div id="toast-icon" class="h-10 w-10 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
+                    <span class="material-symbols-outlined">check_circle</span>
+                </div>
+                <div class="flex-1">
+                    <p class="font-bold text-sm" id="toast-title"></p>
+                    <p class="text-xs text-[#9c7349]" id="toast-message"></p>
+                </div>
+                <button onclick="hideToast()" class="text-gray-400 hover:text-gray-600">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="w-full max-w-[1200px] px-4 md:px-6 lg:px-8 xl:px-10 py-6 md:py-8">
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Sidebar -->
+                <aside class="w-full lg:w-1/4 flex flex-col gap-2">
+                    <div class="bg-white dark:bg-card-dark rounded-3xl p-4 border border-[#f4ede7] dark:border-[#3d2e1f] overflow-hidden">
+                        <a class="sidebar-item active flex items-center gap-4 px-4 py-3 rounded-2xl text-[#9c7349] dark:text-gray-300 hover:bg-primary/5 hover:text-primary transition-all mb-1 font-bold" href="TKcuatoi.html">
+                            <span class="material-symbols-outlined">person</span>
+                            <span>Thông tin tài khoản</span>
+                        </a>
+                        <a class="sidebar-item flex items-center gap-4 px-4 py-3 rounded-2xl text-[#9c7349] dark:text-gray-300 hover:bg-primary/5 hover:text-primary transition-all mb-1 font-bold" href="Donhang.html">
+                            <span class="material-symbols-outlined">receipt_long</span>
+                            <span>Đơn hàng của tôi</span>
+                        </a>
+                        <a class="sidebar-item flex items-center gap-4 px-4 py-3 rounded-2xl text-[#9c7349] dark:text-gray-300 hover:bg-primary/5 hover:text-primary transition-all mb-1 font-bold" href="Khuyenmai.html">
+                            <span class="material-symbols-outlined">confirmation_number</span>
+                            <span>Mã giảm giá của tôi</span>
+                        </a>
+                        <a class="sidebar-item flex items-center gap-4 px-4 py-3 rounded-2xl text-[#9c7349] dark:text-gray-300 hover:bg-primary/5 hover:text-primary transition-all font-bold" href="#change-password">
+                            <span class="material-symbols-outlined">security</span>
+                            <span>Bảo mật &amp; Đổi mật khẩu</span>
+                        </a>
+                    </div>
+                    
+                    <!-- Stats Card -->
+                    <div class="bg-white dark:bg-card-dark rounded-3xl p-6 border border-[#f4ede7] dark:border-[#3d2e1f]">
+                        <h3 class="text-sm font-bold text-[#9c7349] dark:text-gray-300 mb-4 flex items-center gap-2">
+                            <span class="material-symbols-outlined">insights</span>
+                            Thống kê của bạn
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-[#9c7349] dark:text-gray-400">Đơn hàng</span>
+                                <span class="font-bold" id="stats-orders">0</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-[#9c7349] dark:text-gray-400">Đã chi tiêu</span>
+                                <span class="font-bold" id="stats-spent">0đ</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-[#9c7349] dark:text-gray-400">Điểm tích lũy</span>
+                                <span class="font-bold text-primary" id="stats-points">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Account Security Tips -->
+                    <div class="bg-white dark:bg-card-dark rounded-3xl p-6 border border-[#f4ede7] dark:border-[#3d2e1f]">
+                        <h3 class="text-sm font-bold text-[#9c7349] dark:text-gray-300 mb-4 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">verified_user</span>
+                            Mẹo bảo mật
+                        </h3>
+                        <ul class="space-y-2 text-xs text-[#9c7349] dark:text-gray-400">
+                            <li class="flex items-start gap-2">
+                                <span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+                                <span>Sử dụng mật khẩu mạnh, độc nhất</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+                                <span>Đổi mật khẩu định kỳ 3 tháng</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+                                <span>Không chia sẻ mật khẩu với ai</span>
+                            </li>
+                        </ul>
+                    </div>
+                </aside>
+                
+                <!-- Main Content Area -->
+                <div class="w-full lg:w-3/4 flex flex-col gap-8">
+                    <!-- Profile Header -->
+                    <section id="profileHeader" class="bg-white dark:bg-card-dark rounded-[2.5rem] p-6 md:p-8 border border-[#f4ede7] dark:border-[#3d2e1f] relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+                        <div class="flex flex-col md:flex-row items-center gap-8 relative z-10">
+                            <div class="relative">
+                                <div id="profileAvatar" class="h-32 w-32 rounded-[2.5rem] bg-cover bg-center border-4 border-primary shadow-2xl shadow-primary/20"></div>
+                                <button onclick="openAvatarUpload()" class="absolute -bottom-2 -right-2 p-2 bg-white dark:bg-background-dark rounded-xl shadow-lg border border-[#f4ede7] dark:border-[#3d2e1f] text-primary hover:scale-110 transition-transform">
+                                    <span class="material-symbols-outlined text-xl">photo_camera</span>
+                                </button>
+                            </div>
+                            <div class="flex-1 text-center md:text-left">
+                                <h1 id="profileName" class="text-2xl md:text-3xl font-black text-[#1c140d] dark:text-white mb-2"></h1>
+                                <div class="flex flex-col md:flex-row gap-4 text-[#9c7349] dark:text-gray-400 font-medium">
+                                    <div class="flex items-center gap-2 justify-center md:justify-start">
+                                        <span class="material-symbols-outlined text-primary">mail</span>
+                                        <span id="profileEmail"></span>
+                                    </div>
+                                    <div class="flex items-center gap-2 justify-center md:justify-start">
+                                        <span class="material-symbols-outlined text-primary">call</span>
+                                        <span id="profilePhone"></span>
+                                    </div>
+                                </div>
+                                <p class="mt-2 text-sm" id="profileId"></p>
+                            </div>
+                            <div id="userBadge" class="px-6 py-2 bg-green-500/10 text-green-600 dark:text-green-400 rounded-full text-xs font-black uppercase tracking-widest border border-green-500/20">
+                                Khách hàng thân thiết
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Edit Profile Form -->
+                    <section class="bg-white dark:bg-card-dark rounded-[2.5rem] p-6 md:p-8 border border-[#f4ede7] dark:border-[#3d2e1f]">
+                        <div class="flex items-center justify-between mb-6 md:mb-8">
+                            <h2 class="text-xl md:text-2xl font-black text-[#1c140d] dark:text-white flex items-center gap-3">
+                                <span class="material-symbols-outlined text-primary">edit_note</span>
+                                Chỉnh sửa thông tin cá nhân
+                            </h2>
+                        </div>
+                        <form id="editProfileForm" class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                            <div class="space-y-2">
+                                <label class="text-sm font-bold text-[#9c7349] ml-2">Họ và tên</label>
+                                <input id="editFullName" class="w-full px-4 md:px-6 py-3 md:py-4 rounded-2xl bg-[#fdf8f4] dark:bg-[#3d2e1f] border-none text-[#1c140d] dark:text-white focus:ring-2 focus:ring-primary/50 transition-all font-medium" type="text" required/>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-bold text-[#9c7349] ml-2">Số điện thoại</label>
+                                <input id="editPhone" class="w-full px-4 md:px-6 py-3 md:py-4 rounded-2xl bg-[#fdf8f4] dark:bg-[#3d2e1f] border-none text-[#1c140d] dark:text-white focus:ring-2 focus:ring-primary/50 transition-all font-medium" type="tel" required/>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-bold text-[#9c7349] ml-2">Email</label>
+                                <input id="editEmail" class="w-full px-4 md:px-6 py-3 md:py-4 rounded-2xl bg-[#fdf8f4] dark:bg-[#3d2e1f] border-none text-[#1c140d] dark:text-white focus:ring-2 focus:ring-primary/50 transition-all font-medium" type="email" readonly/>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-bold text-[#9c7349] ml-2">Giới tính</label>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <label class="flex items-center justify-center gap-2 p-3 md:p-4 rounded-2xl bg-[#fdf8f4] dark:bg-[#3d2e1f] cursor-pointer border-2 border-transparent has-[:checked]:border-primary transition-all">
+                                        <input id="genderMale" name="gender" type="radio" value="nam" class="hidden"/>
+                                        <span class="text-sm font-bold">Nam</span>
+                                    </label>
+                                    <label class="flex items-center justify-center gap-2 p-3 md:p-4 rounded-2xl bg-[#fdf8f4] dark:bg-[#3d2e1f] cursor-pointer border-2 border-transparent has-[:checked]:border-primary transition-all">
+                                        <input id="genderFemale" name="gender" type="radio" value="nu" class="hidden"/>
+                                        <span class="text-sm font-bold text-[#9c7349]">Nữ</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-bold text-[#9c7349] ml-2">Ngày sinh</label>
+                                <input id="editBirthday" class="w-full px-4 md:px-6 py-3 md:py-4 rounded-2xl bg-[#fdf8f4] dark:bg-[#3d2e1f] border-none text-[#1c140d] dark:text-white focus:ring-2 focus:ring-primary/50 transition-all font-medium" type="date"/>
+                            </div>
+                            <div class="space-y-2 md:col-span-2">
+                                <label class="text-sm font-bold text-[#9c7349] ml-2">Địa chỉ</label>
+                                <div class="relative">
+                                    <span class="absolute top-4 left-6 text-[#9c7349]">
+                                        <span class="material-symbols-outlined">location_on</span>
+                                    </span>
+                                    <textarea id="editAddress" class="w-full pl-14 pr-6 py-4 rounded-2xl bg-[#fdf8f4] dark:bg-[#3d2e1f] border-none text-[#1c140d] dark:text-white focus:ring-2 focus:ring-primary/50 transition-all font-medium min-h-[100px]" placeholder="Số nhà, tên đường, phường/xã, quận/huyện..." required></textarea>
+                                </div>
+                            </div>
+                            <div class="md:col-span-2 pt-4 flex gap-4">
+                                <button type="submit" class="flex-1 py-4 bg-primary hover:bg-[#e07a1b] text-white font-black rounded-2xl transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
+                                    Lưu thay đổi
+                                    <span class="material-symbols-outlined">save</span>
+                                </button>
+                                <button type="button" onclick="resetForm()" class="px-8 py-4 bg-[#f4ede7] dark:bg-[#3d2e1f] text-[#9c7349] dark:text-gray-300 font-bold rounded-2xl hover:bg-[#ece2d8] dark:hover:bg-[#4a392b] transition-all">
+                                    Hủy
+                                </button>
+                            </div>
+                        </form>
+                    </section>
+                    
+                    <!-- Change Password Section -->
+                    <section id="change-password" class="bg-white dark:bg-card-dark rounded-[2.5rem] p-6 md:p-8 border border-[#f4ede7] dark:border-[#3d2e1f]">
+                        <div class="flex items-center justify-between mb-6 md:mb-8">
+                            <h2 class="text-xl md:text-2xl font-black text-[#1c140d] dark:text-white flex items-center gap-3">
+                                <span class="material-symbols-outlined text-primary">lock</span>
+                                Đổi mật khẩu
+                            </h2>
+                        </div>
+                        <form id="changePasswordForm" class="space-y-4 md:space-y-6">
+                            <div class="space-y-2">
+                                <label class="text-sm font-bold text-[#9c7349] ml-2">Mật khẩu hiện tại</label>
+                                <div class="relative">
+                                    <input id="currentPassword" class="w-full px-6 py-4 rounded-2xl bg-[#fdf8f4] dark:bg-[#3d2e1f] border-none text-[#1c140d] dark:text-white focus:ring-2 focus:ring-primary/50 transition-all font-medium pr-12" 
+                                           type="password" placeholder="Nhập mật khẩu hiện tại" required/>
+                                    <button type="button" class="absolute right-4 top-4 text-[#9c7349] hover:text-primary" onclick="togglePassword('currentPassword')">
+                                        <span class="material-symbols-outlined">visibility</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-bold text-[#9c7349] ml-2">Mật khẩu mới</label>
+                                <div class="relative">
+                                    <input id="newPassword" class="w-full px-6 py-4 rounded-2xl bg-[#fdf8f4] dark:bg-[#3d2e1f] border-none text-[#1c140d] dark:text-white focus:ring-2 focus:ring-primary/50 transition-all font-medium pr-12" 
+                                           type="password" placeholder="Nhập mật khẩu mới (tối thiểu 8 ký tự)" required minlength="8"/>
+                                    <button type="button" class="absolute right-4 top-4 text-[#9c7349] hover:text-primary" onclick="togglePassword('newPassword')">
+                                        <span class="material-symbols-outlined">visibility</span>
+                                    </button>
+                                </div>
+                                <p class="text-xs text-[#9c7349] ml-2">Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số</p>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-bold text-[#9c7349] ml-2">Xác nhận mật khẩu mới</label>
+                                <div class="relative">
+                                    <input id="confirmPassword" class="w-full px-6 py-4 rounded-2xl bg-[#fdf8f4] dark:bg-[#3d2e1f] border-none text-[#1c140d] dark:text-white focus:ring-2 focus:ring-primary/50 transition-all font-medium pr-12" 
+                                           type="password" placeholder="Nhập lại mật khẩu mới" required minlength="8"/>
+                                    <button type="button" class="absolute right-4 top-4 text-[#9c7349] hover:text-primary" onclick="togglePassword('confirmPassword')">
+                                        <span class="material-symbols-outlined">visibility</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="pt-4">
+                                <button type="submit" class="w-full py-4 bg-primary hover:bg-[#e07a1b] text-white font-black rounded-2xl transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
+                                    Đổi mật khẩu
+                                    <span class="material-symbols-outlined">lock_reset</span>
+                                </button>
+                            </div>
+                        </form>
+                        
+                        <!-- Password Strength Indicator -->
+                        <div class="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-800">
+                            <h4 class="text-sm font-bold text-blue-700 dark:text-blue-300 mb-2 flex items-center gap-2">
+                                <span class="material-symbols-outlined">info</span>
+                                Tiêu chí mật khẩu mạnh
+                            </h4>
+                            <ul class="text-xs text-blue-600 dark:text-blue-400 space-y-1">
+                                <li class="flex items-center gap-2">
+                                    <span id="length-check" class="material-symbols-outlined text-sm">radio_button_unchecked</span>
+                                    Ít nhất 8 ký tự
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span id="uppercase-check" class="material-symbols-outlined text-sm">radio_button_unchecked</span>
+                                    Có chữ hoa (A-Z)
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span id="lowercase-check" class="material-symbols-outlined text-sm">radio_button_unchecked</span>
+                                    Có chữ thường (a-z)
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span id="number-check" class="material-symbols-outlined text-sm">radio_button_unchecked</span>
+                                    Có số (0-9)
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span id="special-check" class="material-symbols-outlined text-sm">radio_button_unchecked</span>
+                                    Có ký tự đặc biệt (!@#$%^&*)
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                    
+                    <!-- Recent Orders -->
+                    <section class="bg-white dark:bg-card-dark rounded-[2.5rem] p-6 md:p-8 border border-[#f4ede7] dark:border-[#3d2e1f]">
+                        <div class="flex items-center justify-between mb-6 md:mb-8">
+                            <h2 class="text-xl md:text-2xl font-black text-[#1c140d] dark:text-white flex items-center gap-3">
+                                <span class="material-symbols-outlined text-primary">history</span>
+                                Đơn hàng gần đây
+                            </h2>
+                            <a href="Donhang.html" class="text-primary font-bold text-sm hover:underline whitespace-nowrap">Xem tất cả →</a>
+                        </div>
+                        <div id="recent-orders" class="space-y-4">
+                            <!-- Orders will be loaded here -->
+                            <div class="text-center py-8 text-[#9c7349]">
+                                <span class="material-symbols-outlined text-4xl mb-2">receipt_long</span>
+                                <p>Chưa có đơn hàng nào</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="w-full bg-[#1c140d] dark:bg-[#110d08] text-white py-10 md:py-16 mt-10 md:mt-20">
+            <div class="max-w-[1200px] mx-auto px-4 md:px-6 lg:px-8 xl:px-10">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+                    <!-- Company Info -->
+                    <div class="flex flex-col gap-4 md:gap-6">
+                        <div class="flex items-center gap-2 text-primary">
+                            <span class="material-symbols-outlined text-3xl font-bold">fastfood</span>
+                            <h2 class="text-2xl font-extrabold tracking-tight">FoodGo</h2>
+                        </div>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            FoodGo mang đến trải nghiệm ẩm thực tuyệt vời ngay tại nhà. Chúng tôi cam kết chất lượng món ăn và tốc độ giao hàng nhanh nhất.
+                        </p>
+                        <div class="flex flex-col gap-2">
+                            <div class="flex items-center gap-3 text-gray-400">
+                                <span class="material-symbols-outlined text-primary text-lg">call</span>
+                                <span class="text-sm">1900 1234</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-gray-400">
+                                <span class="material-symbols-outlined text-primary text-lg">mail</span>
+                                <span class="text-sm">support@foodgo.vn</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-gray-400">
+                                <span class="material-symbols-outlined text-primary text-lg">location_on</span>
+                                <span class="text-sm">123 Lê Lợi, Quận 1, TP. Hồ Chí Minh</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Links -->
+                    <div>
+                        <h4 class="font-bold text-lg mb-4 md:mb-6">Liên kết nhanh</h4>
+                        <ul class="text-gray-400 text-sm space-y-3 md:space-y-4">
+                            <li><a class="hover:text-primary transition-colors" href="Trangchu.html">Trang chủ</a></li>
+                            <li><a class="hover:text-primary transition-colors" href="Thucdon.html">Thực đơn</a></li>
+                            <li><a class="hover:text-primary transition-colors" href="Khuyenmai.html">Khuyến mãi</a></li>
+                            <li><a class="hover:text-primary transition-colors" href="Donhang.html">Đơn hàng</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Customer Support -->
+                    <div>
+                        <h4 class="font-bold text-lg mb-4 md:mb-6">Hỗ trợ khách hàng</h4>
+                        <ul class="text-gray-400 text-sm space-y-3 md:space-y-4">
+                            <li><a class="hover:text-primary transition-colors" href="#">Trung tâm trợ giúp</a></li>
+                            <li><a class="hover:text-primary transition-colors" href="#">Chính sách hoàn tiền</a></li>
+                            <li><a class="hover:text-primary transition-colors" href="Donhang.html">Theo dõi đơn hàng</a></li>
+                            <li><a class="hover:text-primary transition-colors" href="#">Câu hỏi thường gặp</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Download App -->
+                    <div>
+                        <h4 class="font-bold text-lg mb-4 md:mb-6">Tải ứng dụng</h4>
+                        <p class="text-gray-400 text-sm mb-3 md:mb-4">Trải nghiệm đặt món tốt hơn trên điện thoại của bạn.</p>
+                        <div class="flex flex-col gap-3">
+                            <button class="bg-[#2a2015] px-4 md:px-6 py-3 rounded-xl flex items-center gap-3 text-sm font-bold hover:bg-gray-800 transition-colors border border-gray-700">
+                                <span class="material-symbols-outlined">ios</span>
+                                <div class="text-left">
+                                    <p class="text-[10px] font-normal opacity-70">Download on the</p>
+                                    <p class="text-xs md:text-sm">App Store</p>
+                                </div>
+                            </button>
+                            <button class="bg-[#2a2015] px-4 md:px-6 py-3 rounded-xl flex items-center gap-3 text-sm font-bold hover:bg-gray-800 transition-colors border border-gray-700">
+                                <span class="material-symbols-outlined">play_arrow</span>
+                                <div class="text-left">
+                                    <p class="text-[10px] font-normal opacity-70">Get it on</p>
+                                    <p class="text-xs md:text-sm">Google Play</p>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Copyright -->
+                <div class="border-t border-gray-800 mt-8 md:mt-16 pt-6 md:pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+                    <p class="text-center md:text-left mb-3 md:mb-0">© 2024 FoodGo. Bản quyền thuộc về FoodGo Team.</p>
+                    <div class="flex gap-4 md:gap-6">
+                        <a class="hover:text-white transition-colors" href="#">Chính sách bảo mật</a>
+                        <a class="hover:text-white transition-colors" href="#">Điều khoản sử dụng</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Logout Modal -->
+    <div id="logout-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-[1000] p-4">
+        <div class="bg-white dark:bg-[#2a2015] rounded-2xl md:rounded-3xl p-6 md:p-8 max-w-sm w-full text-center">
+            <div class="h-14 w-14 md:h-16 md:w-16 bg-orange-100 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                <span class="material-symbols-outlined text-2xl md:text-3xl">logout</span>
+            </div>
+            <h3 class="text-lg md:text-xl font-black mb-4">Đăng xuất</h3>
+            <p class="text-[#9c7349] mb-6">Bạn có chắc chắn muốn đăng xuất khỏi tài khoản?</p>
+            <div class="flex gap-3">
+                <button id="cancel-logout" class="flex-1 h-11 md:h-12 bg-gray-100 text-gray-700 font-bold rounded-xl hover:bg-gray-200 transition-all">
+                    Hủy
+                </button>
+                <button id="confirm-logout" class="flex-1 h-11 md:h-12 bg-primary text-white font-bold rounded-xl hover:opacity-90 transition-all">
+                    Đăng xuất
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Avatar Upload Modal -->
+    <div id="avatar-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-[1000] p-4">
+        <div class="bg-white dark:bg-[#2a2015] rounded-2xl md:rounded-3xl p-6 md:p-8 max-w-sm w-full text-center">
+            <div class="h-14 w-14 md:h-16 md:w-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                <span class="material-symbols-outlined text-2xl md:text-3xl">photo_camera</span>
+            </div>
+            <h3 class="text-lg md:text-xl font-black mb-4">Cập nhật ảnh đại diện</h3>
+            <div class="mb-6">
+                <div class="h-32 w-32 rounded-full bg-cover bg-center border-4 border-primary mx-auto mb-4" id="avatar-preview"></div>
+                <input type="file" id="avatar-input" accept="image/*" class="hidden"/>
+                <div class="flex flex-col gap-3">
+                    <button onclick="document.getElementById('avatar-input').click()" class="w-full py-3 bg-primary text-white font-bold rounded-xl hover:opacity-90 transition-all">
+                        Chọn ảnh từ máy
+                    </button>
+                    <button onclick="useDefaultAvatar()" class="w-full py-3 bg-gray-100 text-gray-700 font-bold rounded-xl hover:bg-gray-200 transition-all">
+                        Dùng ảnh mặc định
+                    </button>
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <button id="cancel-avatar" class="flex-1 h-11 md:h-12 bg-gray-100 text-gray-700 font-bold rounded-xl hover:bg-gray-200 transition-all">
+                    Hủy
+                </button>
+                <button id="save-avatar" class="flex-1 h-11 md:h-12 bg-primary text-white font-bold rounded-xl hover:opacity-90 transition-all">
+                    Lưu
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot -->
+    <button id="chatbot-toggle" class="h-14 w-14 bg-primary text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform">
+        <span class="material-symbols-outlined text-2xl">chat</span>
+    </button>
+    
+    <div id="chatbot-container">
+        <div class="chatbot-header">
+            <div class="flex items-center gap-3">
+                <div class="h-8 w-8 bg-white/20 rounded-full flex items-center justify-center">
+                    <span class="material-symbols-outlined text-sm">smart_toy</span>
+                </div>
+                <div>
+                    <h4 class="font-bold text-sm">FoodGo Assistant</h4>
+                    <p class="text-xs opacity-90">AI hỗ trợ tài khoản</p>
+                </div>
+            </div>
+            <button id="close-chatbot" class="text-white/80 hover:text-white">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="chatbot-messages" id="chatbot-messages">
+            <div class="message bot">
+                <div class="message-content">
+                    Xin chào! Tôi là trợ lý ảo FoodGo. Tôi có thể giúp gì cho bạn về tài khoản?
+                    <div class="mt-2 flex flex-wrap gap-2">
+                        <button class="quick-question text-xs bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-1 rounded-full" data-question="Cập nhật thông tin">📝 Cập nhật thông tin</button>
+                        <button class="quick-question text-xs bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-1 rounded-full" data-question="Đổi mật khẩu">🔒 Đổi mật khẩu</button>
+                        <button class="quick-question text-xs bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-1 rounded-full" data-question="Đơn hàng của tôi">📦 Đơn hàng của tôi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <div class="flex gap-2">
+                <input type="text" id="chatbot-input" class="flex-1 h-10 px-4 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm" placeholder="Nhập câu hỏi của bạn...">
+                <button id="send-message" class="h-10 px-4 bg-primary text-white rounded-xl hover:opacity-90 transition-all">
+                    <span class="material-symbols-outlined">send</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const API_BASE_URL = '../api';
+        const DEFAULT_AVATAR = 'https://lh3.googleusercontent.com/aida-public/AB6AXuD5QyJdrgQc8EU6pqDDaTBolO1VlDlv6lM8W2XV1DfKW4a5PlcqAbGalkVd2R5tSpPt995mjv7mrHl-CbBn8v1DFbLCTf_OXGHrYxelVSZPnRc9GwzER6YHTfHVgz8FOOLJtzUXlcTs-Ohiq-FbZN3MOYmblmy5AiIh0jZq_KhWiEuCqRq1UOXjoyuOyasYqgDUu4FSlFWDRS8FWTie8S6FNhxcsTx5nj8MIEdRXRnvlOFI9qMcjFUC1jM6NQ0RgNfy0VOZHlmNrGI';
+
+        // Initialize demo data
+        function initDemoData() {
+            if (!localStorage.getItem('foodgo_users')) {
+                const demoUsers = [
+                    {
+                        id: 1,
+                        fullName: "Nguyễn Văn Khách",
+                        phone: "0912345678",
+                        email: "customer@foodgo.vn",
+                        username: "customer123",
+                        password: "123456",
+                        role: "customer",
+                        createdAt: "2024-01-01",
+                        address: "123 Nguyễn Văn Linh, Quận 7, TP.HCM",
+                        birthday: "1990-01-15",
+                        gender: "nam",
+                        points: 1500,
+                        totalSpent: 2500000,
+                        totalOrders: 12
+                    },
+                    {
+                        id: 2,
+                        fullName: "Trần Thị Nhân Viên",
+                        phone: "0923456789",
+                        email: "staff@foodgo.vn",
+                        username: "staff456",
+                        password: "123456",
+                        role: "staff",
+                        createdAt: "2024-01-01"
+                    },
+                    {
+                        id: 3,
+                        fullName: "Admin FoodGo",
+                        phone: "0934567890",
+                        email: "admin@foodgo.vn",
+                        username: "admin789",
+                        password: "123456",
+                        role: "admin",
+                        createdAt: "2024-01-01"
+                    }
+                ];
+                localStorage.setItem('foodgo_users', JSON.stringify(demoUsers));
+            }
+            
+            if (!localStorage.getItem('foodgo_cart')) {
+                localStorage.setItem('foodgo_cart', JSON.stringify([]));
+            }
+            
+            if (!localStorage.getItem('foodgo_orders')) {
+                const demoOrders = [
+                    {
+                        id: "ORDER001",
+                        userId: 1,
+                        items: [
+                            { name: "Burger Bò Phô Mai", quantity: 2, price: 89000 },
+                            { name: "Coca Cola", quantity: 1, price: 25000 }
+                        ],
+                        total: 203000,
+                        status: "completed",
+                        date: "2024-01-15",
+                        address: "123 Nguyễn Văn Linh, Quận 7, TP.HCM"
+                    },
+                    {
+                        id: "ORDER002",
+                        userId: 1,
+                        items: [
+                            { name: "Pizza Pepperoni", quantity: 1, price: 145000 }
+                        ],
+                        total: 145000,
+                        status: "delivering",
+                        date: "2024-01-20",
+                        address: "123 Nguyễn Văn Linh, Quận 7, TP.HCM"
+                    }
+                ];
+                localStorage.setItem('foodgo_orders', JSON.stringify(demoOrders));
+            }
+        }
+
+        // Check authentication
+        function checkAuth() {
+            const currentUser = JSON.parse(localStorage.getItem('foodgo_current_user') || 'null');
+            const notLoggedIn = document.getElementById('not-logged-in');
+            const loggedIn = document.getElementById('logged-in');
+            const mobileUserInfo = document.getElementById('mobile-user-info');
+            const mobileLoginButton = document.getElementById('mobile-login-button');
+            
+            if (currentUser) {
+                notLoggedIn.style.display = 'none';
+                loggedIn.style.display = 'block';
+                mobileUserInfo.style.display = 'block';
+                mobileLoginButton.style.display = 'none';
+                
+                document.getElementById('header-user-name').textContent = currentUser.fullName;
+                document.getElementById('header-user-role').textContent = getRoleName(currentUser.role);
+                document.getElementById('mobile-user-name').textContent = currentUser.fullName;
+                document.getElementById('mobile-user-role').textContent = getRoleName(currentUser.role);
+                
+                // Set avatar
+                const avatarUrl = currentUser.avatar || DEFAULT_AVATAR;
+                document.getElementById('header-user-avatar').style.backgroundImage = `url('${avatarUrl}')`;
+                document.getElementById('mobile-user-avatar').style.backgroundImage = `url('${avatarUrl}')`;
+            } else {
+                // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+                window.location.href = 'Dangnhap.html';
+                return;
+            }
+            
+            updateCartCount();
+        }
+
+        // Get role name
+        function getRoleName(role) {
+            const roles = {
+                'customer': 'Khách hàng',
+                'staff': 'Nhân viên',
+                'admin': 'Quản trị viên'
+            };
+            return roles[role] || role;
+        }
+
+        // Load user profile
+        function loadUserProfile() {
+            const currentUser = JSON.parse(localStorage.getItem('foodgo_current_user') || 'null');
+            
+            if (!currentUser) {
+                window.location.href = 'Dangnhap.html';
+                return;
+            }
+            
+            // Get user details from users list
+            const users = JSON.parse(localStorage.getItem('foodgo_users') || '[]');
+            const userDetail = users.find(u => u.id === currentUser.id) || currentUser;
+            
+            // Display profile information
+            document.getElementById('profileName').textContent = userDetail.fullName || 'Chưa cập nhật';
+            document.getElementById('profileEmail').textContent = userDetail.email || 'Chưa cập nhật';
+            document.getElementById('profilePhone').textContent = userDetail.phone || 'Chưa cập nhật';
+            document.getElementById('profileId').textContent = `ID: ${userDetail.id || 'N/A'}`;
+            
+            // Set avatar
+            const avatarUrl = userDetail.avatar || DEFAULT_AVATAR;
+            document.getElementById('profileAvatar').style.backgroundImage = `url('${avatarUrl}')`;
+            document.getElementById('header-user-avatar').style.backgroundImage = `url('${avatarUrl}')`;
+            document.getElementById('mobile-user-avatar').style.backgroundImage = `url('${avatarUrl}')`;
+            
+            // Update badge based on role
+            const badgeElement = document.getElementById('userBadge');
+            if (userDetail.role === 'admin') {
+                badgeElement.textContent = 'Quản trị viên';
+                badgeElement.className = 'px-6 py-2 bg-purple-500/10 text-purple-600 dark:text-purple-400 rounded-full text-xs font-black uppercase tracking-widest border border-purple-500/20';
+            } else if (userDetail.role === 'staff') {
+                badgeElement.textContent = 'Nhân viên';
+                badgeElement.className = 'px-6 py-2 bg-blue-500/10 text-blue-600 dark:text-blue-400 rounded-full text-xs font-black uppercase tracking-widest border border-blue-500/20';
+            } else {
+                badgeElement.textContent = 'Khách hàng thân thiết';
+                badgeElement.className = 'px-6 py-2 bg-green-500/10 text-green-600 dark:text-green-400 rounded-full text-xs font-black uppercase tracking-widest border border-green-500/20';
+            }
+            
+            // Fill edit form
+            document.getElementById('editFullName').value = userDetail.fullName || '';
+            document.getElementById('editPhone').value = userDetail.phone || '';
+            document.getElementById('editEmail').value = userDetail.email || '';
+            document.getElementById('editAddress').value = userDetail.address || '';
+            document.getElementById('editBirthday').value = userDetail.birthday || '';
+            
+            // Set gender
+            if (userDetail.gender === 'nu') {
+                document.getElementById('genderFemale').checked = true;
+            } else {
+                document.getElementById('genderMale').checked = true;
+            }
+            
+            // Load stats
+            loadUserStats(userDetail);
+            
+            // Load recent orders
+            loadRecentOrders(currentUser.id);
+        }
+
+        // Load user stats
+        function loadUserStats(userDetail) {
+            const orders = JSON.parse(localStorage.getItem('foodgo_orders') || '[]');
+            const userOrders = orders.filter(order => order.userId === userDetail.id);
+            
+            document.getElementById('stats-orders').textContent = userDetail.totalOrders || userOrders.length;
+            document.getElementById('stats-spent').textContent = formatCurrency(userDetail.totalSpent || userOrders.reduce((sum, order) => sum + order.total, 0));
+            document.getElementById('stats-points').textContent = userDetail.points || 0;
+        }
+
+        // Load recent orders
+        function loadRecentOrders(userId) {
+            const orders = JSON.parse(localStorage.getItem('foodgo_orders') || '[]');
+            const userOrders = orders.filter(order => order.userId === userId)
+                                    .sort((a, b) => new Date(b.date) - new Date(a.date))
+                                    .slice(0, 3);
+            
+            const container = document.getElementById('recent-orders');
+            
+            if (userOrders.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-[#9c7349]">
+                        <span class="material-symbols-outlined text-4xl mb-2">receipt_long</span>
+                        <p>Chưa có đơn hàng nào</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            userOrders.forEach(order => {
+                const statusColors = {
+                    'pending': 'bg-yellow-500/10 text-yellow-600',
+                    'preparing': 'bg-blue-500/10 text-blue-600',
+                    'delivering': 'bg-orange-500/10 text-orange-600',
+                    'completed': 'bg-green-500/10 text-green-600',
+                    'cancelled': 'bg-red-500/10 text-red-600'
+                };
+                
+                const statusTexts = {
+                    'pending': 'Chờ xác nhận',
+                    'preparing': 'Đang chuẩn bị',
+                    'delivering': 'Đang giao hàng',
+                    'completed': 'Hoàn thành',
+                    'cancelled': 'Đã hủy'
+                };
+                
+                const statusClass = statusColors[order.status] || 'bg-gray-500/10 text-gray-600';
+                const statusText = statusTexts[order.status] || order.status;
+                
+                html += `
+                    <div class="flex items-center justify-between p-4 rounded-2xl bg-[#fdf8f4] dark:bg-[#3d2e1f] hover:bg-[#f4ede7] dark:hover:bg-[#4a392b] transition-colors cursor-pointer" onclick="window.location.href='Donhang.html?order=${order.id}'">
+                        <div class="flex items-center gap-4">
+                            <div class="h-12 w-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center">
+                                <span class="material-symbols-outlined">receipt</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">${order.id}</h4>
+                                <p class="text-sm text-[#9c7349]">${formatDate(order.date)}</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-bold text-lg">${formatCurrency(order.total)}</div>
+                            <div class="text-sm ${statusClass} px-3 py-1 rounded-full inline-block mt-1">
+                                ${statusText}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Handle edit form submission
+        document.getElementById('editProfileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const currentUser = JSON.parse(localStorage.getItem('foodgo_current_user'));
+            const users = JSON.parse(localStorage.getItem('foodgo_users') || '[]');
+            
+            // Find user index
+            const userIndex = users.findIndex(u => u.id === currentUser.id);
+            
+            if (userIndex === -1) {
+                showToast('Lỗi', 'Không tìm thấy thông tin người dùng!', 'error');
+                return;
+            }
+            
+            // Update user information
+            users[userIndex].fullName = document.getElementById('editFullName').value;
+            users[userIndex].phone = document.getElementById('editPhone').value;
+            users[userIndex].address = document.getElementById('editAddress').value;
+            users[userIndex].birthday = document.getElementById('editBirthday').value;
+            users[userIndex].gender = document.querySelector('input[name="gender"]:checked').value;
+            
+            // Save to localStorage
+            localStorage.setItem('foodgo_users', JSON.stringify(users));
+            
+            // Update current user info
+            currentUser.fullName = users[userIndex].fullName;
+            currentUser.phone = users[userIndex].phone;
+            currentUser.address = users[userIndex].address;
+            localStorage.setItem('foodgo_current_user', JSON.stringify(currentUser));
+            
+            // Show success message
+            showToast('Thành công', 'Cập nhật thông tin thành công!', 'success');
+            
+            // Reload profile
+            setTimeout(() => {
+                loadUserProfile();
+                checkAuth(); // Update header info
+            }, 500);
+        });
+
+        // Handle change password form submission
+        document.getElementById('changePasswordForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            // Validate passwords
+            if (newPassword !== confirmPassword) {
+                showToast('Lỗi', 'Mật khẩu mới và xác nhận mật khẩu không khớp!', 'error');
+                return;
+            }
+            
+            if (newPassword.length < 8) {
+                showToast('Lỗi', 'Mật khẩu mới phải có ít nhất 8 ký tự!', 'error');
+                return;
+            }
+            
+            // Check password strength
+            const hasUpperCase = /[A-Z]/.test(newPassword);
+            const hasLowerCase = /[a-z]/.test(newPassword);
+            const hasNumbers = /\d/.test(newPassword);
+            const hasSpecialChar = /[!@#$%^&*]/.test(newPassword);
+            
+            if (!hasUpperCase || !hasLowerCase || !hasNumbers) {
+                showToast('Lỗi', 'Mật khẩu phải chứa chữ hoa, chữ thường và số!', 'error');
+                return;
+            }
+            
+            const currentUser = JSON.parse(localStorage.getItem('foodgo_current_user'));
+            const users = JSON.parse(localStorage.getItem('foodgo_users') || '[]');
+            
+            // Find user index
+            const userIndex = users.findIndex(u => u.id === currentUser.id);
+            
+            if (userIndex === -1) {
+                showToast('Lỗi', 'Không tìm thấy thông tin người dùng!', 'error');
+                return;
+            }
+            
+            // Check current password
+            if (users[userIndex].password !== currentPassword) {
+                showToast('Lỗi', 'Mật khẩu hiện tại không đúng!', 'error');
+                return;
+            }
+            
+            // Update password
+            users[userIndex].password = newPassword;
+            
+            // Save to localStorage
+            localStorage.setItem('foodgo_users', JSON.stringify(users));
+            
+            // Clear form
+            document.getElementById('changePasswordForm').reset();
+            
+            // Show success message
+            showToast('Thành công', 'Đổi mật khẩu thành công!', 'success');
+        });
+
+        // Toggle password visibility
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const button = input.nextElementSibling;
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                button.innerHTML = '<span class="material-symbols-outlined">visibility_off</span>';
+            } else {
+                input.type = 'password';
+                button.innerHTML = '<span class="material-symbols-outlined">visibility</span>';
+            }
+        }
+
+        // Check password strength in real-time
+        function setupPasswordStrengthChecker() {
+            const newPasswordInput = document.getElementById('newPassword');
+            
+            newPasswordInput.addEventListener('input', function() {
+                const password = this.value;
+                
+                // Check criteria
+                const hasMinLength = password.length >= 8;
+                const hasUpperCase = /[A-Z]/.test(password);
+                const hasLowerCase = /[a-z]/.test(password);
+                const hasNumbers = /\d/.test(password);
+                const hasSpecialChar = /[!@#$%^&*]/.test(password);
+                
+                // Update check icons
+                updateCheckIcon('length-check', hasMinLength);
+                updateCheckIcon('uppercase-check', hasUpperCase);
+                updateCheckIcon('lowercase-check', hasLowerCase);
+                updateCheckIcon('number-check', hasNumbers);
+                updateCheckIcon('special-check', hasSpecialChar);
+            });
+        }
+
+        function updateCheckIcon(elementId, isValid) {
+            const element = document.getElementById(elementId);
+            if (isValid) {
+                element.innerHTML = '<span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>';
+            } else {
+                element.innerHTML = '<span class="material-symbols-outlined text-sm">radio_button_unchecked</span>';
+            }
+        }
+
+        // Reset form
+        function resetForm() {
+            loadUserProfile();
+        }
+
+        // Open avatar upload modal
+        function openAvatarUpload() {
+            const modal = document.getElementById('avatar-modal');
+            const currentUser = JSON.parse(localStorage.getItem('foodgo_current_user'));
+            const avatarUrl = currentUser.avatar || DEFAULT_AVATAR;
+            
+            document.getElementById('avatar-preview').style.backgroundImage = `url('${avatarUrl}')`;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        // Use default avatar
+        function useDefaultAvatar() {
+            document.getElementById('avatar-preview').style.backgroundImage = `url('${DEFAULT_AVATAR}')`;
+        }
+
+        // Setup avatar upload
+        function setupAvatarUpload() {
+            const avatarInput = document.getElementById('avatar-input');
+            const avatarPreview = document.getElementById('avatar-preview');
+            const modal = document.getElementById('avatar-modal');
+            const cancelBtn = document.getElementById('cancel-avatar');
+            const saveBtn = document.getElementById('save-avatar');
+            
+            // Handle file selection
+            avatarInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        avatarPreview.style.backgroundImage = `url('${e.target.result}')`;
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            // Handle cancel
+            cancelBtn.addEventListener('click', function() {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            });
+            
+            // Handle save
+            saveBtn.addEventListener('click', function() {
+                const avatarUrl = avatarPreview.style.backgroundImage.slice(4, -1).replace(/"/g, "");
+                
+                const currentUser = JSON.parse(localStorage.getItem('foodgo_current_user'));
+                const users = JSON.parse(localStorage.getItem('foodgo_users') || '[]');
+                
+                // Find user index
+                const userIndex = users.findIndex(u => u.id === currentUser.id);
+                
+                if (userIndex !== -1) {
+                    users[userIndex].avatar = avatarUrl;
+                    localStorage.setItem('foodgo_users', JSON.stringify(users));
+                }
+                
+                currentUser.avatar = avatarUrl;
+                localStorage.setItem('foodgo_current_user', JSON.stringify(currentUser));
+                
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                
+                showToast('Thành công', 'Đã cập nhật ảnh đại diện!', 'success');
+                
+                setTimeout(() => {
+                    loadUserProfile();
+                    checkAuth(); // Update header info
+                }, 500);
+            });
+            
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                }
+            });
+        }
+
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button')?.addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            const searchBar = document.getElementById('mobile-search-bar');
+            
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                searchBar.classList.add('hidden');
+            } else {
+                menu.classList.add('hidden');
+            }
+        });
+
+        // Mobile search toggle
+        document.getElementById('mobile-search-button')?.addEventListener('click', function() {
+            const searchBar = document.getElementById('mobile-search-bar');
+            const menu = document.getElementById('mobile-menu');
+            
+            if (searchBar.classList.contains('hidden')) {
+                searchBar.classList.remove('hidden');
+                menu.classList.add('hidden');
+            } else {
+                searchBar.classList.add('hidden');
+            }
+        });
+
+        // Setup logout
+        function setupLogout() {
+            const logoutButtons = ['logout-button', 'mobile-logout-button', 'confirm-logout'];
+            const cancelButton = document.getElementById('cancel-logout');
+            const modal = document.getElementById('logout-modal');
+            
+            logoutButtons.forEach(btnId => {
+                const btn = document.getElementById(btnId);
+                if (btn) {
+                    btn.addEventListener('click', function(e) {
+                        if (btnId === 'confirm-logout') {
+                            performLogout();
+                        } else {
+                            e.preventDefault();
+                            modal.classList.remove('hidden');
+                            modal.classList.add('flex');
+                        }
+                    });
+                }
+            });
+            
+            if (cancelButton) {
+                cancelButton.addEventListener('click', function() {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                });
+            }
+            
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                }
+            });
+        }
+
+        // Perform logout
+        function performLogout() {
+            localStorage.removeItem('foodgo_current_user');
+            document.getElementById('logout-modal').classList.add('hidden');
+            showToast('Đăng xuất thành công', 'Bạn đã đăng xuất khỏi tài khoản.', 'success');
+            
+            setTimeout(() => {
+                window.location.href = 'Dangnhap.html';
+            }, 1500);
+        }
+
+        // Update cart count
+        function updateCartCount() {
+            const currentUser = JSON.parse(localStorage.getItem('foodgo_current_user') || 'null');
+            
+            if (currentUser) {
+                // If logged in, get from API
+                fetch(`${API_BASE_URL}/home.php?action=get_cart_count&user_id=${currentUser.id}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            document.getElementById('cart-count').textContent = data.count || 0;
+                        } else {
+                            // Fallback to localStorage
+                            updateCartFromLocalStorage();
+                        }
+                    })
+                    .catch(() => {
+                        // Fallback to localStorage
+                        updateCartFromLocalStorage();
+                    });
+            } else {
+                // If not logged in, get from localStorage
+                updateCartFromLocalStorage();
+            }
+        }
+
+        function updateCartFromLocalStorage() {
+            const cart = JSON.parse(localStorage.getItem('foodgo_cart') || '[]');
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cart-count').textContent = count;
+        }
+
+        // Toast notification
+        function showToast(title, message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastIcon = document.getElementById('toast-icon');
+            
+            // Set icon based on type
+            if (type === 'error') {
+                toastIcon.className = 'h-10 w-10 bg-red-100 text-red-600 rounded-full flex items-center justify-center';
+                toastIcon.innerHTML = '<span class="material-symbols-outlined">error</span>';
+            } else if (type === 'warning') {
+                toastIcon.className = 'h-10 w-10 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center';
+                toastIcon.innerHTML = '<span class="material-symbols-outlined">warning</span>';
+            } else {
+                toastIcon.className = 'h-10 w-10 bg-green-100 text-green-600 rounded-full flex items-center justify-center';
+                toastIcon.innerHTML = '<span class="material-symbols-outlined">check_circle</span>';
+            }
+            
+            document.getElementById('toast-title').textContent = title;
+            document.getElementById('toast-message').textContent = message;
+            
+            toast.classList.remove('hidden');
+            toast.style.animation = 'fadeIn 0.3s ease-in';
+            
+            setTimeout(hideToast, 3000);
+        }
+
+        function hideToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('hidden');
+        }
+
+        // Format currency
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            }).format(amount);
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('vi-VN', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+        }
+
+        // Chatbot functions
+        function initChatbot() {
+            const toggleBtn = document.getElementById('chatbot-toggle');
+            const chatbot = document.getElementById('chatbot-container');
+            const closeBtn = document.getElementById('close-chatbot');
+            const sendBtn = document.getElementById('send-message');
+            const input = document.getElementById('chatbot-input');
+            const messagesContainer = document.getElementById('chatbot-messages');
+            
+            toggleBtn.addEventListener('click', () => {
+                chatbot.style.display = chatbot.style.display === 'block' ? 'none' : 'block';
+            });
+            
+            closeBtn.addEventListener('click', () => {
+                chatbot.style.display = 'none';
+            });
+            
+            sendBtn.addEventListener('click', sendMessage);
+            
+            input.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            // Quick question buttons
+            document.querySelectorAll('.quick-question').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const question = this.dataset.question;
+                    input.value = question;
+                    sendMessage();
+                });
+            });
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatbot-input');
+            const messagesContainer = document.getElementById('chatbot-messages');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message
+            addMessage(message, 'user');
+            input.value = '';
+            
+            // Simulate AI response
+            setTimeout(() => {
+                const response = getAIResponse(message);
+                addMessage(response, 'bot');
+            }, 1000);
+        }
+
+        function addMessage(text, sender) {
+            const messagesContainer = document.getElementById('chatbot-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.innerHTML = text;
+            
+            // Add quick questions for bot messages
+            if (sender === 'bot' && !text.includes('quick-question')) {
+                contentDiv.innerHTML += `
+                    <div class="mt-2 flex flex-wrap gap-2">
+                        <button class="quick-question text-xs bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-1 rounded-full" data-question="Cập nhật thông tin">📝 Cập nhật thông tin</button>
+                        <button class="quick-question text-xs bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-1 rounded-full" data-question="Đổi mật khẩu">🔒 Đổi mật khẩu</button>
+                        <button class="quick-question text-xs bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-1 rounded-full" data-question="Đơn hàng của tôi">📦 Đơn hàng của tôi</button>
+                    </div>
+                `;
+            }
+            
+            messageDiv.appendChild(contentDiv);
+            messagesContainer.appendChild(messageDiv);
+            
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            // Re-attach quick question listeners
+            messageDiv.querySelectorAll('.quick-question').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const question = this.dataset.question;
+                    document.getElementById('chatbot-input').value = question;
+                    sendMessage();
+                });
+            });
+        }
+
+        function getAIResponse(message) {
+            const currentUser = JSON.parse(localStorage.getItem('foodgo_current_user') || '{}');
+            const userDetail = JSON.parse(localStorage.getItem('foodgo_users') || '[]').find(u => u.id === currentUser.id) || {};
+            
+            const responses = {
+                'cập nhật thông tin': `Bạn có thể cập nhật thông tin cá nhân trong mục "Chỉnh sửa thông tin cá nhân" trên trang này. Hiện tại thông tin của bạn:<br>
+                • Họ tên: ${userDetail.fullName || 'Chưa cập nhật'}<br>
+                • Email: ${userDetail.email || 'Chưa cập nhật'}<br>
+                • SĐT: ${userDetail.phone || 'Chưa cập nhật'}<br>
+                • Địa chỉ: ${userDetail.address || 'Chưa cập nhật'}`,
+                
+                'đổi mật khẩu': `Bạn có thể đổi mật khẩu trong mục "Đổi mật khẩu" ngay bên dưới. Vui lòng chọn mật khẩu mạnh gồm ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số.<br>
+                <br><strong>Yêu cầu mật khẩu:</strong><br>
+                • Ít nhất 8 ký tự<br>
+                • Có chữ hoa (A-Z)<br>
+                • Có chữ thường (a-z)<br>
+                • Có số (0-9)<br>
+                • Có ký tự đặc biệt (!@#$%^&*)`,
+                
+                'đơn hàng của tôi': `Bạn có thể xem tất cả đơn hàng trong mục "Đơn hàng của tôi". Hiện tại bạn có ${userDetail.totalOrders || 0} đơn hàng với tổng chi tiêu ${formatCurrency(userDetail.totalSpent || 0)}.`,
+                
+                'điểm tích lũy': `Hiện tại bạn có ${userDetail.points || 0} điểm tích lũy. Mỗi 10.000đ chi tiêu = 1 điểm. Bạn có thể đổi điểm lấy voucher giảm giá.`,
+                
+                'chào': `Xin chào ${userDetail.fullName || 'bạn'}! Tôi là trợ lý ảo FoodGo. Tôi có thể giúp bạn quản lý tài khoản, xem đơn hàng hoặc giải đáp thắc mắc.`,
+                
+                'cảm ơn': 'Không có chi! Nếu cần thêm thông tin, bạn cứ hỏi nhé. 😊',
+                
+                'default': 'Tôi có thể giúp bạn với các vấn đề về tài khoản, đơn hàng, điểm tích lũy, đổi mật khẩu hoặc cập nhật thông tin cá nhân.'
+            };
+            
+            const lowerMessage = message.toLowerCase();
+            for (const [key, response] of Object.entries(responses)) {
+                if (lowerMessage.includes(key)) {
+                    return response;
+                }
+            }
+            
+            return responses.default;
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initDemoData();
+            checkAuth();
+            setupLogout();
+            setupAvatarUpload();
+            setupPasswordStrengthChecker();
+            loadUserProfile();
+            initChatbot();
+            
+            // Handle sidebar navigation to change password section
+            document.querySelector('a[href="#change-password"]').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('change-password').scrollIntoView({ 
+                    behavior: 'smooth' 
+                });
+            });
+            
+            // Search functionality
+            const searchInput = document.getElementById('search-input');
+            const mobileSearchInput = document.getElementById('mobile-search-input');
+            
+            function handleSearch() {
+                const searchTerm = searchInput?.value || mobileSearchInput?.value || '';
+                if (searchTerm.trim().length >= 2) {
+                    // Redirect to menu page with search term
+                    window.location.href = `Thucdon.html?search=${encodeURIComponent(searchTerm.trim())}`;
+                } else if (searchTerm.trim().length === 1) {
+                    showToast('Thông báo', 'Vui lòng nhập ít nhất 2 ký tự để tìm kiếm', 'warning');
+                }
+            }
+            
+            // Enter key search
+            if (searchInput) {
+                searchInput.addEventListener('keyup', function(e) {
+                    if (e.key === 'Enter') {
+                        handleSearch();
+                    }
+                });
+            }
+            
+            if (mobileSearchInput) {
+                mobileSearchInput.addEventListener('keyup', function(e) {
+                    if (e.key === 'Enter') {
+                        handleSearch();
+                    }
+                });
+            }
+            
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(e) {
+                const mobileMenu = document.getElementById('mobile-menu');
+                const mobileMenuButton = document.getElementById('mobile-menu-button');
+                const mobileSearchBar = document.getElementById('mobile-search-bar');
+                const mobileSearchButton = document.getElementById('mobile-search-button');
+                
+                if (mobileMenu && !mobileMenu.contains(e.target) && 
+                    mobileMenuButton && !mobileMenuButton.contains(e.target) && 
+                    !mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+                
+                if (mobileSearchBar && !mobileSearchBar.contains(e.target) && 
+                    mobileSearchButton && !mobileSearchButton.contains(e.target) && 
+                    !mobileSearchBar.classList.contains('hidden')) {
+                    mobileSearchBar.classList.add('hidden');
+                }
+            });
+        });
+        
+        // Responsive adjustments on resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 1024) {
+                const mobileMenu = document.getElementById('mobile-menu');
+                const mobileSearchBar = document.getElementById('mobile-search-bar');
+                
+                if (mobileMenu) mobileMenu.classList.add('hidden');
+                if (mobileSearchBar) mobileSearchBar.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

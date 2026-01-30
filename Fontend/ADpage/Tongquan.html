@@ -1,0 +1,387 @@
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Báo cáo Thống kê Doanh thu Admin FoodGo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f48c25",
+                        "background-light": "#f8f7f5",
+                        "sidebar-bg": "#ffffff",
+                        "card-bg": "#ffffff",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        body {
+            font-family: "Plus Jakarta Sans", sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        .active-menu {
+            @apply bg-primary/10 text-primary border-r-4 border-primary;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        #chatbot-window {
+            display: none;
+        }
+        #chatbot-toggle:focus-within + #chatbot-window,
+        #chatbot-window:hover,
+        #chatbot-window:focus-within {
+            display: flex;
+        }
+    </style>
+</head>
+<body class="bg-background-light text-[#1c140d] min-h-screen flex">
+<aside class="w-64 bg-sidebar-bg border-r border-[#f4ede7] flex flex-col fixed h-full z-50">
+<div class="p-6 flex items-center gap-2 text-primary shrink-0">
+<span class="material-symbols-outlined text-4xl font-bold">fastfood</span>
+<h2 class="text-xl font-black tracking-tighter">FoodGo <span class="text-[10px] bg-primary text-white px-1.5 py-0.5 rounded ml-1 uppercase">Admin</span></h2>
+</div>
+<nav class="flex-1 px-4 space-y-1 overflow-y-auto no-scrollbar">
+<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold active-menu rounded-lg transition-all" href="Tongquan.html">
+<span class="material-symbols-outlined">dashboard</span>
+            Tổng quan
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="QLthucdon.html">
+<span class="material-symbols-outlined">restaurant_menu</span>
+            Món ăn
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="QLdon.html">
+<span class="material-symbols-outlined">receipt_long</span>
+            Đơn hàng
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="QLnguoidung.html">
+<span class="material-symbols-outlined">group</span>
+            Người dùng
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="QLtaikhoan.html">
+<span class="material-symbols-outlined">key</span>
+                Tài khoản
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="QLkhuyenmai.html">
+<span class="material-symbols-outlined">redeem</span>
+                Khuyến mãi
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="QLdanhgia.html">
+<span class="material-symbols-outlined">star</span>
+                Đánh giá
+            </a>
+<div class="pt-4 mt-4 border-t border-[#f4ede7]">
+<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="TKrieng.html">
+<span class="material-symbols-outlined">person</span>
+                    Tài khoản của tôi
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="Caidat.html">
+<span class="material-symbols-outlined">settings</span>
+                Cài đặt
+            </a>
+</div>
+</nav>
+<div class="p-4 border-t border-[#f4ede7]">
+<div class="flex items-center gap-3 p-2 bg-[#f4ede7] rounded-2xl">
+<div class="h-10 w-10 rounded-xl bg-cover bg-center border border-white" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBOJiNxbpFuAke1kyo8nJq255mWAuZxZnSUPGNBOCUwweDmIvc2BmYUbmdPWpKEFjzJRaGYiTUDm-4110EJVDRyC2xmNeWJYE0UhI8FqtpQ2ozm1j11AV_JxDWJ1mYyi2_7LwVEAXMpUmdMQLkuHAlExgpAt_N6_UzXb0bD2nPW4a0UvbFEUSkAoS3bpy4nC_xBrjJ1f0NaeyBhJqiX_Fl4A7skfYzI0H9u-Q0lW2d1110_Y6wcC-E72xER2ksVq_K4CaasrH5-5J4");'></div>
+<div class="overflow-hidden">
+<p class="text-xs font-bold truncate">Admin FoodGo</p>
+<p class="text-[10px] text-[#9c7349]">Quản trị viên</p>
+</div>
+</div>
+</div>
+</aside>
+<main class="flex-1 ml-64 p-8">
+<header class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<h1 class="text-2xl font-black tracking-tight text-[#1c140d]">Báo cáo Doanh thu</h1>
+<p class="text-sm text-[#9c7349]">Theo dõi hiệu suất kinh doanh của hệ thống FoodGo</p>
+</div>
+<div class="flex items-center gap-2 bg-white p-1 rounded-xl border border-[#f4ede7] shadow-sm">
+<button class="px-4 py-1.5 text-xs font-bold bg-primary text-white rounded-lg transition-all">Hôm nay</button>
+<button class="px-4 py-1.5 text-xs font-bold text-[#9c7349] hover:bg-gray-50 rounded-lg transition-all">Tuần này</button>
+<button class="px-4 py-1.5 text-xs font-bold text-[#9c7349] hover:bg-gray-50 rounded-lg transition-all">Tháng này</button>
+<button class="px-4 py-1.5 text-xs font-bold text-[#9c7349] hover:bg-gray-50 rounded-lg transition-all flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">calendar_month</span>
+                Tùy chọn
+            </button>
+</div>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+<div class="bg-white p-6 rounded-3xl border border-[#f4ede7] shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="h-10 w-10 bg-primary/10 text-primary rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<span class="text-xs font-bold text-green-500 bg-green-50 px-2 py-0.5 rounded-full">+12.5%</span>
+</div>
+<p class="text-sm font-bold text-[#9c7349]">Tổng doanh thu</p>
+<h2 class="text-2xl font-black mt-1">128.450.000đ</h2>
+</div>
+<div class="bg-white p-6 rounded-3xl border border-[#f4ede7] shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="h-10 w-10 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined">receipt_long</span>
+</div>
+<span class="text-xs font-bold text-green-500 bg-green-50 px-2 py-0.5 rounded-full">+8.2%</span>
+</div>
+<p class="text-sm font-bold text-[#9c7349]">Số lượng đơn hàng</p>
+<h2 class="text-2xl font-black mt-1">1,254</h2>
+</div>
+<div class="bg-white p-6 rounded-3xl border border-[#f4ede7] shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="h-10 w-10 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined">shopping_bag</span>
+</div>
+<span class="text-xs font-bold text-red-500 bg-red-50 px-2 py-0.5 rounded-full">-2.1%</span>
+</div>
+<p class="text-sm font-bold text-[#9c7349]">Giá trị đơn trung bình</p>
+<h2 class="text-2xl font-black mt-1">102.000đ</h2>
+</div>
+<div class="bg-white p-6 rounded-3xl border border-[#f4ede7] shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="h-10 w-10 bg-red-100 text-red-600 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined">cancel</span>
+</div>
+<span class="text-xs font-bold text-green-500 bg-green-50 px-2 py-0.5 rounded-full">-1.5%</span>
+</div>
+<p class="text-sm font-bold text-[#9c7349]">Tỷ lệ hủy đơn</p>
+<h2 class="text-2xl font-black mt-1">3.2%</h2>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+<div class="lg:col-span-2 bg-white p-8 rounded-3xl border border-[#f4ede7] shadow-sm min-h-[400px]">
+<div class="flex items-center justify-between mb-8">
+<h3 class="text-lg font-bold text-[#1c140d]">Biểu đồ Doanh thu</h3>
+<div class="flex items-center gap-4 text-xs font-bold text-[#9c7349]">
+<div class="flex items-center gap-1.5">
+<span class="h-2.5 w-2.5 rounded-full bg-primary"></span> Tuần này
+                    </div>
+<div class="flex items-center gap-1.5">
+<span class="h-2.5 w-2.5 rounded-full bg-gray-300"></span> Tuần trước
+                    </div>
+</div>
+</div>
+<div class="relative h-64 flex items-end justify-between gap-2 border-b border-l border-gray-100 pt-4">
+<div class="flex-1 flex flex-col justify-end items-center group relative h-full">
+<div class="w-full bg-primary/10 rounded-t-lg transition-all h-[40%]"></div>
+<div class="w-full absolute bottom-0 bg-primary/40 rounded-t-lg transition-all h-[40%] group-hover:h-[45%]"></div>
+<span class="text-[10px] mt-2 font-bold text-[#9c7349]">T2</span>
+</div>
+<div class="flex-1 flex flex-col justify-end items-center group relative h-full">
+<div class="w-full bg-primary/10 rounded-t-lg transition-all h-[60%]"></div>
+<div class="w-full absolute bottom-0 bg-primary/40 rounded-t-lg transition-all h-[60%] group-hover:h-[65%]"></div>
+<span class="text-[10px] mt-2 font-bold text-[#9c7349]">T3</span>
+</div>
+<div class="flex-1 flex flex-col justify-end items-center group relative h-full">
+<div class="w-full bg-primary/10 rounded-t-lg transition-all h-[45%]"></div>
+<div class="w-full absolute bottom-0 bg-primary/40 rounded-t-lg transition-all h-[45%] group-hover:h-[50%]"></div>
+<span class="text-[10px] mt-2 font-bold text-[#9c7349]">T4</span>
+</div>
+<div class="flex-1 flex flex-col justify-end items-center group relative h-full">
+<div class="w-full bg-primary/10 rounded-t-lg transition-all h-[80%]"></div>
+<div class="w-full absolute bottom-0 bg-primary rounded-t-lg transition-all h-[80%] group-hover:h-[85%] shadow-lg shadow-primary/20"></div>
+<span class="text-[10px] mt-2 font-bold text-[#9c7349]">T5</span>
+</div>
+<div class="flex-1 flex flex-col justify-end items-center group relative h-full">
+<div class="w-full bg-primary/10 rounded-t-lg transition-all h-[55%]"></div>
+<div class="w-full absolute bottom-0 bg-primary/40 rounded-t-lg transition-all h-[55%] group-hover:h-[60%]"></div>
+<span class="text-[10px] mt-2 font-bold text-[#9c7349]">T6</span>
+</div>
+<div class="flex-1 flex flex-col justify-end items-center group relative h-full">
+<div class="w-full bg-primary/10 rounded-t-lg transition-all h-[90%]"></div>
+<div class="w-full absolute bottom-0 bg-primary/40 rounded-t-lg transition-all h-[90%] group-hover:h-[95%]"></div>
+<span class="text-[10px] mt-2 font-bold text-[#9c7349]">T7</span>
+</div>
+<div class="flex-1 flex flex-col justify-end items-center group relative h-full">
+<div class="w-full bg-primary/10 rounded-t-lg transition-all h-[75%]"></div>
+<div class="w-full absolute bottom-0 bg-primary/40 rounded-t-lg transition-all h-[75%] group-hover:h-[80%]"></div>
+<span class="text-[10px] mt-2 font-bold text-[#9c7349]">CN</span>
+</div>
+</div>
+</div>
+<div class="bg-white p-8 rounded-3xl border border-[#f4ede7] shadow-sm flex flex-col">
+<h3 class="text-lg font-bold text-[#1c140d] mb-8">Tỷ trọng Danh mục</h3>
+<div class="flex-1 flex flex-col items-center justify-center relative">
+<div class="h-48 w-48 rounded-full border-[16px] border-primary border-t-blue-500 border-l-green-500 border-r-purple-500 relative flex items-center justify-center">
+<div class="text-center">
+<p class="text-2xl font-black">100%</p>
+<p class="text-[10px] text-[#9c7349] uppercase font-bold">Doanh thu</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-x-6 gap-y-3 mt-8 w-full">
+<div class="flex items-center gap-2">
+<span class="h-2 w-2 rounded-full bg-primary"></span>
+<span class="text-xs font-bold text-[#9c7349]">Pizza (45%)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="h-2 w-2 rounded-full bg-blue-500"></span>
+<span class="text-xs font-bold text-[#9c7349]">Burger (25%)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="h-2 w-2 rounded-full bg-green-500"></span>
+<span class="text-xs font-bold text-[#9c7349]">Đồ uống (20%)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="h-2 w-2 rounded-full bg-purple-500"></span>
+<span class="text-xs font-bold text-[#9c7349]">Khác (10%)</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section class="bg-white p-8 rounded-3xl border border-[#f4ede7] shadow-sm mb-8">
+<div class="flex items-center justify-between mb-8">
+<h3 class="text-lg font-bold text-[#1c140d]">Top 5 Món ăn bán chạy</h3>
+<button class="text-sm font-bold text-primary hover:underline">Xem tất cả</button>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-4 bg-gray-50/50 rounded-2xl border border-[#f4ede7] hover:bg-gray-50 transition-colors">
+<div class="flex items-center gap-4">
+<div class="h-14 w-14 rounded-xl bg-cover bg-center border border-white shadow-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAt_tuItGstwNfjsAHItj3BDi5Z6rBaVEgAxg3SMjezB3bgYffbMKG84JgKl0Tg8MXj6Sm1NFhFS9UFlkzjNnOununRribBRmZGS-e3qt1tnjXmBv17_wG6MBO8SG4_9_tnh97Ou9_LYT-T1rGnx9FOkT6_7dC_suco6weHn9cBScXj59GQLbWXo38MnQiwp657hBcU931EmqsqSlDNr0tU3d0EUF_meu1htipspUUuM5ZAWm9Szhn2JheMamfDUKfBVYUlZKPDKck');"></div>
+<div>
+<p class="font-bold text-sm">Pizza Pepperoni Double Cheese</p>
+<p class="text-[10px] text-[#9c7349] uppercase font-bold">Fast Food</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-black text-sm text-primary">452 món</p>
+<p class="text-[10px] text-[#9c7349]">Đã bán trong tháng</p>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-gray-50/50 rounded-2xl border border-[#f4ede7] hover:bg-gray-50 transition-colors">
+<div class="flex items-center gap-4">
+<div class="h-14 w-14 rounded-xl bg-cover bg-center border border-white shadow-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCmgq90FAC1Bt7o8im9PgR7XU3aDVDiF8o2Ca2EaMJa3iX0-cUpCHg6hRl6Qz9lsGh_EzmOn84qEoeUFsxbYUlaHCyp_wb5wUvC-s-zu7H9j-trEcw-hPvfHsHQXl0I03hIcrAnXP46gE0JUkX3RIymqUzAu6yhPqOrpAm0wal0QaZCVXXwmSQ2hKrL5yzwcPj9HzVvWQ9-KTAkhJpiiQpvqsothIw1r1ZxeGe62eJshyFlj_3s5VAcfvA9Gwt80jL0RVT3exKCC74');"></div>
+<div>
+<p class="font-bold text-sm">Signature Beef Burger</p>
+<p class="text-[10px] text-[#9c7349] uppercase font-bold">Fast Food</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-black text-sm text-primary">388 món</p>
+<p class="text-[10px] text-[#9c7349]">Đã bán trong tháng</p>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-gray-50/50 rounded-2xl border border-[#f4ede7] hover:bg-gray-50 transition-colors">
+<div class="flex items-center gap-4">
+<div class="h-14 w-14 rounded-xl bg-cover bg-center border border-white shadow-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAxQUHbzsZSYN8BHKMp2bXkHh5kebqFz4E_tTMEr0asLo60Y6dbUOtuePjZGHYp7vU5X1rgzw1-8wqDkfzOzyNtrGjZ0XQkRCl9ZnDf966Do77vsP7coKQLuMzEU0uLsjQz8HLr9TRQfJyL5nFTcNLKaslxjuDRjJwgK2ucOeUo-Ydis7oWvSIprgNvcvP2ovdFJ8tXhMrn0a1fzJ8zZl3WABYv8phTtB1Bne0B_Risd8mO3sMeIHT8QayStti3tbmH7HkHNHza1fo');"></div>
+<div>
+<p class="font-bold text-sm">Trà Sữa Matcha Trân Châu</p>
+<p class="text-[10px] text-[#9c7349] uppercase font-bold">Drinks</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-black text-sm text-primary">315 món</p>
+<p class="text-[10px] text-[#9c7349]">Đã bán trong tháng</p>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-gray-50/50 rounded-2xl border border-[#f4ede7] hover:bg-gray-50 transition-colors">
+<div class="flex items-center gap-4">
+<div class="h-14 w-14 rounded-xl bg-cover bg-center border border-white shadow-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC0WJAiVRBSglD9YKNKmJ58QpZC3hL7-KvrPQGtCc51GPHVI3hDdH0cZsm3_eYDVOhjyw3AjlRYo8kbr5LqwBs0jxSzaczanseFnEUtpTjKg7CNPSI4V8SW567K1BwKc8gwuDTILu_GQ9OnA1kTnvRisi0-CEAfWmxqcoGSGhQXoZR8Xejlunm8tnPAk28Jx-pa0sSi1EToujhy4U_JDDqto-lC-mY1W9zv8WSrNkMmCLox3m5Q9y78WpwlMn0Dso8ABBKP9ahvl64');"></div>
+<div>
+<p class="font-bold text-sm">Salad Cá Hồi Avocado</p>
+<p class="text-[10px] text-[#9c7349] uppercase font-bold">Healthy</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-black text-sm text-primary">275 món</p>
+<p class="text-[10px] text-[#9c7349]">Đã bán trong tháng</p>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-gray-50/50 rounded-2xl border border-[#f4ede7] hover:bg-gray-50 transition-colors">
+<div class="flex items-center gap-4">
+<div class="h-14 w-14 rounded-xl bg-cover bg-center border border-white shadow-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA9DJYxQMNQWq4Eay0FrP3KDTY5rcNh6o-ERP7HlvOxpdC9obGWshjpsqTTN185r8B50CkZ8EO94ddAc40PCEaBGNU5FZ8UjKfO_qzcHvDQ27qTTlWNG_-6laNw4dc7d60Y9VNvblm3R85OHRlnHK2BOIGsP39u76_9W8kVYFbRRbJSD4Dih8-YqeQWVMVYJRIGa64WK8SNbTSy_1ZslVgnJfZf7CAiiw1pKKjZRxCBxI0KBPd0LsfBP9PHOsK2V2kQjJk9K40hrb0');"></div>
+<div>
+<p class="font-bold text-sm">Gà Rán Cay Crunchy</p>
+<p class="text-[10px] text-[#9c7349] uppercase font-bold">Fast Food</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-black text-sm text-primary">242 món</p>
+<p class="text-[10px] text-[#9c7349]">Đã bán trong tháng</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<div class="fixed bottom-6 right-6 z-[100] flex flex-col items-end">
+<div class="flex flex-col w-[380px] h-[520px] bg-white rounded-3xl shadow-2xl border border-[#f4ede7] overflow-hidden mb-4 animate-in fade-in slide-in-from-bottom-4 duration-300" id="chatbot-window">
+<div class="bg-primary p-4 flex items-center justify-between text-white">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-white">smart_toy</span>
+</div>
+<div>
+<h3 class="font-bold text-sm">FoodGo AI Assistant</h3>
+<div class="flex items-center gap-1.5">
+<span class="h-2 w-2 rounded-full bg-green-400"></span>
+<span class="text-[10px] opacity-90">Đang trực tuyến</span>
+</div>
+</div>
+</div>
+<button class="p-1 hover:bg-white/10 rounded-lg transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="flex-1 p-4 overflow-y-auto bg-[#faf9f8] space-y-4 no-scrollbar">
+<div class="flex gap-2 max-w-[85%]">
+<div class="h-8 w-8 rounded-full bg-primary flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-sm">smart_toy</span>
+</div>
+<div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-[#f4ede7]">
+<p class="text-sm text-[#1c140d]">Chào Admin! Tôi có thể giúp bạn phân tích doanh thu tháng này không?</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 pt-2">
+<p class="text-[10px] font-bold text-[#9c7349] uppercase ml-10">Gợi ý phân tích</p>
+<div class="flex flex-wrap gap-2 ml-10">
+<button class="px-3 py-1.5 bg-white border border-[#f4ede7] text-xs font-semibold text-primary rounded-full hover:bg-primary/5 hover:border-primary transition-all">
+                        Tại sao doanh thu giảm?
+                    </button>
+<button class="px-3 py-1.5 bg-white border border-[#f4ede7] text-xs font-semibold text-primary rounded-full hover:bg-primary/5 hover:border-primary transition-all">
+                        Dự báo tháng tới
+                    </button>
+</div>
+</div>
+</div>
+<div class="p-4 bg-white border-t border-[#f4ede7]">
+<div class="relative flex items-center">
+<input class="w-full h-11 pl-4 pr-12 rounded-xl bg-gray-50 border-none text-sm focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Nhập câu hỏi của bạn..." type="text"/>
+<button class="absolute right-2 h-8 w-8 bg-primary text-white rounded-lg flex items-center justify-center hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-lg">send</span>
+</button>
+</div>
+</div>
+</div>
+<button class="h-14 w-14 bg-primary text-white rounded-full flex items-center justify-center shadow-xl shadow-primary/30 hover:scale-110 active:scale-95 transition-all duration-300 group" id="chatbot-toggle" tabindex="0">
+<span class="material-symbols-outlined text-3xl transition-transform group-focus:rotate-90">smart_toy</span>
+</button>
+</div>
+
+</body></html>

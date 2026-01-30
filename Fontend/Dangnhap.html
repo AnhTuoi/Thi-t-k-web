@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html class="light" lang="vi">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Đăng nhập - FoodGo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../css/dist.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <style type="text/css">
+        body {
+            font-family: "Plus Jakarta Sans", sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#1c140d] dark:text-[#fcfaf8] min-h-screen">
+    <div class="layout-container flex flex-col min-h-screen">
+        <header class="w-full sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-[#f4ede7] dark:border-[#3d2e1f] px-4 md:px-20 lg:px-40 py-4">
+            <div class="max-w-[1200px] mx-auto flex items-center justify-between gap-4">
+                <a class="flex items-center gap-2 text-primary" href="Shop/Trangchu.html">
+                    <span class="material-symbols-outlined text-3xl font-bold">fastfood</span>
+                    <h2 class="text-xl font-extrabold tracking-tight">FoodGo</h2>
+                </a>
+                <div class="flex items-center gap-4">
+                    <span class="hidden md:block text-sm text-[#9c7349]">Chưa có tài khoản?</span>
+                    <a class="text-sm font-bold text-primary hover:underline" href="Dangky.html">Đăng ký ngay</a>
+                </div>
+            </div>
+        </header>
+        
+        <main class="flex-1 flex items-center justify-center p-4 md:p-8">
+            <div class="max-w-[1000px] w-full bg-white dark:bg-[#2a2015] rounded-[2rem] shadow-xl shadow-primary/5 border border-[#f4ede7] dark:border-[#3d2e1f] overflow-hidden flex flex-col lg:flex-row">
+                <div class="hidden lg:block lg:w-5/12 relative bg-primary">
+                    <div class="absolute inset-0 bg-cover bg-center mix-blend-overlay opacity-50" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCwZafV9swFZZ7zTRVSwlfsjyPtlNYFpZdOHf15G7Rvl8kKRGgMKfe019ESEU3fdJY6GFJjNk2qJ-M7vDxbL705hqZkcH62CpQN8KlX2_tNTT-T9J9prYLxKmb7JSGpqXOIE2bgE3jSHPOZdhw2GttLoRlghK3f_XvENwFXptfWRMMgSk7MmFiU-8TvQ38ulm2ZF-WmDY-Mj5SMDSjEvEQA-pRbkkmp6geFFsbQJwezfO2uhxFOPYGmOhdiZ8GbyS2zwyoja8yMEwQ");'></div>
+                    <div class="relative h-full flex flex-col justify-center p-12 text-white">
+                        <h1 class="text-4xl font-black leading-tight mb-6">Chào mừng bạn trở lại!</h1>
+                        <p class="text-lg font-medium text-white/90 mb-8 leading-relaxed">Chúng tôi rất vui khi thấy bạn. Đăng nhập để tiếp tục khám phá thế giới ẩm thực hấp dẫn của FoodGo.</p>
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-4">
+                                <div class="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center">
+                                    <span class="material-symbols-outlined">favorite</span>
+                                </div>
+                                <span class="font-bold">Món ngon ưa thích</span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center">
+                                    <span class="material-symbols-outlined">schedule</span>
+                                </div>
+                                <span class="font-bold">Lịch sử đặt hàng</span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center">
+                                    <span class="material-symbols-outlined">stars</span>
+                                </div>
+                                <span class="font-bold">Tích điểm đổi quà</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-1 p-8 md:p-12 lg:p-16">
+                    <div class="max-w-md mx-auto">
+                        <div class="mb-8">
+                            <h2 class="text-2xl md:text-3xl font-black text-[#1c140d] dark:text-white mb-2">Đăng nhập</h2>
+                            <p class="text-[#9c7349] dark:text-gray-400 font-medium">Truy cập vào tài khoản FoodGo của bạn</p>
+                        </div>
+                        
+                        <form id="loginForm" class="space-y-5">
+                            <div id="error-message" class="hidden p-3 bg-red-50 border border-red-200 text-red-600 rounded-xl text-sm"></div>
+                            <div id="success-message" class="hidden p-3 bg-green-50 border border-green-200 text-green-600 rounded-xl text-sm"></div>
+                            
+                            <div>
+                                <label class="block text-sm font-bold text-[#1c140d] dark:text-gray-300 mb-2">Tên đăng nhập hoặc Email</label>
+                                <input class="w-full h-12 px-4 rounded-xl border-[#f4ede7] dark:border-[#3d2e1f] bg-[#f4ede7]/50 dark:bg-[#3d2e1f] focus:border-primary focus:ring-primary text-sm transition-all outline-none" 
+                                       placeholder="example@foodgo.vn" type="text" id="loginInput" required/>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-[#1c140d] dark:text-gray-300 mb-2">Mật khẩu</label>
+                                <div class="relative">
+                                    <input class="w-full h-12 px-4 rounded-xl border-[#f4ede7] dark:border-[#3d2e1f] bg-[#f4ede7]/50 dark:bg-[#3d2e1f] focus:border-primary focus:ring-primary text-sm transition-all outline-none" 
+                                           placeholder="••••••••" type="password" id="password" required/>
+                                    <button type="button" onclick="togglePassword()" class="absolute right-3 top-1/2 -translate-y-1/2 text-[#9c7349]">
+                                        <span id="toggleIcon" class="material-symbols-outlined text-xl">visibility</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between py-2">
+                                <div class="flex items-center gap-2">
+                                    <input class="rounded border-gray-300 text-primary focus:ring-primary h-4 w-4" id="remember" type="checkbox"/>
+                                    <label class="text-sm text-[#9c7349] font-medium cursor-pointer" for="remember">Ghi nhớ đăng nhập</label>
+                                </div>
+                                <a class="text-sm text-primary font-bold hover:underline" href="Quenmatkhau.html">Quên mật khẩu?</a>
+                            </div>
+                            <button type="submit" class="w-full h-14 bg-primary text-white font-black text-lg rounded-2xl hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-primary/25 flex items-center justify-center gap-2" id="submitBtn">
+                                <span id="submitText">Đăng nhập</span>
+                                <span id="submitIcon" class="material-symbols-outlined">login</span>
+                                <span id="loadingSpinner" class="hidden loading"></span>
+                            </button>
+                        </form>
+                        
+                        <!-- Demo Credentials -->
+                        <div class="mt-6 p-4 bg-gray-50 dark:bg-[#3d2e1f] rounded-xl border border-[#f4ede7] dark:border-[#4d3a28]">
+                            <p class="text-xs font-bold text-[#9c7349] mb-2">Demo Accounts (theo Database):</p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-[10px]">
+                                <div class="p-2 bg-white dark:bg-[#2a2015] rounded">
+                                    <p class="font-bold">Khách hàng</p>
+                                    <p>user: <span class="text-primary">nguyenvana</span></p>
+                                    <p>pass: <span class="text-primary">hashed_password_1</span></p>
+                                </div>
+                                <div class="p-2 bg-white dark:bg-[#2a2015] rounded">
+                                    <p class="font-bold">Nhân viên</p>
+                                    <p>user: <span class="text-primary">nhanvien1</span></p>
+                                    <p>pass: <span class="text-primary">hashed_password_3</span></p>
+                                </div>
+                                <div class="p-2 bg-white dark:bg-[#2a2015] rounded">
+                                    <p class="font-bold">Quản trị</p>
+                                    <p>user: <span class="text-primary">admin</span></p>
+                                    <p>pass: <span class="text-primary">hashed_password_4</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="relative my-10">
+                            <div class="absolute inset-0 flex items-center">
+                                <div class="w-full border-t border-[#f4ede7] dark:border-[#3d2e1f]"></div>
+                            </div>
+                            <div class="relative flex justify-center text-xs uppercase">
+                                <span class="bg-white dark:bg-[#2a2015] px-4 text-[#9c7349] font-bold">Hoặc đăng nhập bằng</span>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <button class="flex items-center justify-center gap-3 h-12 rounded-xl bg-white dark:bg-[#3d2e1f] border border-[#f4ede7] dark:border-[#4d3a28] hover:bg-[#f4ede7]/50 transition-colors font-bold text-sm">
+                                <svg class="w-5 h-5" viewBox="0 0 24 24">
+                                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+                                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+                                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
+                                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+                                </svg>
+                                Google
+                            </button>
+                            <button class="flex items-center justify-center gap-3 h-12 rounded-xl bg-[#1877F2] text-white hover:bg-[#166fe5] transition-colors font-bold text-sm">
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+                                </svg>
+                                Facebook
+                            </button>
+                        </div>
+                        
+                        <div class="mt-8 text-center">
+                            <p class="text-sm text-[#9c7349]">
+                                Chưa có tài khoản? <a class="text-primary font-bold hover:underline" href="Dangky.html">Đăng ký ngay</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="w-full py-8 px-4 border-t border-[#f4ede7] dark:border-[#3d2e1f]">
+            <div class="max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-[#9c7349]">
+                <p>© 2024 FoodGo - Trải nghiệm ẩm thực hoàn hảo.</p>
+                <div class="flex gap-6 font-bold">
+                    <a class="hover:text-primary transition-colors" href="#">Hỗ trợ</a>
+                    <a class="hover:text-primary transition-colors" href="#">Quy định chung</a>
+                    <a class="hover:text-primary transition-colors" href="#">Liên hệ</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+    // API Base URL
+    const API_BASE_URL = '../api/auth.php';
+    
+    // Toggle hiển thị mật khẩu
+    function togglePassword() {
+        const input = document.getElementById('password');
+        const icon = document.getElementById('toggleIcon');
+        
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.textContent = 'visibility_off';
+        } else {
+            input.type = 'password';
+            icon.textContent = 'visibility';
+        }
+    }
+
+    // Hiển thị thông báo
+    function showMessage(type, message) {
+        const errorDiv = document.getElementById('error-message');
+        const successDiv = document.getElementById('success-message');
+        
+        if (type === 'error') {
+            errorDiv.innerHTML = `<div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-red-600">error</span>
+                <span>${message}</span>
+            </div>`;
+            errorDiv.classList.remove('hidden');
+            successDiv.classList.add('hidden');
+        } else if (type === 'success') {
+            successDiv.innerHTML = `<div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-green-600">check_circle</span>
+                <span>${message}</span>
+            </div>`;
+            successDiv.classList.remove('hidden');
+            errorDiv.classList.add('hidden');
+        }
+    }
+
+    // Hiển thị loading
+    function setLoading(isLoading) {
+        const submitBtn = document.getElementById('submitBtn');
+        const submitText = document.getElementById('submitText');
+        const submitIcon = document.getElementById('submitIcon');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        
+        if (isLoading) {
+            submitBtn.disabled = true;
+            submitText.classList.add('hidden');
+            submitIcon.classList.add('hidden');
+            loadingSpinner.classList.remove('hidden');
+        } else {
+            submitBtn.disabled = false;
+            submitText.classList.remove('hidden');
+            submitIcon.classList.remove('hidden');
+            loadingSpinner.classList.add('hidden');
+        }
+    }
+
+    // Xử lý đăng nhập
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Ẩn thông báo cũ
+        showMessage('error', '');
+        showMessage('success', '');
+        
+        const loginInput = document.getElementById('loginInput').value.trim();
+        const password = document.getElementById('password').value;
+        const rememberMe = document.getElementById('remember').checked;
+        
+        if (!loginInput || !password) {
+            showMessage('error', 'Vui lòng điền đầy đủ thông tin đăng nhập');
+            return;
+        }
+        
+        // Hiển thị loading
+        setLoading(true);
+        
+        // Chuẩn bị dữ liệu gửi đến API
+        const loginData = {
+            loginInput: loginInput,
+            password: password,
+            rememberMe: rememberMe
+        };
+        
+        try {
+            // Gọi API đăng nhập
+            const response = await fetch(`${API_BASE_URL}?action=login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(loginData)
+            });
+            
+            const result = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(result.message || `HTTP error! status: ${response.status}`);
+            }
+            
+            if (result.success) {
+                // Hiển thị thông báo thành công
+                showMessage('success', 'Đăng nhập thành công! Đang chuyển hướng...');
+                
+                // Hiển thị modal thành công
+                showSuccessModal(result.user);
+                
+            } else {
+                showMessage('error', result.message || 'Đăng nhập thất bại!');
+            }
+        } catch (error) {
+            showMessage('error', error.message || 'Lỗi kết nối đến server!');
+            console.error('Error:', error);
+        } finally {
+            setLoading(false);
+        }
+    });
+    
+    // Hiển thị modal thành công
+    function showSuccessModal(user) {
+        let roleName = 'Khách hàng';
+        let redirectPage = 'Shop/Trangchu.html';
+        
+        if (user.vai_tro === 'nhan_vien') {
+            roleName = 'Nhân viên';
+            redirectPage = 'Trangquanly/Tongquan.html';
+        } else if (user.vai_tro === 'quan_tri') {
+            roleName = 'Quản trị viên';
+            redirectPage = 'Trangquanly/Tongquan.html';
+        }
+        
+        const modalHTML = `
+            <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-[1000]">
+                <div class="bg-white dark:bg-[#2a2015] rounded-3xl p-8 max-w-md mx-4 text-center">
+                    <div class="h-16 w-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="material-symbols-outlined text-3xl">check_circle</span>
+                    </div>
+                    <h3 class="text-xl font-black mb-2">Đăng nhập thành công!</h3>
+                    <p class="text-[#9c7349] mb-2">Xin chào <span class="font-bold text-primary">${user.hoten}</span></p>
+                    <p class="text-sm text-[#9c7349] mb-4">Vai trò: <span class="font-bold">${roleName}</span></p>
+                    <p class="text-xs text-[#9c7349] mb-6">ID: ${user.nguoidung_id}</p>
+                    <button onclick="redirectAfterLogin('${redirectPage}')" class="w-full h-12 bg-primary text-white font-bold rounded-xl hover:scale-[1.02] transition-all">
+                        Tiếp tục
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        const modalContainer = document.createElement('div');
+        modalContainer.innerHTML = modalHTML;
+        document.body.appendChild(modalContainer);
+        
+        // Tự động chuyển hướng sau 2 giây
+        setTimeout(() => redirectAfterLogin(redirectPage), 2000);
+    }
+    
+    function redirectAfterLogin(page) {
+        window.location.href = page;
+    }
+    
+    // Kiểm tra session khi trang tải
+    async function checkSession() {
+        try {
+            const response = await fetch(`${API_BASE_URL}?action=check_session`);
+            if (!response.ok) {
+                console.log('Session check failed:', response.status);
+                return;
+            }
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                // Nếu đã đăng nhập, chuyển hướng về trang chủ
+                if (result.user.vai_tro === 'nhan_vien' || result.user.vai_tro === 'quan_tri') {
+                    window.location.href = 'Trangquanly/Tongquan.html';
+                } else {
+                    window.location.href = 'Shop/Trangchu.html';
+                }
+            }
+        } catch (error) {
+            console.log('Chưa đăng nhập:', error.message);
+        }
+    }
+    
+    // Chạy khi trang tải xong
+    window.addEventListener('DOMContentLoaded', function() {
+        checkSession();
+    });
+    </script>
+</body>
+</html>

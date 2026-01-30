@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quản lý Tài Khoản Admin FoodGo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "primary": "#f48c25",
+                    "secondary": "#3b82f6",
+                    "background-light": "#f8f7f5",
+                    "sidebar-bg": "#ffffff",
+                    "card-bg": "#ffffff",
+                    "success": "#10b981",
+                    "warning": "#f59e0b",
+                    "danger": "#ef4444",
+                    "info": "#3b82f6"
+                },
+                fontFamily: {
+                    "display": ["Plus Jakarta Sans", "sans-serif"]
+                },
+                borderRadius: {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "2xl": "1rem",
+                    "3xl": "1.5rem",
+                    "full": "9999px"
+                },
+            },
+        },
+    }
+</script>
+<style type="text/tailwindcss">
+    body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+    }
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .active-menu {
+        @apply bg-primary/10 text-primary border-r-4 border-primary;
+    }
+    .tab-active {
+        @apply border-primary text-primary;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    #chatbot-window {
+        display: none;
+    }
+    #chatbot-toggle:focus-within + #chatbot-window,
+    #chatbot-window:hover,
+    #chatbot-window:focus-within {
+        display: flex;
+    }
+    .status-active {
+        @apply bg-green-100 text-green-700;
+    }
+    .status-locked {
+        @apply bg-red-100 text-red-700;
+    }
+    .status-inactive {
+        @apply bg-gray-100 text-gray-700;
+    }
+    .role-admin {
+        @apply bg-purple-100 text-purple-700;
+    }
+    .role-staff {
+        @apply bg-blue-100 text-blue-700;
+    }
+    .role-customer {
+        @apply bg-gray-100 text-gray-700;
+    }
+    .permission-high {
+        @apply bg-red-100 text-red-700;
+    }
+    .permission-medium {
+        @apply bg-yellow-100 text-yellow-700;
+    }
+    .permission-low {
+        @apply bg-green-100 text-green-700;
+    }
+</style>
+</head>
+<body class="bg-background-light text-[#1c140d] min-h-screen flex">
+<aside class="w-64 bg-sidebar-bg border-r border-[#f4ede7] flex flex-col fixed h-full z-50">
+<div class="p-6 flex items-center gap-2 text-primary shrink-0">
+<span class="material-symbols-outlined text-4xl font-bold">fastfood</span>
+<h2 class="text-xl font-black tracking-tighter">FoodGo <span class="text-[10px] bg-primary text-white px-1.5 py-0.5 rounded ml-1 uppercase">Admin</span></h2>
+</div>
+<nav class="flex-1 px-4 space-y-1 overflow-y-auto no-scrollbar">
+<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="Tongquan.html">
+<span class="material-symbols-outlined">dashboard</span>
+    Tổng quan
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="QLthucdon.html">
+<span class="material-symbols-outlined">restaurant_menu</span>
+    Món ăn
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="QLdon.html">
+<span class="material-symbols-outlined">receipt_long</span>
+    Đơn hàng
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="QLnguoidung.html">
+<span class="material-symbols-outlined">group</span>
+    Người dùng
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold active-menu rounded-lg transition-all" href="QLtaikhoan.html">
+<span class="material-symbols-outlined">key</span>
+    Tài khoản
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="QLkhuyenmai.html">
+<span class="material-symbols-outlined">redeem</span>
+    Khuyến mãi
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="QLdanhgia.html">
+<span class="material-symbols-outlined">star</span>
+    Đánh giá
+</a>
+<div class="pt-4 mt-4 border-t border-[#f4ede7]">
+<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="TKrieng.html">
+<span class="material-symbols-outlined">person</span>
+    Tài khoản của tôi
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="Caidat.html">
+<span class="material-symbols-outlined">settings</span>
+    Cài đặt
+</a>
+</div>
+</nav>
+<div class="p-4 border-t border-[#f4ede7]">
+<div class="flex items-center gap-3 p-2 bg-[#f4ede7] rounded-2xl">
+<div class="h-10 w-10 rounded-xl bg-cover bg-center border border-white" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCa-A_xiobVGkBwC98jkh3MfvIrJEVa75kurLiQOhyxLHiqGDmWSsVr_3YTAoQYZRPXRahwTNzZ-dbYqIqOHu7aoq0os0D0gWI2Hs1R73wlAgMKuVw6wQ-tOxile4ilTWsYrJeyspkP0VAn11Fjld90gLhccOvG5qah2fn0VZ8gg3bqja4zkLKIb04lGzuBtFVdm9JuODdXB16H5j2gDoRiGFOEUVv2Qa8kEbuzaZGy4kqLSkOeL060s65bgJBfG73sSlq7ro4ydPw");'></div>
+<div class="overflow-hidden">
+<p class="text-xs font-bold truncate">Admin FoodGo</p>
+<p class="text-[10px] text-[#9c7349]">Quản trị viên</p>
+</div>
+</div>
+</div>
+</aside>
+<main class="flex-1 ml-64 p-8">
+<header class="mb-8">
+<div class="flex items-center justify-between mb-6">
+<div>
+<h1 class="text-2xl font-black tracking-tight text-[#1c140d]">Quản lý tài khoản</h1>
+<p class="text-sm text-[#9c7349]">Tạo, quản lý và kiểm soát tài khoản đăng nhập hệ thống</p>
+</div>
+<div class="flex items-center gap-3">
+<button id="manageSessionsBtn" class="flex items-center gap-2 px-6 py-2.5 bg-white border border-[#f4ede7] text-[#1c140d] text-sm font-bold rounded-xl hover:bg-gray-50 shadow-sm transition-all">
+<span class="material-symbols-outlined text-xl">history</span>
+    Quản lý phiên
+</button>
+<button id="twoFactorBtn" class="flex items-center gap-2 px-6 py-2.5 bg-white border border-[#f4ede7] text-[#1c140d] text-sm font-bold rounded-xl hover:bg-gray-50 shadow-sm transition-all">
+<span class="material-symbols-outlined text-xl">shield</span>
+    Bảo mật 2 lớp
+</button>
+<button id="createAccountBtn" class="flex items-center gap-2 px-6 py-2.5 bg-primary text-white text-sm font-bold rounded-xl hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all">
+<span class="material-symbols-outlined text-xl">person_add</span>
+    Tạo tài khoản mới
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between border-b border-[#f4ede7]">
+<div class="flex gap-8">
+<button id="tabAll" class="pb-4 text-sm font-bold tab-active border-b-2 transition-all">Tất cả tài khoản</button>
+<button id="tabCustomer" class="pb-4 text-sm font-bold text-[#9c7349] hover:text-primary border-b-2 border-transparent transition-all">Khách hàng</button>
+<button id="tabStaff" class="pb-4 text-sm font-bold text-[#9c7349] hover:text-primary border-b-2 border-transparent transition-all">Nhân viên</button>
+<button id="tabAdmin" class="pb-4 text-sm font-bold text-[#9c7349] hover:text-primary border-b-2 border-transparent transition-all">Quản trị viên</button>
+<button id="tabExpired" class="pb-4 text-sm font-bold text-[#9c7349] hover:text-primary border-b-2 border-transparent transition-all">Hết hạn MK</button>
+</div>
+<div class="flex items-center gap-4 pb-4">
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-[#9c7349]">
+<span class="material-symbols-outlined text-xl">search</span>
+</span>
+<input id="searchInput" class="h-10 pl-10 pr-4 rounded-xl border-none bg-white shadow-sm text-sm w-64 focus:ring-2 focus:ring-primary/50 transition-all" placeholder="Tìm kiếm tài khoản..." type="text"/>
+</div>
+<select id="statusFilter" class="h-10 px-4 rounded-xl border-none bg-white shadow-sm text-sm text-[#1c140d] focus:ring-2 focus:ring-primary/50 transition-all">
+<option value="">Tất cả trạng thái</option>
+<option value="active">Đang hoạt động</option>
+<option value="locked">Đã khóa</option>
+<option value="inactive">Chưa kích hoạt</option>
+<option value="expired">Hết hạn mật khẩu</option>
+</select>
+</div>
+</div>
+</header>
+
+<!-- Modal tạo tài khoản mới -->
+<div id="createAccountModal" class="hidden fixed inset-0 bg-black/50 z-[999] flex items-center justify-center p-4">
+<div class="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-hidden">
+<div class="bg-primary p-6 text-white flex items-center justify-between">
+<h3 class="text-lg font-black">Tạo tài khoản mới</h3>
+<button id="closeModalBtn" class="p-2 hover:bg-white/10 rounded-xl transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-6 overflow-y-auto max-h-[70vh]">
+<form id="createAccountForm">
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div>
+<label class="block text-sm font-bold text-[#1c140d] mb-2" for="accountType">Loại tài khoản *</label>
+<select class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] bg-white text-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" id="accountType" required>
+<option value="">Chọn loại tài khoản</option>
+<option value="customer">Khách hàng</option>
+<option value="staff">Nhân viên</option>
+<option value="admin">Quản trị viên</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-bold text-[#1c140d] mb-2" for="userSelect">Người dùng</label>
+<select class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] bg-white text-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" id="userSelect">
+<option value="">Chọn người dùng</option>
+<option value="ND-001">Nguyễn Văn Lộc (ND-001)</option>
+<option value="ND-002">Trần Thị Hoa (ND-002)</option>
+<option value="ND-003">Lê Anh Minh (ND-003)</option>
+<option value="new">Tạo mới người dùng</option>
+</select>
+</div>
+</div>
+
+<div id="newUserFields" class="hidden space-y-4 mb-6 p-4 bg-gray-50 rounded-xl">
+<h4 class="text-sm font-bold text-[#1c140d]">Thông tin người dùng mới</h4>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-sm font-bold text-[#1c140d] mb-2" for="fullName">Họ tên *</label>
+<input class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] bg-white text-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" id="fullName" type="text"/>
+</div>
+<div>
+<label class="block text-sm font-bold text-[#1c140d] mb-2" for="phone">Số điện thoại</label>
+<input class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] bg-white text-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" id="phone" type="tel"/>
+</div>
+</div>
+<div>
+<label class="block text-sm font-bold text-[#1c140d] mb-2" for="email">Email *</label>
+<input class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] bg-white text-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" id="email" type="email"/>
+</div>
+</div>
+
+<div class="space-y-4 mb-6">
+<div>
+<label class="block text-sm font-bold text-[#1c140d] mb-2" for="username">Tên đăng nhập *</label>
+<input class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] bg-white text-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" id="username" type="text" required/>
+</div>
+<div>
+<label class="block text-sm font-bold text-[#1c140d] mb-2" for="password">Mật khẩu *</label>
+<div class="relative">
+<input class="h-12 w-full px-4 pr-12 rounded-xl border border-[#f4ede7] bg-white text-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" id="password" type="password" required/>
+<button type="button" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#9c7349]" id="togglePassword">
+<span class="material-symbols-outlined text-xl">visibility</span>
+</button>
+</div>
+<div class="mt-2 text-xs text-[#9c7349]" id="passwordStrength"></div>
+</div>
+<div>
+<label class="block text-sm font-bold text-[#1c140d] mb-2" for="confirmPassword">Xác nhận mật khẩu *</label>
+<input class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] bg-white text-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" id="confirmPassword" type="password" required/>
+</div>
+</div>
+
+<div class="mb-6">
+<label class="block text-sm font-bold text-[#1c140d] mb-2">Cấu hình bảo mật</label>
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<input type="checkbox" id="forcePasswordChange" class="rounded border-[#f4ede7] text-primary focus:ring-primary/50"/>
+<label for="forcePasswordChange" class="text-sm text-[#1c140d]">Yêu cầu đổi mật khẩu lần đầu</label>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<input type="checkbox" id="twoFactor" class="rounded border-[#f4ede7] text-primary focus:ring-primary/50"/>
+<label for="twoFactor" class="text-sm text-[#1c140d]">Kích hoạt xác thực 2 lớp</label>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<input type="checkbox" id="sessionLimit" class="rounded border-[#f4ede7] text-primary focus:ring-primary/50"/>
+<label for="sessionLimit" class="text-sm text-[#1c140d]">Giới hạn phiên đăng nhập</label>
+</div>
+<input type="number" class="h-8 w-16 px-2 rounded-lg border border-[#f4ede7] text-sm" id="sessionLimitValue" value="1" min="1" max="10" disabled/>
+</div>
+</div>
+</div>
+
+<div class="flex items-center gap-3 p-4 bg-blue-50 rounded-xl mb-6">
+<span class="material-symbols-outlined text-blue-600">info</span>
+<p class="text-sm text-blue-700">Tài khoản sẽ được kích hoạt ngay sau khi tạo. Mật khẩu sẽ được gửi đến email của người dùng.</p>
+</div>
+
+<div class="flex justify-end gap-3">
+<button type="button" id="cancelBtn" class="px-6 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 rounded-xl transition-all">
+    Hủy
+</button>
+<button type="submit" class="px-6 py-3 bg-primary text-white text-sm font-bold rounded-xl hover:bg-primary/90 transition-all">
+    Tạo tài khoản
+</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+
+<!-- Modal quản lý phiên đăng nhập -->
+<div id="sessionsModal" class="hidden fixed inset-0 bg-black/50 z-[999] flex items-center justify-center p-4">
+<div class="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+<div class="bg-primary p-6 text-white flex items-center justify-between">
+<h3 class="text-lg font-black">Quản lý phiên đăng nhập</h3>
+<button id="closeSessionsModalBtn" class="p-2 hover:bg-white/10 rounded-xl transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-6 overflow-y-auto max-h-[70vh]">
+<div class="mb-6">
+<div class="flex items-center justify-between mb-4">
+<h4 class="text-sm font-bold text-[#1c140d]">Phiên đăng nhập hiện tại</h4>
+<button id="terminateAllBtn" class="px-4 py-2 bg-red-100 text-red-700 text-xs font-bold rounded-lg hover:bg-red-200 transition-colors">
+    Kết thúc tất cả phiên
+</button>
+</div>
+<div class="space-y-3" id="activeSessionsList">
+<!-- Phiên đăng nhập sẽ được thêm bằng JS -->
+</div>
+</div>
+<div class="mb-6">
+<h4 class="text-sm font-bold text-[#1c140d] mb-4">Lịch sử đăng nhập (30 ngày gần nhất)</h4>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-[#fcfaf8] text-[#9c7349] text-xs font-bold uppercase tracking-wider">
+<tr>
+<th class="px-4 py-3">Thời gian</th>
+<th class="px-4 py-3">Địa chỉ IP</th>
+<th class="px-4 py-3">Thiết bị</th>
+<th class="px-4 py-3">Vị trí</th>
+<th class="px-4 py-3">Trạng thái</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#f4ede7]" id="loginHistoryTable">
+<!-- Lịch sử sẽ được thêm bằng JS -->
+</tbody>
+</table>
+</div>
+</div>
+<div class="bg-gray-50 rounded-xl p-4">
+<h4 class="text-sm font-bold text-[#1c140d] mb-3">Cài đặt phiên đăng nhập</h4>
+<div class="grid grid-cols-3 gap-4">
+<div>
+<label class="block text-xs font-bold text-[#1c140d] mb-2" for="sessionTimeout">Thời gian timeout (phút)</label>
+<input type="number" id="sessionTimeout" class="h-10 w-full px-3 rounded-xl border border-[#f4ede7] bg-white text-sm" value="30" min="5" max="1440"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-[#1c140d] mb-2" for="maxSessions">Số phiên tối đa</label>
+<input type="number" id="maxSessions" class="h-10 w-full px-3 rounded-xl border border-[#f4ede7] bg-white text-sm" value="3" min="1" max="10"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-[#1c140d] mb-2" for="passwordExpiry">Hết hạn MK (ngày)</label>
+<input type="number" id="passwordExpiry" class="h-10 w-full px-3 rounded-xl border border-[#f4ede7] bg-white text-sm" value="90" min="1" max="365"/>
+</div>
+</div>
+<div class="mt-4 flex justify-end">
+<button id="saveSessionSettingsBtn" class="px-6 py-2.5 bg-primary text-white text-sm font-bold rounded-xl hover:bg-primary/90 transition-all">
+    Lưu cài đặt
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Modal bảo mật 2 lớp -->
+<div id="twoFactorModal" class="hidden fixed inset-0 bg-black/50 z-[999] flex items-center justify-center p-4">
+<div class="bg-white rounded-3xl max-w-lg w-full">
+<div class="bg-primary p-6 text-white flex items-center justify-between">
+<h3 class="text-lg font-black">Quản lý xác thực 2 lớp</h3>
+<button id="closeTwoFactorModalBtn" class="p-2 hover:bg-white/10 rounded-xl transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-6">
+<div class="mb-6">
+<h4 class="text-sm font-bold text-[#1c140d] mb-4">Trạng thái xác thực 2 lớp</h4>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-gray-50 rounded-xl p-4 text-center">
+<div class="h-12 w-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+<span class="material-symbols-outlined text-green-600">check_circle</span>
+</div>
+<p class="text-sm font-bold text-[#1c140d]">Đã kích hoạt</p>
+<p class="text-xs text-[#9c7349]">65 tài khoản</p>
+</div>
+<div class="bg-gray-50 rounded-xl p-4 text-center">
+<div class="h-12 w-12 bg-red-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+<span class="material-symbols-outlined text-red-600">cancel</span>
+</div>
+<p class="text-sm font-bold text-[#1c140d]">Chưa kích hoạt</p>
+<p class="text-xs text-[#9c7349]">55 tài khoản</p>
+</div>
+</div>
+</div>
+<div class="mb-6">
+<h4 class="text-sm font-bold text-[#1c140d] mb-4">Áp dụng xác thực 2 lớp cho</h4>
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="text-sm text-[#1c140d]">Tất cả quản trị viên</span>
+<div class="relative inline-block w-12 h-6">
+<input type="checkbox" id="allAdmins" class="sr-only" checked/>
+<label for="allAdmins" class="block h-6 w-12 rounded-full bg-primary cursor-pointer"></label>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-sm text-[#1c140d]">Tất cả nhân viên</span>
+<div class="relative inline-block w-12 h-6">
+<input type="checkbox" id="allStaff" class="sr-only"/>
+<label for="allStaff" class="block h-6 w-12 rounded-full bg-gray-300 cursor-pointer"></label>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-sm text-[#1c140d]">Khách hàng (tùy chọn)</span>
+<div class="relative inline-block w-12 h-6">
+<input type="checkbox" id="allCustomers" class="sr-only"/>
+<label for="allCustomers" class="block h-6 w-12 rounded-full bg-gray-300 cursor-pointer"></label>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-blue-50 rounded-xl p-4 mb-6">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-blue-600 mt-0.5">info</span>
+<div>
+<h5 class="text-sm font-bold text-blue-800 mb-1">Lưu ý về bảo mật 2 lớp</h5>
+<p class="text-xs text-blue-700">Xác thực 2 lớp tăng cường bảo mật bằng cách yêu cầu mã xác nhận từ điện thoại khi đăng nhập từ thiết bị mới.</p>
+</div>
+</div>
+</div>
+<div class="flex justify-end gap-3">
+<button id="cancelTwoFactorBtn" class="px-6 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 rounded-xl transition-all">
+    Đóng
+</button>
+<button id="saveTwoFactorBtn" class="px-6 py-3 bg-primary text-white text-sm font-bold rounded-xl hover:bg-primary/90 transition-all">
+    Áp dụng cài đặt
+</button>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Modal phân quyền -->
+<div id="permissionsModal" class="hidden fixed inset-0 bg-black/50 z-[999] flex items-center justify-center p-4">
+<div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
+<div class="bg-primary p-6 text-white flex items-center justify-between">
+<h3 class="text-lg font-black">Phân quyền tài khoản</h3>
+<button id="closePermissionsModalBtn" class="p-2 hover:bg-white/10 rounded-xl transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-6 overflow-y-auto max-h-[70vh]">
+<div class="mb-6">
+<div class="flex items-center gap-3 mb-4">
+<div class="h-10 w-10 rounded-full bg-cover bg-center border-2 border-primary/20" id="permissionAvatar"></div>
+<div>
+<h4 class="text-sm font-bold text-[#1c140d]" id="permissionUserName"></h4>
+<p class="text-xs text-[#9c7349]" id="permissionAccountId"></p>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-4 mb-6">
+<div>
+<label class="block text-xs font-bold text-[#1c140d] mb-2" for="permissionLevel">Mức độ phân quyền</label>
+<select class="h-10 w-full px-3 rounded-xl border border-[#f4ede7] bg-white text-sm" id="permissionLevel">
+<option value="high">Cao (Quản trị viên)</option>
+<option value="medium">Trung bình (Nhân viên)</option>
+<option value="low">Thấp (Khách hàng)</option>
+<option value="custom">Tùy chỉnh</option>
+</select>
+</div>
+<div>
+<label class="block text-xs font-bold text-[#1c140d] mb-2" for="roleTemplate">Mẫu phân quyền</label>
+<select class="h-10 w-full px-3 rounded-xl border border-[#f4ede7] bg-white text-sm" id="roleTemplate">
+<option value="admin_full">Quản trị viên toàn quyền</option>
+<option value="staff_manager">Quản lý nhân viên</option>
+<option value="staff_order">Nhân viên đơn hàng</option>
+<option value="staff_delivery">Nhân viên giao hàng</option>
+<option value="customer_vip">Khách hàng VIP</option>
+<option value="customer_normal">Khách hàng thường</option>
+</select>
+</div>
+<div class="flex items-end">
+<button id="applyTemplateBtn" class="w-full h-10 bg-primary text-white text-sm font-bold rounded-xl hover:bg-primary/90 transition-all">
+    Áp dụng mẫu
+</button>
+</div>
+</div>
+</div>
+<div class="mb-6">
+<h4 class="text-sm font-bold text-[#1c140d] mb-4">Chi tiết phân quyền</h4>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-3">
+<h5 class="text-xs font-bold text-[#9c7349] uppercase">Quản lý hệ thống</h5>
+<div class="space-y-2">
+<label class="flex items-center gap-2">
+<input type="checkbox" class="rounded border-[#f4ede7] text-primary" checked disabled/>
+<span class="text-sm text-[#1c140d]">Xem tổng quan</span>
+</label>
+<label class="flex items-center gap-2">
+<input type="checkbox" class="rounded border-[#f4ede7] text-primary" id="perm_users"/>
+<span class="text-sm text-[#1c140d]">Quản lý người dùng</span>
+</label>
+<label class="flex items-center gap-2">
+<input type="checkbox" class="rounded border-[#f4ede7] text-primary" id="perm_accounts"/>
+<span class="text-sm text-[#1c140d]">Quản lý tài khoản</span>
+</label>
+<label class="flex items-center gap-2">
+<input type="checkbox" class="rounded border-[#f4ede7] text-primary" id="perm_settings"/>
+<span class="text-sm text-[#1c140d]">Cài đặt hệ thống</span>
+</label>
+</div>
+</div>
+<div class="space-y-3">
+<h5 class="text-xs font-bold text-[#9c7349] uppercase">Quản lý nghiệp vụ</h5>
+<div class="space-y-2">
+<label class="flex items-center gap-2">
+<input type="checkbox" class="rounded border-[#f4ede7] text-primary" id="perm_orders" checked/>
+<span class="text-sm text-[#1c140d]">Quản lý đơn hàng</span>
+</label>
+<label class="flex items-center gap-2">
+<input type="checkbox" class="rounded border-[#f4ede7] text-primary" id="perm_menu"/>
+<span class="text-sm text-[#1c140d]">Quản lý thực đơn</span>
+</label>
+<label class="flex items-center gap-2">
+<input type="checkbox" class="rounded border-[#f4ede7] text-primary" id="perm_promotions"/>
+<span class="text-sm text-[#1c140d]">Quản lý khuyến mãi</span>
+</label>
+<label class="flex items-center gap-2">
+<input type="checkbox" class="rounded border-[#f4ede7] text-primary" id="perm_reviews"/>
+<span class="text-sm text-[#1c140d]">Quản lý đánh giá</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-end gap-3">
+<button id="cancelPermissionsBtn" class="px-6 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 rounded-xl transition-all">
+    Hủy
+</button>
+<button id="savePermissionsBtn" class="px-6 py-3 bg-primary text-white text-sm font-bold rounded-xl hover:bg-primary/90 transition-all">
+    Lưu phân quyền
+</button>
+</div>
+</div>
+</div>
+</div>
+
+<section class="bg-white rounded-3xl border border-[#f4ede7] shadow-sm overflow-hidden mb-12">
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-[#fcfaf8] text-[#9c7349] text-xs font-bold uppercase tracking-wider">
+<tr>
+<th class="px-6 py-4">Mã TK</th>
+<th class="px-6 py-4">Tên đăng nhập</th>
+<th class="px-6 py-4">Người dùng</th>
+<th class="px-6 py-4">Loại tài khoản</th>
+<th class="px-6 py-4">Phân quyền</th>
+<th class="px-6 py-4">Ngày tạo</th>
+<th class="px-6 py-4">Lần đăng nhập cuối</th>
+<th class="px-6 py-4">Trạng thái</th>
+<th class="px-6 py-4 text-center">Thao tác</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#f4ede7]" id="accountsTable">
+<!-- Tài khoản sẽ được thêm bằng JavaScript -->
+</tbody>
+</table>
+</div>
+<div class="p-6 border-t border-[#f4ede7] flex items-center justify-between">
+<p class="text-sm text-[#9c7349]" id="paginationInfo">Hiển thị 1-5 trong tổng số 120 tài khoản</p>
+<div class="flex items-center gap-2">
+<button class="h-10 w-10 flex items-center justify-center rounded-xl border border-[#f4ede7] text-[#9c7349] hover:bg-gray-50 transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="h-10 w-10 flex items-center justify-center rounded-xl bg-primary text-white font-bold">1</button>
+<button class="h-10 w-10 flex items-center justify-center rounded-xl border border-[#f4ede7] text-[#9c7349] hover:bg-gray-50 transition-colors">2</button>
+<button class="h-10 w-10 flex items-center justify-center rounded-xl border border-[#f4ede7] text-[#9c7349] hover:bg-gray-50 transition-colors">3</button>
+<button class="h-10 w-10 flex items-center justify-center rounded-xl border border-[#f4ede7] text-[#9c7349] hover:bg-gray-50 transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+
+<!-- Thống kê tài khoản -->
+<div class="grid grid-cols-4 gap-6 mb-8">
+<div class="bg-white rounded-3xl border border-[#f4ede7] shadow-sm p-6">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm text-[#9c7349]">Tổng tài khoản</p>
+<p class="text-2xl font-black text-[#1c140d]">120</p>
+</div>
+<div class="h-12 w-12 bg-primary/10 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">groups</span>
+</div>
+</div>
+<p class="text-xs text-green-600 mt-2"><span class="font-bold">+5</span> so với tháng trước</p>
+</div>
+<div class="bg-white rounded-3xl border border-[#f4ede7] shadow-sm p-6">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm text-[#9c7349]">Đang hoạt động</p>
+<p class="text-2xl font-black text-[#1c140d]">98</p>
+</div>
+<div class="h-12 w-12 bg-green-100 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-green-600">check_circle</span>
+</div>
+</div>
+<p class="text-xs text-green-600 mt-2"><span class="font-bold">81.7%</span> tỷ lệ hoạt động</p>
+</div>
+<div class="bg-white rounded-3xl border border-[#f4ede7] shadow-sm p-6">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm text-[#9c7349]">Bảo mật 2 lớp</p>
+<p class="text-2xl font-black text-[#1c140d]">65</p>
+</div>
+<div class="h-12 w-12 bg-blue-100 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-blue-600">shield</span>
+</div>
+</div>
+<p class="text-xs text-green-600 mt-2"><span class="font-bold">54.2%</span> tài khoản</p>
+</div>
+<div class="bg-white rounded-3xl border border-[#f4ede7] shadow-sm p-6">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm text-[#9c7349]">Hết hạn mật khẩu</p>
+<p class="text-2xl font-black text-[#1c140d]">12</p>
+</div>
+<div class="h-12 w-12 bg-yellow-100 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-yellow-600">warning</span>
+</div>
+</div>
+<p class="text-xs text-red-600 mt-2"><span class="font-bold">Cần xử lý</span></p>
+</div>
+</div>
+</main>
+
+<div class="fixed bottom-6 right-6 z-[100] flex flex-col items-end">
+<div class="flex flex-col w-[380px] h-[520px] bg-white rounded-3xl shadow-2xl border border-[#f4ede7] overflow-hidden mb-4 animate-in fade-in slide-in-from-bottom-4 duration-300" id="chatbot-window">
+<div class="bg-primary p-4 flex items-center justify-between text-white">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-white">smart_toy</span>
+</div>
+<div>
+<h3 class="font-bold text-sm">FoodGo AI Assistant</h3>
+<div class="flex items-center gap-1.5">
+<span class="h-2 w-2 rounded-full bg-green-400"></span>
+<span class="text-[10px] opacity-90">Đang trực tuyến</span>
+</div>
+</div>
+</div>
+<button class="p-1 hover:bg-white/10 rounded-lg transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="flex-1 p-4 overflow-y-auto bg-[#faf9f8] space-y-4 no-scrollbar">
+<div class="flex gap-2 max-w-[85%]">
+<div class="h-8 w-8 rounded-full bg-primary flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-sm">smart_toy</span>
+</div>
+<div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-[#f4ede7]">
+<p class="text-sm text-[#1c140d]">Chào Admin! Tôi có thể hỗ trợ bạn tạo tài khoản mới, reset mật khẩu hoặc cấu hình bảo mật.</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 pt-2">
+<p class="text-[10px] font-bold text-[#9c7349] uppercase ml-10">Gợi ý cho bạn</p>
+<div class="flex flex-wrap gap-2 ml-10">
+<button class="px-3 py-1.5 bg-white border border-[#f4ede7] text-xs font-semibold text-primary rounded-full hover:bg-primary/5 hover:border-primary transition-all">
+    Cách cấu hình bảo mật 2 lớp
+</button>
+<button class="px-3 py-1.5 bg-white border border-[#f4ede7] text-xs font-semibold text-primary rounded-full hover:bg-primary/5 hover:border-primary transition-all">
+    Danh sách tài khoản hết hạn MK
+</button>
+<button class="px-3 py-1.5 bg-white border border-[#f4ede7] text-xs font-semibold text-primary rounded-full hover:bg-primary/5 hover:border-primary transition-all">
+    Reset mật khẩu hàng loạt
+</button>
+</div>
+</div>
+</div>
+<div class="p-4 bg-white border-t border-[#f4ede7]">
+<div class="relative flex items-center">
+<input class="w-full h-11 pl-4 pr-12 rounded-xl bg-gray-50 border-none text-sm focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Nhập tin nhắn..." type="text"/>
+<button class="absolute right-2 h-8 w-8 bg-primary text-white rounded-lg flex items-center justify-center hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-lg">send</span>
+</button>
+</div>
+</div>
+</div>
+<button class="h-14 w-14 bg-primary text-white rounded-full flex items-center justify-center shadow-xl shadow-primary/30 hover:scale-110 active:scale-95 transition-all duration-300 group" id="chatbot-toggle" tabindex="0">
+<span class="material-symbols-outlined text-3xl transition-transform group-focus:rotate-90">smart_toy</span>
+</button>
+</div>
+
+<script>
+// Dữ liệu mẫu cho tài khoản
+const accountsData = [
+    {
+        id: "TK-001",
+        username: "loc.nguyen",
+        userId: "ND-001",
+        userName: "Nguyễn Văn Lộc",
+        avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuD4SWB0vFcs25cURvWT-BW1MWwAbEy8KJJS9zNEt8DLt10N3k3hGllOdr1Q6ABkrnraE8JQhgo0_xMjtdBdv_m1uMTDV3v9zsTdKXy8SxcsW2VHPxWqAZgHkaAWX9AM5Nxc7Eg-_PX8j1KCjUwbxSAPBG0i2Hiw31N2ekAKwciGJoAr_5yw8PSTLM2gJM4NQ74yR7y3zdobm0ca33ONM34PSAL_7-m5NBZkrML4kSdLHenM-ww94b-mbJ2JeWwV1ZL2Hle3SbR8FUE",
+        type: "customer",
+        typeText: "Khách hàng",
+        permission: "low",
+        permissionText: "Khách hàng",
+        createdDate: "12/05/2024",
+        lastLogin: "Hôm nay, 09:45",
+        lastLoginIp: "192.168.1.100",
+        device: "Chrome trên Windows",
+        status: "active",
+        statusText: "Đang hoạt động",
+        twoFactor: false,
+        passwordExpiry: "12/08/2024",
+        sessions: 1
+    },
+    {
+        id: "TK-002",
+        username: "hoa.tran",
+        userId: "ND-002",
+        userName: "Trần Thị Hoa",
+        avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuBZsEZc1Qap0x1--bSurgoxJhNRPQVYAmemZKOZvL8GBdYnj0ql5Y4WnKUuqYO1RE2moaJDoAKI_L3lmlOHAG9hAcfx3Ik67hxCpwyaNjXhwTPyjC8INxCFF0e0_5emxnbURBnbt3MksOEV3ZSHEj2om4ixW23vJcZS8hkJ0w-AEuSjJoVxoiWCecc2HW_4ku0duHB0mEBYGq3QqdpG075zx_FSEZxXFi_MR5k756r1c75a7X97WDGIOKxUT4Uc3cUSJLRgyZBxV4o",
+        type: "customer",
+        typeText: "Khách hàng",
+        permission: "low",
+        permissionText: "Khách hàng",
+        createdDate: "10/05/2024",
+        lastLogin: "2 ngày trước",
+        lastLoginIp: "192.168.1.101",
+        device: "Safari trên iPhone",
+        status: "locked",
+        statusText: "Đã khóa",
+        twoFactor: false,
+        passwordExpiry: "10/08/2024",
+        sessions: 0
+    },
+    {
+        id: "TK-003",
+        username: "minh.le.admin",
+        userId: "ND-003",
+        userName: "Lê Anh Minh",
+        avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuBWgLKdDj1H6iF-pBXNeu9VqxCJAD7LXKPWcBCe4oVJOTUC9AtheeMz4ZRnvLLNYlr33yeq2XMWAe1qmtYyQ55kWosw7oNXG98EQcLS3lAqk4OyqYoOOSNsxSN1aeoQ0RHBH0hGlN0-8XRFJ8Yem4EvfkjNYCxybNA34HymMpn1pB-w5fQXLDoGuy2GQ8s-o60ZZ5Vno4LQ7Hcclz09YC8_FxJmBO7I4lZPdA65dnyxiKSE0nKrLqYY46jln0_Uoyj5L0MdvCaa1yE",
+        type: "admin",
+        typeText: "Quản trị viên",
+        permission: "high",
+        permissionText: "Quản trị viên",
+        createdDate: "05/05/2024",
+        lastLogin: "Hôm nay, 08:30",
+        lastLoginIp: "192.168.1.102",
+        device: "Firefox trên macOS",
+        status: "active",
+        statusText: "Đang hoạt động",
+        twoFactor: true,
+        passwordExpiry: "05/08/2024",
+        sessions: 2
+    },
+    {
+        id: "TK-004",
+        username: "staff.delivery01",
+        userId: "ND-004",
+        userName: "Phạm Văn Đức",
+        avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuC6d4P7oMhfj8XK-6ldljovmOp1P3LxH0K07V1rVd5D7V5J9Z5q5k5m5j5l5h5g5f5d5s5a5p5o5i5u5y5t5r5e5w5q",
+        type: "staff",
+        typeText: "Nhân viên giao hàng",
+        permission: "medium",
+        permissionText: "Nhân viên",
+        createdDate: "03/05/2024",
+        lastLogin: "Hôm qua, 16:20",
+        lastLoginIp: "192.168.1.103",
+        device: "Android App",
+        status: "active",
+        statusText: "Đang hoạt động",
+        twoFactor: false,
+        passwordExpiry: "03/08/2024",
+        sessions: 1
+    },
+    {
+        id: "TK-005",
+        username: "new.customer",
+        userId: "ND-005",
+        userName: "Trần Minh Khang",
+        avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuA1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6",
+        type: "customer",
+        typeText: "Khách hàng",
+        permission: "low",
+        permissionText: "Khách hàng",
+        createdDate: "01/05/2024",
+        lastLogin: "Chưa đăng nhập",
+        lastLoginIp: "",
+        device: "",
+        status: "expired",
+        statusText: "Hết hạn MK",
+        twoFactor: false,
+        passwordExpiry: "01/05/2024",
+        sessions: 0
+    },
+    {
+        id: "TK-006",
+        username: "admin.super",
+        userId: "ND-006",
+        userName: "Nguyễn Thị Lan",
+        avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuB1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7s8t9u0v1w2x3y4z5",
+        type: "admin",
+        typeText: "Quản trị viên",
+        permission: "high",
+        permissionText: "Super Admin",
+        createdDate: "15/04/2024",
+        lastLogin: "Hôm nay, 10:15",
+        lastLoginIp: "192.168.1.104",
+        device: "Chrome trên Windows",
+        status: "active",
+        statusText: "Đang hoạt động",
+        twoFactor: true,
+        passwordExpiry: "15/07/2024",
+        sessions: 3
+    },
+    {
+        id: "TK-007",
+        username: "staff.kitchen",
+        userId: "ND-007",
+        userName: "Võ Thanh Sơn",
+        avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuC1d2e3f4g5h6i7j8k9l0m1n2o3p4q5r6s7t8u9v0w1x2y3z4",
+        type: "staff",
+        typeText: "Nhân viên bếp",
+        permission: "medium",
+        permissionText: "Nhân viên",
+        createdDate: "20/04/2024",
+        lastLogin: "Hôm qua, 12:45",
+        lastLoginIp: "192.168.1.105",
+        device: "iPad",
+        status: "active",
+        statusText: "Đang hoạt động",
+        twoFactor: true,
+        passwordExpiry: "20/07/2024",
+        sessions: 1
+    },
+    {
+        id: "TK-008",
+        username: "customer.vip01",
+        userId: "ND-008",
+        userName: "Lâm Văn Tùng",
+        avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuD1e2f3g4h5i6j7k8l9m0n1o2p3q4r5s6t7u8v9w0x1y2z3",
+        type: "customer",
+        typeText: "Khách hàng VIP",
+        permission: "low",
+        permissionText: "VIP",
+        createdDate: "25/04/2024",
+        lastLogin: "3 giờ trước",
+        lastLoginIp: "192.168.1.106",
+        device: "iPhone App",
+        status: "active",
+        statusText: "Đang hoạt động",
+        twoFactor: true,
+        passwordExpiry: "25/07/2024",
+        sessions: 1
+    }
+];
+
+// DOM Elements
+const accountsTable = document.getElementById('accountsTable');
+const createAccountBtn = document.getElementById('createAccountBtn');
+const createAccountModal = document.getElementById('createAccountModal');
+const closeModalBtn = document.getElementById('closeModalBtn');
+const cancelBtn = document.getElementById('cancelBtn');
+const createAccountForm = document.getElementById('createAccountForm');
+const userSelect = document.getElementById('userSelect');
+const newUserFields = document.getElementById('newUserFields');
+const searchInput = document.getElementById('searchInput');
+const statusFilter = document.getElementById('statusFilter');
+const tabAll = document.getElementById('tabAll');
+const tabCustomer = document.getElementById('tabCustomer');
+const tabStaff = document.getElementById('tabStaff');
+const tabAdmin = document.getElementById('tabAdmin');
+const tabExpired = document.getElementById('tabExpired');
+const togglePassword = document.getElementById('togglePassword');
+const passwordInput = document.getElementById('password');
+const passwordStrength = document.getElementById('passwordStrength');
+const manageSessionsBtn = document.getElementById('manageSessionsBtn');
+const twoFactorBtn = document.getElementById('twoFactorBtn');
+const sessionsModal = document.getElementById('sessionsModal');
+const closeSessionsModalBtn = document.getElementById('closeSessionsModalBtn');
+const twoFactorModal = document.getElementById('twoFactorModal');
+const closeTwoFactorModalBtn = document.getElementById('closeTwoFactorModalBtn');
+const cancelTwoFactorBtn = document.getElementById('cancelTwoFactorBtn');
+const saveTwoFactorBtn = document.getElementById('saveTwoFactorBtn');
+const permissionsModal = document.getElementById('permissionsModal');
+const closePermissionsModalBtn = document.getElementById('closePermissionsModalBtn');
+const cancelPermissionsBtn = document.getElementById('cancelPermissionsBtn');
+const savePermissionsBtn = document.getElementById('savePermissionsBtn');
+const applyTemplateBtn = document.getElementById('applyTemplateBtn');
+const sessionLimit = document.getElementById('sessionLimit');
+const sessionLimitValue = document.getElementById('sessionLimitValue');
+const terminateAllBtn = document.getElementById('terminateAllBtn');
+const saveSessionSettingsBtn = document.getElementById('saveSessionSettingsBtn');
+const forcePasswordChange = document.getElementById('forcePasswordChange');
+const twoFactorCheck = document.getElementById('twoFactor');
+
+let currentFilter = 'all';
+let currentStatus = '';
+let currentSearch = '';
+let currentPermissionAccount = null;
+
+// Hiển thị danh sách tài khoản
+function displayAccounts(accounts) {
+    accountsTable.innerHTML = '';
+    
+    accounts.forEach(account => {
+        const row = document.createElement('tr');
+        row.className = 'hover:bg-gray-50/50 transition-colors';
+        row.innerHTML = `
+            <td class="px-6 py-4 text-sm font-bold text-primary">${account.id}</td>
+            <td class="px-6 py-4">
+                <div class="text-sm font-bold text-[#1c140d]">${account.username}</div>
+                <div class="text-xs text-[#9c7349]">${account.twoFactor ? '<span class="text-blue-600">2FA</span>' : ''} ${account.sessions > 0 ? `<span class="text-green-600">${account.sessions} phiên</span>` : ''}</div>
+            </td>
+            <td class="px-6 py-4">
+                <div class="flex items-center gap-3">
+                    <div class="h-8 w-8 rounded-full bg-cover bg-center border border-[#f4ede7]" style='background-image: url("${account.avatar}")'></div>
+                    <div>
+                        <div class="text-sm font-bold text-[#1c140d]">${account.userName}</div>
+                        <div class="text-xs text-[#9c7349]">${account.userId}</div>
+                    </div>
+                </div>
+            </td>
+            <td class="px-6 py-4">
+                <span class="px-2.5 py-1 ${account.type === 'admin' ? 'role-admin' : account.type === 'staff' ? 'role-staff' : 'role-customer'} text-[10px] font-bold rounded-md uppercase">
+                    ${account.typeText}
+                </span>
+            </td>
+            <td class="px-6 py-4">
+                <span class="px-2.5 py-1 ${account.permission === 'high' ? 'permission-high' : account.permission === 'medium' ? 'permission-medium' : 'permission-low'} text-[10px] font-bold rounded-md uppercase">
+                    ${account.permissionText}
+                </span>
+            </td>
+            <td class="px-6 py-4 text-sm text-[#9c7349]">${account.createdDate}</td>
+            <td class="px-6 py-4">
+                <div class="text-sm text-[#1c140d]">${account.lastLogin}</div>
+                ${account.lastLoginIp ? `<div class="text-xs text-[#9c7349]">${account.lastLoginIp}</div>` : ''}
+            </td>
+            <td class="px-6 py-4">
+                <span class="px-2.5 py-1 ${account.status === 'active' ? 'status-active' : account.status === 'locked' ? 'status-locked' : account.status === 'expired' ? 'bg-yellow-100 text-yellow-700' : 'status-inactive'} text-[10px] font-bold rounded-md uppercase">
+                    ${account.statusText}
+                </span>
+            </td>
+            <td class="px-6 py-4">
+                <div class="flex items-center justify-center gap-2">
+                    <button class="p-2 rounded-lg hover:bg-green-50 text-green-600 transition-colors" onclick="resetPassword('${account.id}')" title="Reset mật khẩu">
+                        <span class="material-symbols-outlined text-lg">key</span>
+                    </button>
+                    <button class="p-2 rounded-lg hover:bg-blue-50 text-blue-600 transition-colors" onclick="managePermissions('${account.id}')" title="Phân quyền">
+                        <span class="material-symbols-outlined text-lg">admin_panel_settings</span>
+                    </button>
+                    ${account.status === 'active' ? 
+                        `<button class="p-2 rounded-lg hover:bg-red-50 text-red-600 transition-colors" onclick="toggleLockAccount('${account.id}', 'lock')" title="Khóa tài khoản">
+                            <span class="material-symbols-outlined text-lg">lock</span>
+                        </button>` : 
+                        `<button class="p-2 rounded-lg hover:bg-green-50 text-green-600 transition-colors" onclick="toggleLockAccount('${account.id}', 'unlock')" title="Mở khóa tài khoản">
+                            <span class="material-symbols-outlined text-lg">lock_open</span>
+                        </button>`
+                    }
+                    <button class="p-2 rounded-lg hover:bg-purple-50 text-purple-600 transition-colors" onclick="toggleTwoFactor('${account.id}')" title="${account.twoFactor ? 'Tắt 2FA' : 'Bật 2FA'}">
+                        <span class="material-symbols-outlined text-lg">${account.twoFactor ? 'shield' : 'shield_lock'}</span>
+                    </button>
+                </div>
+            </td>
+        `;
+        accountsTable.appendChild(row);
+    });
+    
+    // Cập nhật thông tin phân trang
+    document.getElementById('paginationInfo').textContent = `Hiển thị 1-${accounts.length} trong tổng số ${accountsData.length} tài khoản`;
+}
+
+// Lọc tài khoản
+function filterAccounts() {
+    let filtered = accountsData.filter(account => {
+        // Lọc theo tab
+        if (currentFilter === 'customer' && account.type !== 'customer') return false;
+        if (currentFilter === 'staff' && account.type !== 'staff') return false;
+        if (currentFilter === 'admin' && account.type !== 'admin') return false;
+        if (currentFilter === 'expired' && account.status !== 'expired') return false;
+        
+        // Lọc theo trạng thái
+        if (currentStatus && account.status !== currentStatus) {
+            return false;
+        }
+        
+        // Lọc theo tìm kiếm
+        if (currentSearch) {
+            const searchLower = currentSearch.toLowerCase();
+            return (
+                account.id.toLowerCase().includes(searchLower) ||
+                account.username.toLowerCase().includes(searchLower) ||
+                account.userName.toLowerCase().includes(searchLower) ||
+                account.userId.toLowerCase().includes(searchLower)
+            );
+        }
+        
+        return true;
+    });
+    
+    displayAccounts(filtered);
+}
+
+// Kiểm tra độ mạnh mật khẩu
+function checkPasswordStrength(password) {
+    let strength = 0;
+    let message = '';
+    let color = 'text-red-600';
+    
+    if (password.length >= 8) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[^A-Za-z0-9]/.test(password)) strength++;
+    
+    switch(strength) {
+        case 0:
+        case 1:
+            message = 'Rất yếu';
+            color = 'text-red-600';
+            break;
+        case 2:
+            message = 'Yếu';
+            color = 'text-orange-600';
+            break;
+        case 3:
+            message = 'Khá';
+            color = 'text-yellow-600';
+            break;
+        case 4:
+            message = 'Mạnh';
+            color = 'text-green-600';
+            break;
+    }
+    
+    passwordStrength.textContent = `Độ mạnh: ${message}`;
+    passwordStrength.className = `mt-2 text-xs ${color}`;
+}
+
+// Toggle hiển thị mật khẩu
+togglePassword.addEventListener('click', function() {
+    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+    this.querySelector('span').textContent = type === 'password' ? 'visibility' : 'visibility_off';
+});
+
+// Kiểm tra mật khẩu khi nhập
+passwordInput.addEventListener('input', function() {
+    checkPasswordStrength(this.value);
+});
+
+// Hiển thị/ẩn trường thông tin người dùng mới
+userSelect.addEventListener('change', function() {
+    if (this.value === 'new') {
+        newUserFields.classList.remove('hidden');
+    } else {
+        newUserFields.classList.add('hidden');
+    }
+});
+
+// Bật/tắt giới hạn phiên
+sessionLimit.addEventListener('change', function() {
+    sessionLimitValue.disabled = !this.checked;
+});
+
+// Mở modal tạo tài khoản
+createAccountBtn.addEventListener('click', function() {
+    createAccountModal.classList.remove('hidden');
+});
+
+// Đóng modal
+function closeModal() {
+    createAccountModal.classList.add('hidden');
+    createAccountForm.reset();
+    newUserFields.classList.add('hidden');
+    passwordStrength.textContent = '';
+}
+
+closeModalBtn.addEventListener('click', closeModal);
+cancelBtn.addEventListener('click', closeModal);
+
+// Xử lý submit form
+createAccountForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Lấy giá trị từ form
+    const accountType = document.getElementById('accountType').value;
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const forceChange = document.getElementById('forcePasswordChange').checked;
+    const twoFactorEnabled = document.getElementById('twoFactor').checked;
+    const sessionLimited = document.getElementById('sessionLimit').checked;
+    const sessionLimitCount = sessionLimitValue.value;
+    
+    // Kiểm tra mật khẩu
+    if (password !== confirmPassword) {
+        alert('Mật khẩu xác nhận không khớp!');
+        return;
+    }
+    
+    if (password.length < 6) {
+        alert('Mật khẩu phải có ít nhất 6 ký tự!');
+        return;
+    }
+    
+    // Tạo tài khoản mới
+    const newAccount = {
+        id: `TK-${String(accountsData.length + 1).padStart(3, '0')}`,
+        username: username,
+        userId: 'ND-999',
+        userName: 'Người dùng mới',
+        avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD4SWB0vFcs25cURvWT-BW1MWwAbEy8KJJS9zNEt8DLt10N3k3hGllOdr1Q6ABkrnraE8JQhgo0_xMjtdBdv_m1uMTDV3v9zsTdKXy8SxcsW2VHPxWqAZgHkaAWX9AM5Nxc7Eg-_PX8j1KCjUwbxSAPBG0i2Hiw31N2ekAKwciGJoAr_5yw8PSTLM2gJM4NQ74yR7y3zdobm0ca33ONM34PSAL_7-m5NBZkrML4kSdLHenM-ww94b-mbJ2JeWwV1ZL2Hle3SbR8FUE',
+        type: accountType,
+        typeText: accountType === 'admin' ? 'Quản trị viên' : accountType === 'staff' ? 'Nhân viên' : 'Khách hàng',
+        permission: accountType === 'admin' ? 'high' : accountType === 'staff' ? 'medium' : 'low',
+        permissionText: accountType === 'admin' ? 'Quản trị viên' : accountType === 'staff' ? 'Nhân viên' : 'Khách hàng',
+        createdDate: new Date().toLocaleDateString('vi-VN'),
+        lastLogin: 'Chưa đăng nhập',
+        lastLoginIp: '',
+        device: '',
+        status: 'active',
+        statusText: 'Đang hoạt động',
+        twoFactor: twoFactorEnabled,
+        passwordExpiry: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toLocaleDateString('vi-VN'),
+        sessions: 0
+    };
+    
+    const message = `Tạo tài khoản thành công!\n\n` +
+                   `Tên đăng nhập: ${username}\n` +
+                   `Loại tài khoản: ${newAccount.typeText}\n` +
+                   `Yêu cầu đổi MK lần đầu: ${forceChange ? 'Có' : 'Không'}\n` +
+                   `Xác thực 2 lớp: ${twoFactorEnabled ? 'Đã kích hoạt' : 'Chưa kích hoạt'}\n` +
+                   `Giới hạn phiên: ${sessionLimited ? sessionLimitCount + ' phiên' : 'Không giới hạn'}\n\n` +
+                   `Mật khẩu đã được gửi đến email của người dùng.`;
+    
+    alert(message);
+    
+    // Đóng modal và reset form
+    closeModal();
+    
+    // Thêm tài khoản mới vào danh sách
+    accountsData.unshift(newAccount);
+    filterAccounts();
+});
+
+// Xử lý tìm kiếm
+searchInput.addEventListener('input', function() {
+    currentSearch = this.value;
+    filterAccounts();
+});
+
+// Xử lý lọc trạng thái
+statusFilter.addEventListener('change', function() {
+    currentStatus = this.value;
+    filterAccounts();
+});
+
+// Xử lý chuyển tab
+function setActiveTab(tabElement, filter) {
+    [tabAll, tabCustomer, tabStaff, tabAdmin, tabExpired].forEach(tab => {
+        tab.classList.remove('tab-active', 'text-primary');
+        tab.classList.add('text-[#9c7349]', 'border-transparent');
+    });
+    
+    tabElement.classList.remove('text-[#9c7349]', 'border-transparent');
+    tabElement.classList.add('tab-active', 'text-primary');
+    
+    currentFilter = filter;
+    filterAccounts();
+}
+
+tabAll.addEventListener('click', () => setActiveTab(tabAll, 'all'));
+tabCustomer.addEventListener('click', () => setActiveTab(tabCustomer, 'customer'));
+tabStaff.addEventListener('click', () => setActiveTab(tabStaff, 'staff'));
+tabAdmin.addEventListener('click', () => setActiveTab(tabAdmin, 'admin'));
+tabExpired.addEventListener('click', () => setActiveTab(tabExpired, 'expired'));
+
+// Quản lý phiên đăng nhập
+manageSessionsBtn.addEventListener('click', function() {
+    // Cập nhật danh sách phiên đăng nhập
+    const activeSessionsList = document.getElementById('activeSessionsList');
+    activeSessionsList.innerHTML = '';
+    
+    const activeAccounts = accountsData.filter(acc => acc.sessions > 0);
+    activeAccounts.forEach(account => {
+        const sessionItem = document.createElement('div');
+        sessionItem.className = 'flex items-center justify-between p-3 bg-white rounded-xl border border-[#f4ede7]';
+        sessionItem.innerHTML = `
+            <div class="flex items-center gap-3">
+                <div class="h-8 w-8 rounded-full bg-cover bg-center" style='background-image: url("${account.avatar}")'></div>
+                <div>
+                    <div class="text-sm font-bold text-[#1c140d]">${account.username}</div>
+                    <div class="text-xs text-[#9c7349]">${account.device || 'Không xác định'}</div>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="text-xs text-[#9c7349]">${account.sessions} phiên</span>
+                <button class="p-1.5 hover:bg-red-50 text-red-600 rounded-lg transition-colors" onclick="terminateSession('${account.id}')">
+                    <span class="material-symbols-outlined text-sm">logout</span>
+                </button>
+            </div>
+        `;
+        activeSessionsList.appendChild(sessionItem);
+    });
+    
+    if (activeAccounts.length === 0) {
+        activeSessionsList.innerHTML = '<div class="text-center py-4 text-sm text-[#9c7349]">Không có phiên đăng nhập nào</div>';
+    }
+    
+    // Cập nhật lịch sử đăng nhập
+    const loginHistoryTable = document.getElementById('loginHistoryTable');
+    loginHistoryTable.innerHTML = '';
+    
+    const recentLogins = accountsData
+        .filter(acc => acc.lastLogin !== 'Chưa đăng nhập')
+        .slice(0, 10)
+        .map(account => {
+            return `
+                <tr class="hover:bg-gray-50/50 transition-colors">
+                    <td class="px-4 py-3 text-sm">${account.lastLogin}</td>
+                    <td class="px-4 py-3 text-sm text-[#9c7349]">${account.lastLoginIp || 'N/A'}</td>
+                    <td class="px-4 py-3 text-sm">${account.device || 'Không xác định'}</td>
+                    <td class="px-4 py-3 text-sm text-[#9c7349]">Hồ Chí Minh, VN</td>
+                    <td class="px-4 py-3">
+                        <span class="px-2 py-1 bg-green-100 text-green-700 text-[10px] font-bold rounded-md uppercase">Thành công</span>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    
+    loginHistoryTable.innerHTML = recentLogins;
+    
+    sessionsModal.classList.remove('hidden');
+});
+
+// Kết thúc phiên
+window.terminateSession = function(accountId) {
+    const account = accountsData.find(acc => acc.id === accountId);
+    if (account && confirm(`Kết thúc tất cả phiên đăng nhập của ${account.username}?`)) {
+        account.sessions = 0;
+        alert(`Đã kết thúc phiên đăng nhập của ${account.username}`);
+        manageSessionsBtn.click(); // Refresh modal
+    }
+};
+
+// Kết thúc tất cả phiên
+terminateAllBtn.addEventListener('click', function() {
+    if (confirm('Kết thúc tất cả phiên đăng nhập trên mọi thiết bị?')) {
+        accountsData.forEach(account => {
+            account.sessions = 0;
+        });
+        alert('Đã kết thúc tất cả phiên đăng nhập');
+        manageSessionsBtn.click(); // Refresh modal
+    }
+});
+
+// Lưu cài đặt phiên
+saveSessionSettingsBtn.addEventListener('click', function() {
+    const timeout = document.getElementById('sessionTimeout').value;
+    const maxSessions = document.getElementById('maxSessions').value;
+    const passwordExpiry = document.getElementById('passwordExpiry').value;
+    
+    alert(`Đã lưu cài đặt phiên đăng nhập:\n\n` +
+          `Thời gian timeout: ${timeout} phút\n` +
+          `Số phiên tối đa: ${maxSessions}\n` +
+          `Hết hạn mật khẩu: ${passwordExpiry} ngày`);
+    
+    sessionsModal.classList.add('hidden');
+});
+
+// Đóng modal phiên
+closeSessionsModalBtn.addEventListener('click', function() {
+    sessionsModal.classList.add('hidden');
+});
+
+// Quản lý bảo mật 2 lớp
+twoFactorBtn.addEventListener('click', function() {
+    twoFactorModal.classList.remove('hidden');
+});
+
+// Đóng modal 2FA
+closeTwoFactorModalBtn.addEventListener('click', function() {
+    twoFactorModal.classList.add('hidden');
+});
+
+cancelTwoFactorBtn.addEventListener('click', function() {
+    twoFactorModal.classList.add('hidden');
+});
+
+// Lưu cài đặt 2FA
+saveTwoFactorBtn.addEventListener('click', function() {
+    const allAdmins = document.getElementById('allAdmins').checked;
+    const allStaff = document.getElementById('allStaff').checked;
+    const allCustomers = document.getElementById('allCustomers').checked;
+    
+    let count = 0;
+    
+    // Cập nhật trạng thái 2FA cho tài khoản
+    accountsData.forEach(account => {
+        let shouldEnable = false;
+        
+        if (allAdmins && account.type === 'admin') shouldEnable = true;
+        if (allStaff && account.type === 'staff') shouldEnable = true;
+        if (allCustomers && account.type === 'customer') shouldEnable = true;
+        
+        if (shouldEnable && !account.twoFactor) {
+            account.twoFactor = true;
+            count++;
+        }
+    });
+    
+    alert(`Đã kích hoạt xác thực 2 lớp cho ${count} tài khoản`);
+    twoFactorModal.classList.add('hidden');
+    filterAccounts();
+});
+
+// Quản lý phân quyền
+window.managePermissions = function(accountId) {
+    const account = accountsData.find(acc => acc.id === accountId);
+    if (!account) return;
+    
+    currentPermissionAccount = account;
+    
+    // Cập nhật thông tin modal
+    document.getElementById('permissionAvatar').style.backgroundImage = `url('${account.avatar}')`;
+    document.getElementById('permissionUserName').textContent = account.userName;
+    document.getElementById('permissionAccountId').textContent = account.id;
+    document.getElementById('permissionLevel').value = account.permission;
+    document.getElementById('roleTemplate').value = 'custom';
+    
+    // Đặt lại tất cả checkbox
+    document.querySelectorAll('#permissionsModal input[type="checkbox"]').forEach(cb => {
+        if (cb.id !== 'perm_orders') {
+            cb.checked = false;
+            cb.disabled = false;
+        }
+    });
+    
+    // Áp dụng phân quyền mặc định dựa trên loại tài khoản
+    if (account.type === 'admin') {
+        document.getElementById('perm_users').checked = true;
+        document.getElementById('perm_accounts').checked = true;
+        document.getElementById('perm_settings').checked = true;
+        document.getElementById('perm_menu').checked = true;
+        document.getElementById('perm_promotions').checked = true;
+        document.getElementById('perm_reviews').checked = true;
+    } else if (account.type === 'staff') {
+        if (account.typeText.includes('giao hàng')) {
+            document.getElementById('perm_orders').checked = true;
+        } else {
+            document.getElementById('perm_orders').checked = true;
+            document.getElementById('perm_menu').checked = true;
+        }
+    }
+    
+    permissionsModal.classList.remove('hidden');
+};
+
+// Áp dụng mẫu phân quyền
+applyTemplateBtn.addEventListener('click', function() {
+    const template = document.getElementById('roleTemplate').value;
+    
+    // Reset all checkboxes
+    document.querySelectorAll('#permissionsModal input[type="checkbox"]').forEach(cb => {
+        cb.checked = false;
+        cb.disabled = false;
+    });
+    
+    // Áp dụng mẫu
+    switch(template) {
+        case 'admin_full':
+            document.getElementById('permissionLevel').value = 'high';
+            document.getElementById('perm_users').checked = true;
+            document.getElementById('perm_accounts').checked = true;
+            document.getElementById('perm_settings').checked = true;
+            document.getElementById('perm_orders').checked = true;
+            document.getElementById('perm_menu').checked = true;
+            document.getElementById('perm_promotions').checked = true;
+            document.getElementById('perm_reviews').checked = true;
+            break;
+        case 'staff_manager':
+            document.getElementById('permissionLevel').value = 'medium';
+            document.getElementById('perm_orders').checked = true;
+            document.getElementById('perm_menu').checked = true;
+            document.getElementById('perm_promotions').checked = true;
+            document.getElementById('perm_reviews').checked = true;
+            break;
+        case 'staff_order':
+            document.getElementById('permissionLevel').value = 'medium';
+            document.getElementById('perm_orders').checked = true;
+            break;
+        case 'staff_delivery':
+            document.getElementById('permissionLevel').value = 'medium';
+            document.getElementById('perm_orders').checked = true;
+            break;
+        case 'customer_vip':
+            document.getElementById('permissionLevel').value = 'low';
+            document.getElementById('perm_orders').checked = true;
+            break;
+        case 'customer_normal':
+            document.getElementById('permissionLevel').value = 'low';
+            // Khách hàng thường chỉ có quyền cơ bản
+            break;
+    }
+    
+    document.getElementById('perm_orders').disabled = true; // Luôn được chọn
+});
+
+// Đóng modal phân quyền
+closePermissionsModalBtn.addEventListener('click', function() {
+    permissionsModal.classList.add('hidden');
+    currentPermissionAccount = null;
+});
+
+cancelPermissionsBtn.addEventListener('click', function() {
+    permissionsModal.classList.add('hidden');
+    currentPermissionAccount = null;
+});
+
+// Lưu phân quyền
+savePermissionsBtn.addEventListener('click', function() {
+    if (!currentPermissionAccount) return;
+    
+    const permissionLevel = document.getElementById('permissionLevel').value;
+    const permissionText = permissionLevel === 'high' ? 'Quản trị viên' : 
+                          permissionLevel === 'medium' ? 'Nhân viên' : 
+                          currentPermissionAccount.type === 'customer' && currentPermissionAccount.typeText.includes('VIP') ? 'VIP' : 'Khách hàng';
+    
+    // Cập nhật tài khoản
+    currentPermissionAccount.permission = permissionLevel;
+    currentPermissionAccount.permissionText = permissionText;
+    
+    alert(`Đã cập nhật phân quyền cho tài khoản ${currentPermissionAccount.username}`);
+    permissionsModal.classList.add('hidden');
+    filterAccounts();
+    currentPermissionAccount = null;
+});
+
+// Các hàm thao tác với tài khoản
+window.resetPassword = function(accountId) {
+    const account = accountsData.find(acc => acc.id === accountId);
+    if (!account) return;
+    
+    const newPassword = prompt(`Nhập mật khẩu mới cho tài khoản ${account.username} (để trống để tạo tự động):`);
+    
+    if (newPassword !== null) {
+        const password = newPassword || generateRandomPassword();
+        alert(`Đã reset mật khẩu cho tài khoản ${accountId}.\n\nMật khẩu mới: ${newPassword ? '(do bạn nhập)' : password}\n\nMật khẩu mới đã được gửi đến email của người dùng.`);
+        // Trong thực tế sẽ gọi API để reset mật khẩu
+    }
+};
+
+function generateRandomPassword() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+    let password = '';
+    for (let i = 0; i < 12; i++) {
+        password += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return password;
+}
+
+window.toggleLockAccount = function(accountId, action) {
+    const account = accountsData.find(acc => acc.id === accountId);
+    if (!account) return;
+    
+    const actionText = action === 'lock' ? 'khóa' : 'mở khóa';
+    if (confirm(`Bạn có chắc chắn muốn ${actionText} tài khoản ${accountId}?`)) {
+        // Cập nhật trạng thái trong dữ liệu
+        account.status = action === 'lock' ? 'locked' : 'active';
+        account.statusText = action === 'lock' ? 'Đã khóa' : 'Đang hoạt động';
+        
+        if (action === 'lock') {
+            account.sessions = 0; // Đăng xuất tất cả phiên khi khóa
+        }
+        
+        alert(`Đã ${actionText} tài khoản ${accountId} thành công!`);
+        filterAccounts();
+    }
+};
+
+window.toggleTwoFactor = function(accountId) {
+    const account = accountsData.find(acc => acc.id === accountId);
+    if (!account) return;
+    
+    const newState = !account.twoFactor;
+    const actionText = newState ? 'kích hoạt' : 'tắt';
+    
+    if (confirm(`Bạn có chắc chắn muốn ${actionText} xác thực 2 lớp cho tài khoản ${accountId}?`)) {
+        account.twoFactor = newState;
+        alert(`Đã ${actionText} xác thực 2 lớp cho tài khoản ${accountId}`);
+        filterAccounts();
+    }
+};
+
+// Khởi tạo hiển thị danh sách tài khoản
+filterAccounts();
+</script>
+
+</body></html>

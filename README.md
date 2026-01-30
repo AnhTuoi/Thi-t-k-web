@@ -1,5 +1,3 @@
-# Thiết kế web
-Thiết kế website bán đồ ăn
 # FoodGo - Hệ Thống Quản Lý Bán Đồ Ăn
 
 ## Hướng dẫn Cài Đặt và Chạy Dự Án
@@ -9,7 +7,7 @@ Thiết kế website bán đồ ăn
 - **PHP 7.4+**
 - **MySQL 5.7+**
 - **Trình duyệt web hiện đại**
-- Dùng MySQLi không dùng PDO
+
 ### 2. Các Bước Cài Đặt
 
 #### 2.1 Khởi động XAMPP
@@ -39,7 +37,7 @@ Thiết kế website bán đồ ăn
 
 #### Cách 1: Sử dụng XAMPP (Khuyến Nghị)
 1. Đặt thư mục `FoodGo` trong: `C:\xampp\htdocs\FoodGo`
-2. Mở trình duyệt và truy cập: http://localhost/FoodGo
+2. Mở trình duyệt và truy cập: **http://localhost/FoodGo**
 
 #### Cách 2: Sử dụng PHP Built-in Server
 ```bash
@@ -47,6 +45,45 @@ cd C:\xampp\htdocs\FoodGo
 php -S localhost:8000
 ```
 Sau đó truy cập: **http://localhost:8000**
+
+### 4. Cấu Trúc Thư Mục
+```
+FoodGo/
+├── index.php              # File chính
+├── config.php             # Cấu hình cũ (deprecated)
+├── config/
+│   └── database.php       # Kết nối Database (PDO)
+├── api/
+│   ├── auth.php          # API xác thực
+│   └── food.php          # API thức ăn
+├── Database.sql          # Script tạo DB
+├── Fontend/
+│   ├── Đăng nhập.html
+│   ├── Đăng ký.html
+│   ├── Quên mật khẩu.html
+│   ├── Trang bán/        # Giao diện khách hàng
+│   └── Trang quản trị/   # Giao diện quản trị
+└── ERD_THUC_THE.md       # Entity Relationship Diagram
+```
+
+### 5. API Endpoints
+
+#### Authentication API (api/auth.php)
+```
+POST /api/auth.php?action=register    # Đăng ký
+POST /api/auth.php?action=login       # Đăng nhập
+POST /api/auth.php?action=forgot_password  # Quên mật khẩu
+GET  /api/auth.php?action=check_session    # Kiểm tra session
+GET  /api/auth.php?action=logout          # Đăng xuất
+```
+
+#### Food API (api/food.php)
+```
+GET /api/food.php?action=get_monan      # Lấy danh sách món ăn
+GET /api/food.php?action=get_khuyenmai  # Lấy khuyến mãi
+GET /api/food.php?action=get_danhmuc    # Lấy danh mục
+GET /api/food.php?action=get_donhang    # Lấy đơn hàng (cần đăng nhập)
+```
 
 ### 6. Tài Khoản Demo (Sau khi import DB)
 - Sẽ được cung cấp sau khi chạy script Database.sql

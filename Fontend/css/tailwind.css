@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+/* Custom styles */
+@layer base {
+    body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+    }
+    
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+}
+
+@layer base {
+    :root {
+        --color-primary: #e8956f;
+    }
+}
+
+@layer components {
+    .btn-primary {
+        @apply bg-[#e8956f] text-white font-bold py-3 px-6 rounded-xl hover:opacity-90 transition-all;
+    }
+    
+    .input-field {
+        @apply w-full px-4 py-3 rounded-xl border border-[#f4ede7] dark:border-[#3d2e1f] 
+               bg-[#f4ede7]/50 dark:bg-[#3d2e1f] focus:border-[#e8956f] focus:ring-[#e8956f] 
+               focus:outline-none transition-all text-sm;
+    }
+    
+    .card {
+        @apply bg-white dark:bg-[#2a2015] rounded-[2rem] shadow-xl 
+               shadow-[#e8956f]/5 border border-[#f4ede7] dark:border-[#3d2e1f];
+    }
+}
+
+@layer utilities {
+    .loading {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255,255,255,.3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}

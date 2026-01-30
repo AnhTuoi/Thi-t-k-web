@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html class="light" lang="vi">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Giỏ hàng và Thanh toán FoodGo</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f48c25",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#221910",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        body {
+            font-family: "Plus Jakarta Sans", sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-1 {
+            font-variation-settings: 'FILL' 1;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #f48c25;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#1c140d] dark:text-[#fcfaf8] min-h-screen">
+<div class="layout-container flex flex-col items-center">
+    <header class="w-full sticky top-0 z-50 bg-white/90 dark:bg-background-dark/90 backdrop-blur-md border-b border-[#f4ede7] dark:border-[#3d2e1f] px-4 md:px-10 lg:px-20 py-3">
+        <div class="max-w-[1200px] mx-auto flex items-center justify-between gap-8">
+            <a class="flex items-center gap-2 text-primary shrink-0" href="Trangchu.html">
+                <span class="material-symbols-outlined text-4xl font-bold">fastfood</span>
+                <h2 class="text-2xl font-black tracking-tighter">FoodGo</h2>
+            </a>
+            <nav class="hidden lg:flex items-center gap-8 shrink-0">
+                <a class="text-sm font-bold text-[#9c7349] dark:text-gray-300 hover:text-primary transition-colors" href="Trangchu.html">Trang chủ</a>
+                <a class="text-sm font-bold text-[#9c7349] dark:text-gray-300 hover:text-primary transition-colors" href="Thucdon.html">Thực đơn</a>
+                <a class="text-sm font-bold text-[#9c7349] dark:text-gray-300 hover:text-primary transition-colors" href="Khuyenmai.html">Khuyến mãi</a>
+                <a class="text-sm font-bold text-[#9c7349] dark:text-gray-300 hover:text-primary transition-colors" href="Donhang.html">Đơn hàng</a>
+            </nav>
+            <div class="hidden md:flex flex-1 max-w-md mx-4">
+                <label class="relative w-full">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-[#9c7349]">
+                        <span class="material-symbols-outlined text-xl">search</span>
+                    </span>
+                    <input class="w-full h-11 pl-10 pr-4 rounded-2xl border-none bg-[#f4ede7] dark:bg-[#3d2e1f] text-[#1c140d] dark:text-white placeholder:text-[#9c7349] focus:ring-2 focus:ring-primary/50 transition-all text-sm" placeholder="Tìm kiếm món ăn..." type="text"/>
+                </label>
+            </div>
+            <div class="flex items-center gap-4 shrink-0">
+                <div class="flex items-center gap-2">
+                    <a href="Giohang&TT.html" class="relative p-2.5 rounded-2xl bg-[#f4ede7] dark:bg-[#3d2e1f] hover:bg-primary/20 transition-all group">
+                        <span class="material-symbols-outlined text-2xl text-primary group-hover:text-primary transition-colors fill-1">shopping_cart</span>
+                        <span id="cart-count" class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-extrabold text-white border-2 border-white dark:border-[#221910]">0</span>
+                    </a>
+                    <a href="Thongbao.html" class="p-2.5 rounded-2xl bg-[#f4ede7] dark:bg-[#3d2e1f] hover:bg-primary/20 transition-all group relative">
+                        <span class="material-symbols-outlined text-2xl group-hover:text-primary transition-colors">notifications</span>
+                        <span class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-extrabold text-white border-2 border-white dark:border-[#221910]">3</span>
+                    </a>
+                </div>
+                <div id="user-avatar" class="h-10 w-10 rounded-2xl bg-cover bg-center border-2 border-primary cursor-pointer hover:scale-105 transition-transform" 
+                     style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD5QyJdrgQc8EU6pqDDaTBolO1VlDlv6lM8W2XV1DfKW4a5PlcqAbGalkVd2R5tSpPt995mjv7mrHl-CbBn8v1DFbLCTf_OXGHrYxelVSZPnRc9GwzER6YHTfHVgz8FOOLJtzUXlcTs-Ohiq-FbZN3MOYmblmy5AiIh0jZq_KhWiEuCqRq1UOXjoyuOyasYqgDUu4FSlFWDRS8FWTie8S6FNhxcsTx5nj8MIEdRXRnvlOFI9qMcjFUC1jM6NQ0RgNfy0VOZHlmNrGI")'></div>
+            </div>
+        </div>
+    </header>
+    
+    <main class="w-full max-w-[1200px] px-4 md:px-10 py-8">
+        <nav class="flex items-center gap-2 text-sm text-[#9c7349] mb-8">
+            <a class="hover:text-primary" href="Trangchu.html">Trang chủ</a>
+            <span class="material-symbols-outlined text-xs">chevron_right</span>
+            <a class="hover:text-primary" href="Thucdon.html">Thực đơn</a>
+            <span class="material-symbols-outlined text-xs">chevron_right</span>
+            <span class="font-bold text-[#1c140d] dark:text-white">Giỏ hàng và Thanh toán</span>
+        </nav>
+        
+        <h1 class="text-3xl font-black tracking-tight mb-8">Giỏ hàng và Thanh toán</h1>
+        
+        <!-- Empty Cart State -->
+        <div id="empty-cart" class="hidden">
+            <div class="text-center py-16">
+                <div class="h-24 w-24 bg-gray-100 dark:bg-[#3d2e1f] text-gray-400 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span class="material-symbols-outlined text-5xl">shopping_cart</span>
+                </div>
+                <h2 class="text-2xl font-black mb-4">Giỏ hàng của bạn đang trống</h2>
+                <p class="text-[#9c7349] mb-8 max-w-md mx-auto">Hãy thêm món ăn ngon vào giỏ hàng để bắt đầu đặt hàng!</p>
+                <a href="Thucdon.html" class="inline-flex items-center gap-2 px-8 py-4 bg-primary text-white font-bold rounded-2xl hover:shadow-lg hover:shadow-primary/30 transition-all active:scale-95">
+                    <span class="material-symbols-outlined">restaurant_menu</span>
+                    Khám phá thực đơn
+                </a>
+            </div>
+        </div>
+        
+        <!-- Cart with Items -->
+        <div id="cart-with-items" class="hidden">
+            <div class="flex flex-col lg:flex-row gap-10">
+                <!-- Cart Items -->
+                <div class="flex-1 flex flex-col gap-12">
+                    <div id="cart-items-container" class="space-y-4">
+                        <!-- Cart items will be loaded here -->
+                        <div class="text-center py-8">
+                            <div class="loading-spinner mx-auto"></div>
+                            <p class="mt-4 text-[#9c7349]">Đang tải giỏ hàng...</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Suggestions -->
+                    <div class="suggestion-section">
+                        <h2 class="text-xl font-black mb-6 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">stars</span>
+                            Gợi ý món ngon cho bạn
+                        </h2>
+                        <div id="suggestions-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <!-- Suggestions will be loaded here -->
+                            <div class="text-center py-4 col-span-full">
+                                <div class="loading-spinner mx-auto"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Order Summary -->
+                <div class="w-full lg:w-[380px] shrink-0">
+                    <div class="sticky top-24">
+                        <div class="bg-white dark:bg-[#2a2015] rounded-[2.5rem] p-8 border border-[#f4ede7] dark:border-[#3d2e1f] shadow-sm">
+                            <h2 class="text-xl font-black mb-8">Tóm tắt đơn hàng</h2>
+                            <div class="space-y-4 mb-6">
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-[#9c7349]">Tạm tính</span>
+                                    <span id="subtotal" class="font-bold">0đ</span>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-[#9c7349]">Phí vận chuyển</span>
+                                    <span id="shipping-fee" class="font-bold">15.000đ</span>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-[#9c7349]">Giảm giá</span>
+                                    <span id="discount" class="font-bold text-green-500">-0đ</span>
+                                </div>
+                                <div class="pt-6 mt-6 border-t border-[#f4ede7] dark:border-[#3d2e1f] flex justify-between items-center">
+                                    <span class="text-lg font-extrabold">Tổng tiền</span>
+                                    <span id="total" class="text-2xl font-black text-primary">0đ</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-8 pt-6 border-t border-dashed border-[#f4ede7] dark:border-[#3d2e1f]">
+                                <p class="text-xs font-bold text-[#9c7349] uppercase mb-3">Mã khuyến mãi</p>
+                                <div class="flex gap-2">
+                                    <input id="coupon-input" class="flex-1 h-12 px-4 rounded-xl border-none bg-[#f4ede7] dark:bg-[#3d2e1f] text-sm focus:ring-2 focus:ring-primary/50" placeholder="Nhập mã giảm giá..." type="text"/>
+                                    <button id="apply-coupon" class="px-5 h-12 bg-[#1c140d] dark:bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition-all">
+                                        Áp dụng
+                                    </button>
+                                </div>
+                                <div id="coupon-message" class="text-xs mt-2 hidden"></div>
+                            </div>
+                            
+                            <button id="checkout-button" class="w-full h-14 bg-primary text-white font-black rounded-2xl flex items-center justify-center gap-3 hover:shadow-lg hover:shadow-primary/30 transition-all active:scale-95 mb-4">
+                                <span class="material-symbols-outlined">payments</span>
+                                Xác nhận thanh toán
+                            </button>
+                            
+                            <div class="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-900/10 rounded-xl border border-blue-100 dark:border-blue-900/20">
+                                <span class="material-symbols-outlined text-blue-500 text-xl">verified_user</span>
+                                <p class="text-[10px] text-blue-700 dark:text-blue-300 font-medium leading-tight">Bảo mật thông tin thanh toán 100% qua FoodGo Secure.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Payment Methods Modal -->
+        <div id="payment-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-[1000] p-4">
+            <div class="bg-white dark:bg-[#2a2015] rounded-2xl md:rounded-3xl p-6 md:p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg md:text-xl font-black">Chọn phương thức thanh toán</h3>
+                    <button id="close-payment-modal" class="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-[#3d2e1f]">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                
+                <!-- Payment Methods -->
+                <div class="space-y-4 mb-6">
+                    <label class="flex items-center gap-4 p-4 border-2 border-gray-200 dark:border-[#3d2e1f] rounded-2xl hover:border-primary transition-all cursor-pointer">
+                        <input type="radio" name="payment-method" value="cash" class="w-5 h-5 text-primary focus:ring-primary" checked>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-1">
+                                <span class="material-symbols-outlined text-green-500">payments</span>
+                                <span class="font-bold">Thanh toán khi nhận hàng (COD)</span>
+                            </div>
+                            <p class="text-xs text-[#9c7349]">Thanh toán bằng tiền mặt khi nhận hàng</p>
+                        </div>
+                    </label>
+                    
+                    <label class="flex items-center gap-4 p-4 border-2 border-gray-200 dark:border-[#3d2e1f] rounded-2xl hover:border-primary transition-all cursor-pointer">
+                        <input type="radio" name="payment-method" value="momo" class="w-5 h-5 text-primary focus:ring-primary">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-1">
+                                <span class="material-symbols-outlined text-pink-500">smartphone</span>
+                                <span class="font-bold">Ví MoMo</span>
+                            </div>
+                            <p class="text-xs text-[#9c7349]">Thanh toán qua ví điện tử MoMo</p>
+                        </div>
+                    </label>
+                    
+                    <label class="flex items-center gap-4 p-4 border-2 border-gray-200 dark:border-[#3d2e1f] rounded-2xl hover:border-primary transition-all cursor-pointer">
+                        <input type="radio" name="payment-method" value="banking" class="w-5 h-5 text-primary focus:ring-primary">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-1">
+                                <span class="material-symbols-outlined text-blue-500">account_balance</span>
+                                <span class="font-bold">Chuyển khoản ngân hàng</span>
+                            </div>
+                            <p class="text-xs text-[#9c7349]">Chuyển khoản qua Internet Banking</p>
+                        </div>
+                    </label>
+                    
+                    <label class="flex items-center gap-4 p-4 border-2 border-gray-200 dark:border-[#3d2e1f] rounded-2xl hover:border-primary transition-all cursor-pointer">
+                        <input type="radio" name="payment-method" value="zalopay" class="w-5 h-5 text-primary focus:ring-primary">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-1">
+                                <span class="material-symbols-outlined text-blue-400">payments</span>
+                                <span class="font-bold">ZaloPay</span>
+                            </div>
+                            <p class="text-xs text-[#9c7349]">Thanh toán qua ví ZaloPay</p>
+                        </div>
+                    </label>
+                </div>
+                
+                <!-- Delivery Info -->
+                <div class="mb-6">
+                    <h4 class="font-bold text-sm mb-3">Thông tin giao hàng</h4>
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-xs text-[#9c7349] mb-1">Họ và tên</label>
+                            <input id="delivery-name" type="text" class="w-full h-11 px-4 rounded-xl border border-[#f4ede7] dark:border-[#3d2e1f] bg-transparent text-sm focus:ring-2 focus:ring-primary/50" placeholder="Nhập họ và tên">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-[#9c7349] mb-1">Số điện thoại</label>
+                            <input id="delivery-phone" type="tel" class="w-full h-11 px-4 rounded-xl border border-[#f4ede7] dark:border-[#3d2e1f] bg-transparent text-sm focus:ring-2 focus:ring-primary/50" placeholder="Nhập số điện thoại">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-[#9c7349] mb-1">Địa chỉ giao hàng</label>
+                            <textarea id="delivery-address" rows="3" class="w-full px-4 py-3 rounded-xl border border-[#f4ede7] dark:border-[#3d2e1f] bg-transparent text-sm focus:ring-2 focus:ring-primary/50" placeholder="Nhập địa chỉ giao hàng chi tiết"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Order Summary in Modal -->
+                <div class="mb-6">
+                    <h4 class="font-bold text-sm mb-3">Tóm tắt đơn hàng</h4>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-[#9c7349]">Tạm tính</span>
+                            <span id="modal-subtotal">0đ</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-[#9c7349]">Phí vận chuyển</span>
+                            <span id="modal-shipping">15.000đ</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-[#9c7349]">Giảm giá</span>
+                            <span id="modal-discount" class="text-green-500">-0đ</span>
+                        </div>
+                        <div class="flex justify-between pt-3 mt-3 border-t border-[#f4ede7] dark:border-[#3d2e1f]">
+                            <span class="font-bold">Tổng tiền</span>
+                            <span id="modal-total" class="text-lg font-black text-primary">0đ</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Confirm Button -->
+                <button id="confirm-payment" class="w-full h-14 bg-primary text-white font-black rounded-2xl flex items-center justify-center gap-3 hover:shadow-lg hover:shadow-primary/30 transition-all active:scale-95">
+                    <span class="material-symbols-outlined">check_circle</span>
+                    Xác nhận đặt hàng
+                </button>
+            </div>
+        </div>
+        
+        <!-- Order Success Modal -->
+        <div id="success-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-[1000] p-4">
+            <div class="bg-white dark:bg-[#2a2015] rounded-2xl md:rounded-3xl p-6 md:p-8 max-w-md w-full text-center">
+                <div class="h-16 w-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="material-symbols-outlined text-3xl">check_circle</span>
+                </div>
+                <h3 class="text-lg md:text-xl font-black mb-4">Đặt hàng thành công!</h3>
+                <p class="text-[#9c7349] mb-2">Cảm ơn bạn đã đặt hàng tại FoodGo</p>
+                <p class="text-sm text-[#9c7349] mb-6">Mã đơn hàng: <span id="order-id" class="font-bold text-primary">#FG123456</span></p>
+                <div class="space-y-3 mb-6 text-left bg-gray-50 dark:bg-[#3d2e1f] p-4 rounded-xl">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-[#9c7349]">Thời gian nhận hàng dự kiến:</span>
+                        <span class="font-bold" id="estimated-time">45 phút</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-[#9c7349]">Phương thức thanh toán:</span>
+                        <span class="font-bold" id="payment-method-used">COD</span>
+                    </div>
+                </div>
+                <div class="flex gap-3">
+                    <a href="Donhang.html" class="flex-1 h-11 md:h-12 bg-primary text-white font-bold rounded-xl hover:opacity-90 transition-all flex items-center justify-center">
+                        Xem đơn hàng
+                    </a>
+                    <a href="Thucdon.html" class="flex-1 h-11 md:h-12 bg-gray-100 text-gray-700 font-bold rounded-xl hover:bg-gray-200 transition-all flex items-center justify-center">
+                        Tiếp tục mua sắm
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="w-full bg-[#1c140d] dark:bg-[#110d08] text-white py-16 mt-20">
+        <div class="max-w-[1200px] mx-auto px-10">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div class="flex flex-col gap-6">
+                    <div class="flex items-center gap-2 text-primary">
+                        <span class="material-symbols-outlined text-3xl font-bold">fastfood</span>
+                        <h2 class="text-2xl font-extrabold tracking-tight">FoodGo</h2>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">FoodGo mang đến trải nghiệm ẩm thực tuyệt vời ngay tại nhà. Chúng tôi cam kết chất lượng món ăn và tốc độ giao hàng nhanh nhất.</p>
+                    <div class="flex flex-col gap-2">
+                        <div class="flex items-center gap-3 text-gray-400">
+                            <span class="material-symbols-outlined text-primary text-xl">call</span>
+                            <span class="text-sm">1900 1234</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-gray-400">
+                            <span class="material-symbols-outlined text-primary text-xl">mail</span>
+                            <span class="text-sm">support@foodgo.vn</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-white">Liên kết nhanh</h4>
+                    <ul class="text-gray-400 text-sm space-y-4">
+                        <li><a class="hover:text-primary transition-colors" href="#">Về chúng tôi</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Nhà hàng nổi bật</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Khu vực giao hàng</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Trở thành đối tác</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-white">Hỗ trợ</h4>
+                    <ul class="text-gray-400 text-sm space-y-4">
+                        <li><a class="hover:text-primary transition-colors" href="#">Trung tâm trợ giúp</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Chính sách hoàn tiền</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Theo dõi đơn hàng</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Câu hỏi thường gặp</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-white">Tải ứng dụng</h4>
+                    <p class="text-gray-400 text-sm mb-4">Trải nghiệm đặt món tốt hơn trên điện thoại.</p>
+                    <div class="flex flex-col gap-3">
+                        <button class="bg-[#2a2015] px-6 py-3 rounded-xl flex items-center gap-3 text-sm font-bold hover:bg-gray-800 transition-colors border border-gray-700">
+                            <span class="material-symbols-outlined">ios</span>
+                            <div class="text-left">
+                                <p class="text-[10px] font-normal opacity-70">Download on the</p>
+                                <p>App Store</p>
+                            </div>
+                        </button>
+                        <button class="bg-[#2a2015] px-6 py-3 rounded-xl flex items-center gap-3 text-sm font-bold hover:bg-gray-800 transition-colors border border-gray-700">
+                            <span class="material-symbols-outlined">play_arrow</span>
+                            <div class="text-left">
+                                <p class="text-[10px] font-normal opacity-70">Get it on</p>
+                                <p>Google Play</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+                <p>© 2024 FoodGo. Bản quyền thuộc về FoodGo Team.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a class="hover:text-white transition-colors" href="#">Chính sách bảo mật</a>
+                    <a class="hover:text-white transition-colors" href="#">Điều khoản sử dụng</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<script>
+    // API Configuration
+    const API_BASE_URL = '../api';
+    let cartItems = [];
+    let suggestions = [];
+    let appliedCoupon = null;
+    
+    // Load demo data if not exists
+    function initDemoData() {
+        if (!localStorage.getItem('foodgo_cart')) {
+            localStorage.setItem('foodgo_cart', JSON.stringify([]));
+        }
+        
+        if (!localStorage.getItem('foodgo_coupons')) {
+            const demoCoupons = [
+                { code: 'WELCOME20', discount: 20000, type: 'fixed', min_order: 0 },
+                { code: 'FREESHIP', discount: 15000, type: 'fixed', min_order: 0 },
+                { code: 'SAVE10', discount: 10, type: 'percent', min_order: 100000 }
+            ];
+            localStorage.setItem('foodgo_coupons', JSON.stringify(demoCoupons));
+        }
+    }
+    
+    // Update cart count
+    function updateCartCount() {
+        const cart = JSON.parse(localStorage.getItem('foodgo_cart') || '[]');
+        const count = cart.reduce((total, item) => total + item.quantity, 0);
+        document.getElementById('cart-count').textContent = count;
+        return cart;
+    }
+    
+    // Load cart items
+    async function loadCartItems() {
+        const cart = updateCartCount();
+        
+        if (cart.length === 0) {
+            document.getElementById('empty-cart').classList.remove('hidden');
+            document.getElementById('cart-with-items').classList.add('hidden');
+            return;
+        }
+        
+        document.getElementById('empty-cart').classList.add('hidden');
+        document.getElementById('cart-with-items').classList.remove('hidden');
+        
+        // Show loading state
+        document.getElementById('cart-items-container').innerHTML = `
+            <div class="text-center py-8">
+                <div class="loading-spinner mx-auto"></div>
+                <p class="mt-4 text-[#9c7349]">Đang tải giỏ hàng...</p>
+            </div>
+        `;
+        
+        // In a real app, you would fetch food details from API
+        // For demo, we'll use the cart data directly
+        setTimeout(() => {
+            renderCartItems(cart);
+            loadSuggestions();
+            calculateTotals();
+        }, 500);
+    }
+    
+    // Render cart items
+    function renderCartItems(cart) {
+        const container = document.getElementById('cart-items-container');
+        
+        if (cart.length === 0) {
+            container.innerHTML = `
+                <div class="text-center py-8">
+                    <div class="h-16 w-16 bg-gray-100 dark:bg-[#3d2e1f] text-gray-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="material-symbols-outlined text-3xl">shopping_cart</span>
+                    </div>
+                    <h4 class="text-lg font-bold mb-2">Giỏ hàng trống</h4>
+                    <p class="text-[#9c7349]">Hãy thêm món ăn vào giỏ hàng</p>
+                </div>
+            `;
+            return;
+        }
+        
+        let html = '';
+        
+        cart.forEach(item => {
+            const total = item.price * item.quantity;
+            
+            html += `
+                <div class="bg-white dark:bg-[#2a2015] rounded-3xl p-4 md:p-6 border border-[#f4ede7] dark:border-[#3d2e1f] shadow-sm flex items-center gap-6 cart-item" data-food-id="${item.id}">
+                    <div class="w-24 h-24 md:w-32 md:h-32 rounded-2xl overflow-hidden bg-[#f4ede7] dark:bg-[#3d2e1f] shrink-0">
+                        <img alt="${item.name}" class="w-full h-full object-cover" src="${item.image_url || 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&auto=format&fit=crop'}"/>
+                    </div>
+                    <div class="flex-1 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <h3 class="text-lg font-extrabold mb-1">${item.name}</h3>
+                            <p class="text-sm text-[#9c7349] mb-2">${item.options || 'Món ăn hấp dẫn'}</p>
+                            <span class="text-lg font-black text-primary">${new Intl.NumberFormat('vi-VN').format(item.price)}đ</span>
+                        </div>
+                        <div class="flex items-center gap-6">
+                            <div class="flex items-center bg-[#f4ede7] dark:bg-[#3d2e1f] rounded-xl h-10 px-1">
+                                <button class="decrease-qty w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white dark:hover:bg-primary/20 transition-all" data-food-id="${item.id}">
+                                    <span class="material-symbols-outlined text-sm">remove</span>
+                                </button>
+                                <input class="quantity-input w-10 bg-transparent border-none text-center font-bold focus:ring-0 text-sm" 
+                                       readonly type="text" value="${item.quantity}" data-food-id="${item.id}"/>
+                                <button class="increase-qty w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white dark:hover:bg-primary/20 transition-all" data-food-id="${item.id}">
+                                    <span class="material-symbols-outlined text-sm">add</span>
+                                </button>
+                            </div>
+                            <div class="text-right min-w-[100px]">
+                                <p class="text-xs text-[#9c7349] font-bold uppercase mb-1">Thành tiền</p>
+                                <p class="font-black item-total">${new Intl.NumberFormat('vi-VN').format(total)}đ</p>
+                            </div>
+                            <button class="remove-item p-2 text-[#9c7349] hover:text-red-500 transition-colors" data-food-id="${item.id}">
+                                <span class="material-symbols-outlined">delete</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        container.innerHTML = html;
+        
+        // Add event listeners
+        document.querySelectorAll('.decrease-qty').forEach(button => {
+            button.addEventListener('click', function() {
+                const foodId = this.dataset.foodId;
+                updateQuantity(foodId, -1);
+            });
+        });
+        
+        document.querySelectorAll('.increase-qty').forEach(button => {
+            button.addEventListener('click', function() {
+                const foodId = this.dataset.foodId;
+                updateQuantity(foodId, 1);
+            });
+        });
+        
+        document.querySelectorAll('.remove-item').forEach(button => {
+            button.addEventListener('click', function() {
+                const foodId = this.dataset.foodId;
+                removeFromCart(foodId);
+            });
+        });
+    }
+    
+    // Update quantity
+    function updateQuantity(foodId, change) {
+        let cart = JSON.parse(localStorage.getItem('foodgo_cart') || '[]');
+        const itemIndex = cart.findIndex(item => item.id == foodId);
+        
+        if (itemIndex !== -1) {
+            cart[itemIndex].quantity += change;
+            
+            if (cart[itemIndex].quantity < 1) {
+                cart[itemIndex].quantity = 1;
+            }
+            
+            if (cart[itemIndex].quantity > 99) {
+                cart[itemIndex].quantity = 99;
+            }
+            
+            localStorage.setItem('foodgo_cart', JSON.stringify(cart));
+            
+            // Update the UI
+            const quantityInput = document.querySelector(`.quantity-input[data-food-id="${foodId}"]`);
+            const itemTotal = document.querySelector(`.cart-item[data-food-id="${foodId}"] .item-total`);
+            
+            if (quantityInput) {
+                quantityInput.value = cart[itemIndex].quantity;
+            }
+            
+            if (itemTotal) {
+                const total = cart[itemIndex].price * cart[itemIndex].quantity;
+                itemTotal.textContent = new Intl.NumberFormat('vi-VN').format(total) + 'đ';
+            }
+            
+            updateCartCount();
+            calculateTotals();
+        }
+    }
+    
+    // Remove from cart
+    function removeFromCart(foodId) {
+        let cart = JSON.parse(localStorage.getItem('foodgo_cart') || '[]');
+        cart = cart.filter(item => item.id != foodId);
+        localStorage.setItem('foodgo_cart', JSON.stringify(cart));
+        
+        // Remove item from UI
+        const itemElement = document.querySelector(`.cart-item[data-food-id="${foodId}"]`);
+        if (itemElement) {
+            itemElement.classList.add('opacity-0', 'h-0', 'overflow-hidden', 'transition-all', 'duration-300');
+            setTimeout(() => {
+                loadCartItems();
+            }, 300);
+        }
+    }
+    
+    // Calculate totals
+    function calculateTotals() {
+        const cart = JSON.parse(localStorage.getItem('foodgo_cart') || '[]');
+        const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+        const shippingFee = 15000;
+        let discount = 0;
+        
+        // Apply coupon discount
+        if (appliedCoupon) {
+            if (appliedCoupon.type === 'fixed') {
+                discount = appliedCoupon.discount;
+            } else if (appliedCoupon.type === 'percent') {
+                discount = Math.round(subtotal * appliedCoupon.discount / 100);
+            }
+        }
+        
+        const total = subtotal + shippingFee - discount;
+        
+        // Update UI
+        document.getElementById('subtotal').textContent = new Intl.NumberFormat('vi-VN').format(subtotal) + 'đ';
+        document.getElementById('shipping-fee').textContent = new Intl.NumberFormat('vi-VN').format(shippingFee) + 'đ';
+        document.getElementById('discount').textContent = '-' + new Intl.NumberFormat('vi-VN').format(discount) + 'đ';
+        document.getElementById('total').textContent = new Intl.NumberFormat('vi-VN').format(total) + 'đ';
+        
+        // Also update modal totals
+        document.getElementById('modal-subtotal').textContent = new Intl.NumberFormat('vi-VN').format(subtotal) + 'đ';
+        document.getElementById('modal-shipping').textContent = new Intl.NumberFormat('vi-VN').format(shippingFee) + 'đ';
+        document.getElementById('modal-discount').textContent = '-' + new Intl.NumberFormat('vi-VN').format(discount) + 'đ';
+        document.getElementById('modal-total').textContent = new Intl.NumberFormat('vi-VN').format(total) + 'đ';
+    }
+    
+    // Load suggestions
+    async function loadSuggestions() {
+        // In a real app, you would fetch suggestions from API
+        // For demo, we'll use static data
+        const demoSuggestions = [
+            {
+                id: 10,
+                name: 'Khoai tây chiên giòn',
+                price: 35000,
+                image_url: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&auto=format&fit=crop'
+            },
+            {
+                id: 11,
+                name: 'Coca Cola Lạnh',
+                price: 15000,
+                image_url: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=800&auto=format&fit=crop'
+            },
+            {
+                id: 12,
+                name: 'Cánh gà sốt cay',
+                price: 55000,
+                image_url: 'https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=800&auto=format&fit=crop'
+            },
+            {
+                id: 13,
+                name: 'Salad Rau Trộn',
+                price: 45000,
+                image_url: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800&auto=format&fit=crop'
+            }
+        ];
+        
+        suggestions = demoSuggestions;
+        renderSuggestions();
+    }
+    
+    // Render suggestions
+    function renderSuggestions() {
+        const container = document.getElementById('suggestions-grid');
+        
+        let html = '';
+        
+        suggestions.forEach(item => {
+            html += `
+                <div class="bg-white dark:bg-[#2a2015] p-3 rounded-2xl border border-[#f4ede7] dark:border-[#3d2e1f] hover:shadow-md transition-all cursor-pointer group">
+                    <div class="aspect-square rounded-xl overflow-hidden mb-3 bg-[#f4ede7] dark:bg-[#3d2e1f]">
+                        <img alt="${item.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="${item.image_url}"/>
+                    </div>
+                    <h4 class="text-sm font-bold truncate">${item.name}</h4>
+                    <p class="text-primary font-black text-sm">${new Intl.NumberFormat('vi-VN').format(item.price)}đ</p>
+                    <button class="add-suggestion w-full mt-2 py-1.5 text-xs font-bold text-primary border border-primary/30 rounded-lg hover:bg-primary hover:text-white transition-all" data-food-id="${item.id}" data-food-name="${item.name}" data-food-price="${item.price}">
+                        Thêm
+                    </button>
+                </div>
+            `;
+        });
+        
+        container.innerHTML = html;
+        
+        // Add event listeners to suggestion buttons
+        document.querySelectorAll('.add-suggestion').forEach(button => {
+            button.addEventListener('click', function() {
+                const foodId = this.dataset.foodId;
+                const foodName = this.dataset.foodName;
+                const foodPrice = parseInt(this.dataset.foodPrice);
+                
+                addToCart(foodId, foodName, foodPrice);
+            });
+        });
+    }
+    
+    // Add to cart from suggestions
+    function addToCart(foodId, foodName, price) {
+        let cart = JSON.parse(localStorage.getItem('foodgo_cart') || '[]');
+        
+        const existingItem = cart.find(item => item.id == foodId);
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({
+                id: foodId,
+                name: foodName,
+                price: price,
+                quantity: 1,
+                image_url: suggestions.find(s => s.id == foodId)?.image_url || 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&auto=format&fit=crop'
+            });
+        }
+        
+        localStorage.setItem('foodgo_cart', JSON.stringify(cart));
+        
+        // Update UI
+        loadCartItems();
+        
+        // Button feedback
+        const button = event?.target;
+        if (button) {
+            button.innerHTML = 'Đã thêm';
+            button.classList.remove('text-primary', 'border-primary/30', 'hover:bg-primary', 'hover:text-white');
+            button.classList.add('bg-green-500', 'text-white', 'border-green-500');
+            
+            setTimeout(() => {
+                button.innerHTML = 'Thêm';
+                button.classList.remove('bg-green-500', 'text-white', 'border-green-500');
+                button.classList.add('text-primary', 'border-primary/30', 'hover:bg-primary', 'hover:text-white');
+            }, 1000);
+        }
+    }
+    
+    // Apply coupon
+    function applyCoupon() {
+        const couponCode = document.getElementById('coupon-input').value.trim().toUpperCase();
+        const coupons = JSON.parse(localStorage.getItem('foodgo_coupons') || '[]');
+        const messageElement = document.getElementById('coupon-message');
+        
+        if (!couponCode) {
+            messageElement.textContent = 'Vui lòng nhập mã khuyến mãi';
+            messageElement.className = 'text-xs mt-2 text-red-500';
+            messageElement.classList.remove('hidden');
+            return;
+        }
+        
+        const coupon = coupons.find(c => c.code === couponCode);
+        
+        if (!coupon) {
+            messageElement.textContent = 'Mã khuyến mãi không hợp lệ';
+            messageElement.className = 'text-xs mt-2 text-red-500';
+            messageElement.classList.remove('hidden');
+            return;
+        }
+        
+        // Check minimum order
+        const cart = JSON.parse(localStorage.getItem('foodgo_cart') || '[]');
+        const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+        
+        if (subtotal < coupon.min_order) {
+            messageElement.textContent = `Đơn hàng tối thiểu ${new Intl.NumberFormat('vi-VN').format(coupon.min_order)}đ để áp dụng mã này`;
+            messageElement.className = 'text-xs mt-2 text-red-500';
+            messageElement.classList.remove('hidden');
+            return;
+        }
+        
+        // Apply coupon
+        appliedCoupon = coupon;
+        
+        messageElement.textContent = `Áp dụng thành công mã ${couponCode}`;
+        messageElement.className = 'text-xs mt-2 text-green-500';
+        messageElement.classList.remove('hidden');
+        
+        calculateTotals();
+    }
+    
+    // Show payment modal
+    function showPaymentModal() {
+        const modal = document.getElementById('payment-modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+    
+    // Create order
+    async function createOrder() {
+        const cart = JSON.parse(localStorage.getItem('foodgo_cart') || '[]');
+        const paymentMethod = document.querySelector('input[name="payment-method"]:checked').value;
+        const name = document.getElementById('delivery-name').value.trim();
+        const phone = document.getElementById('delivery-phone').value.trim();
+        const address = document.getElementById('delivery-address').value.trim();
+        
+        // Validate inputs
+        if (!name) {
+            alert('Vui lòng nhập họ tên');
+            return;
+        }
+        
+        if (!phone) {
+            alert('Vui lòng nhập số điện thoại');
+            return;
+        }
+        
+        if (!address) {
+            alert('Vui lòng nhập địa chỉ giao hàng');
+            return;
+        }
+        
+        // Calculate totals
+        const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+        const shippingFee = 15000;
+        let discount = 0;
+        
+        if (appliedCoupon) {
+            if (appliedCoupon.type === 'fixed') {
+                discount = appliedCoupon.discount;
+            } else if (appliedCoupon.type === 'percent') {
+                discount = Math.round(subtotal * appliedCoupon.discount / 100);
+            }
+        }
+        
+        const total = subtotal + shippingFee - discount;
+        
+        // Get current user
+        const currentUser = JSON.parse(localStorage.getItem('foodgo_current_user') || 'null');
+        
+        // In a real app, you would send this to API
+        const order = {
+            id: 'FG' + Date.now().toString().slice(-6),
+            user_id: currentUser?.id || null,
+            items: cart,
+            customer_name: name,
+            customer_phone: phone,
+            customer_address: address,
+            subtotal: subtotal,
+            shipping_fee: shippingFee,
+            discount: discount,
+            total: total,
+            payment_method: paymentMethod,
+            status: 'pending',
+            created_at: new Date().toISOString(),
+            estimated_delivery: new Date(Date.now() + 45 * 60000).toISOString()
+        };
+        
+        // Save order to localStorage (in real app, send to API)
+        let orders = JSON.parse(localStorage.getItem('foodgo_orders') || '[]');
+        orders.push(order);
+        localStorage.setItem('foodgo_orders', JSON.stringify(orders));
+        
+        // Clear cart
+        localStorage.setItem('foodgo_cart', JSON.stringify([]));
+        
+        // Close payment modal
+        document.getElementById('payment-modal').classList.add('hidden');
+        
+        // Show success modal
+        showSuccessModal(order);
+    }
+    
+    // Show success modal
+    function showSuccessModal(order) {
+        document.getElementById('order-id').textContent = '#' + order.id;
+        document.getElementById('estimated-time').textContent = '45 phút';
+        
+        // Set payment method text
+        const paymentMethods = {
+            'cash': 'Thanh toán khi nhận hàng',
+            'momo': 'Ví MoMo',
+            'banking': 'Chuyển khoản ngân hàng',
+            'zalopay': 'ZaloPay'
+        };
+        document.getElementById('payment-method-used').textContent = paymentMethods[order.payment_method] || order.payment_method;
+        
+        const modal = document.getElementById('success-modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+    
+    // Initialize when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        initDemoData();
+        loadCartItems();
+        
+        // Apply coupon button
+        document.getElementById('apply-coupon').addEventListener('click', applyCoupon);
+        document.getElementById('coupon-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                applyCoupon();
+            }
+        });
+        
+        // Checkout button
+        document.getElementById('checkout-button').addEventListener('click', function() {
+            const cart = JSON.parse(localStorage.getItem('foodgo_cart') || '[]');
+            if (cart.length === 0) {
+                alert('Giỏ hàng của bạn đang trống');
+                return;
+            }
+            
+            // Pre-fill user info if logged in
+            const currentUser = JSON.parse(localStorage.getItem('foodgo_current_user') || 'null');
+            if (currentUser) {
+                document.getElementById('delivery-name').value = currentUser.fullName || '';
+                document.getElementById('delivery-phone').value = currentUser.phone || '';
+            }
+            
+            showPaymentModal();
+        });
+        
+        // Payment modal
+        document.getElementById('close-payment-modal').addEventListener('click', function() {
+            document.getElementById('payment-modal').classList.add('hidden');
+        });
+        
+        document.getElementById('payment-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.add('hidden');
+            }
+        });
+        
+        // Confirm payment button
+        document.getElementById('confirm-payment').addEventListener('click', createOrder);
+        
+        // Success modal
+        document.getElementById('success-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.add('hidden');
+            }
+        });
+    });
+</script>
+</body>
+</html>
