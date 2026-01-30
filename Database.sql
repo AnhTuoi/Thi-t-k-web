@@ -171,7 +171,19 @@ CREATE TABLE HOADON (
     INDEX idx_ngaytao (ngay_tao)
 );
 
-
+-- 9. Bảng GIOHANG (Để lưu giỏ hàng của người dùng)
+CREATE TABLE GIOHANG (
+    giohang_id INT AUTO_INCREMENT PRIMARY KEY,
+    nguoidung_id VARCHAR(10) NOT NULL,
+    monan_id VARCHAR(10) NOT NULL,
+    so_luong INT NOT NULL DEFAULT 1 CHECK (so_luong > 0),
+    ngay_them DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (nguoidung_id) REFERENCES NGUOIDUNG(nguoidung_id) ON DELETE CASCADE,
+    FOREIGN KEY (monan_id) REFERENCES MONAN(monan_id) ON DELETE CASCADE,
+    UNIQUE KEY unique_cart_item (nguoidung_id, monan_id),
+    INDEX idx_nguoidung (nguoidung_id),
+    INDEX idx_monan (monan_id)
+);
 -- ============================================
 -- INSERT DỮ LIỆU MẪU
 -- ============================================
@@ -234,3 +246,8 @@ INSERT INTO HOADON (ma_giaodich, donhang_id, nguoidung_id, so_tien, phuong_thuc_
 ('GD001', 'DH001', 'KH001', 130000, 'tien_mat', 'hoan_thanh'),
 ('GD002', 'DH002', 'KH002', 195000, 'vi_dien_tu', 'hoan_thanh'),
 ('GD003', 'DH003', 'KH001', 95000, 'the_ngan_hang', 'cho_thanh_toan');
+
+INSERT INTO GIOHANG (nguoidung_id, monan_id, so_luong) VALUES
+('KH001', 'MA001', 2),
+('KH001', 'MA003', 1),
+('KH002', 'MA002', 1);
