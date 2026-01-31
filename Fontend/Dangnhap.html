@@ -4,10 +4,37 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Đăng nhập - FoodGo</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="../css/dist.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f48c25",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#221910",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    screens: {
+                        'xs': '475px',
+                        '3xl': '1920px',
+                    }
+                },
+            },
+        }
+    </script>
     <style type="text/css">
         body {
             font-family: "Plus Jakarta Sans", sans-serif;
@@ -297,6 +324,20 @@
             if (result.success) {
                 // Hiển thị thông báo thành công
                 showMessage('success', 'Đăng nhập thành công! Đang chuyển hướng...');
+                
+                // Lưu thông tin user vào localStorage
+                const userData = {
+                    id: result.user.nguoidung_id,
+                    fullName: result.user.hoten,
+                    email: result.user.email,
+                    phone: result.user.sodienthoai,
+                    address: result.user.diachi,
+                    avatar: result.user.avatar,
+                    role: result.user.vai_tro,
+                    username: result.user.ten_dang_nhap,
+                    authType: result.user.loai_xac_thuc
+                };
+                localStorage.setItem('foodgo_current_user', JSON.stringify(userData));
                 
                 // Hiển thị modal thành công
                 showSuccessModal(result.user);
