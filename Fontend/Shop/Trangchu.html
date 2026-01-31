@@ -36,7 +36,7 @@
             },
         }
     </script>
-    <style>
+    <style type="text/css">
         body {
             font-family: "Plus Jakarta Sans", sans-serif;
         }
@@ -254,6 +254,297 @@
             color: #666;
             font-size: 13px;
         }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        /* Food Detail Modal Styles */
+        #food-detail-modal img {
+            max-height: 300px;
+            object-fit: cover;
+        }
+        
+        #food-detail-content .food-detail-image {
+            height: 300px;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        #food-detail-content .food-title {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        
+        #food-detail-content .food-category {
+            display: inline-block;
+            background: #f48c25;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        #food-detail-content .food-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 15px;
+            color: #f48c25;
+        }
+        
+        #food-detail-content .food-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+        
+        #food-detail-content .food-ingredients {
+            margin-bottom: 20px;
+        }
+        
+        #food-detail-content .food-ingredients h4 {
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        .dark #food-detail-content .food-ingredients h4 {
+            color: #fff;
+        }
+        
+        #food-detail-content .ingredients-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        #food-detail-content .ingredient-tag {
+            background: #f4ede7;
+            color: #9c7349;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        
+        .dark #food-detail-content .ingredient-tag {
+            background: #3d2e1f;
+            color: #f4ede7;
+        }
+        
+        #food-quantity {
+            -moz-appearance: textfield;
+        }
+        
+        #food-quantity::-webkit-outer-spin-button,
+        #food-quantity::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        /* Food item cursor */
+        .menu-item {
+            cursor: pointer;
+        }
+        
+        /* Prevent text selection on click */
+        .menu-item * {
+            user-select: none;
+        }
+        
+        /* Button should not trigger parent click */
+        .add-to-cart-btn {
+            cursor: pointer;
+        }
+        
+        /* Responsive food detail modal */
+        @media (max-width: 768px) {
+            #food-detail-modal .rounded-3xl {
+                border-radius: 20px;
+            }
+            
+            #food-detail-content .food-detail-image {
+                height: 200px;
+            }
+            
+            #food-detail-content .food-title {
+                font-size: 20px;
+            }
+            
+            #add-to-cart-from-detail {
+                font-size: 14px;
+                padding: 0 16px;
+                height: 44px;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            #food-detail-modal {
+                padding: 0;
+            }
+            
+            #food-detail-modal .rounded-3xl {
+                border-radius: 0;
+                max-height: 100vh;
+                height: 100vh;
+            }
+            
+            .max-h-\[70vh\] {
+                max-height: 60vh !important;
+            }
+        }
+        
+        /* Simple App Download Banner */
+        .app-download-simple {
+            background: linear-gradient(135deg, #1c140d, #2a2015);
+            border-radius: 20px;
+            padding: 40px;
+            color: white;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .app-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .app-subtitle {
+            font-size: 16px;
+            opacity: 0.8;
+            margin-bottom: 30px;
+            text-align: center;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
+        }
+        
+        .app-buttons-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .app-btn-simple {
+            display: inline-flex;
+            align-items: center;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 16px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            min-width: 180px;
+            justify-content: center;
+        }
+        
+        .app-btn-simple.google {
+            background: white;
+            color: #1c140d;
+        }
+        
+        .app-btn-simple.google:hover {
+            background: #f5f5f5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
+        }
+        
+        .app-btn-simple.apple {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+        
+        .app-btn-simple.apple:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .app-btn-simple .material-symbols-outlined {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .app-download-simple {
+                padding: 30px 20px;
+                margin-top: 30px;
+                margin-bottom: 30px;
+            }
+            
+            .app-title {
+                font-size: 28px;
+            }
+            
+            .app-subtitle {
+                font-size: 15px;
+                padding: 0 10px;
+            }
+            
+            .app-btn-simple {
+                padding: 12px 24px;
+                min-width: 160px;
+                font-size: 15px;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .app-download-simple {
+                padding: 25px 16px;
+            }
+            
+            .app-title {
+                font-size: 24px;
+            }
+            
+            .app-subtitle {
+                font-size: 14px;
+            }
+            
+            .app-buttons-row {
+                gap: 15px;
+            }
+            
+            .app-btn-simple {
+                padding: 11px 22px;
+                min-width: 150px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .app-buttons-row {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .app-btn-simple {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+        
+        /* Ẩn cảnh báo Google Maps Development */
+        .gm-style-cc,
+        a[href*="development"],
+        div[style*="for development purposes only"] {
+            display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+        }
     </style>
 </head>
 <body class="bg-background-light dark:bg-background-dark text-[#1c140d] dark:text-[#fcfaf8] min-h-screen">
@@ -262,7 +553,7 @@
         <header class="w-full sticky top-0 z-50 bg-white/90 dark:bg-background-dark/90 backdrop-blur-md border-b border-[#f4ede7] dark:border-[#3d2e1f] px-4 md:px-6 lg:px-8 xl:px-20 py-3">
             <div class="max-w-[1200px] mx-auto flex items-center justify-between gap-4 md:gap-8">
                 <!-- Logo -->
-                <a class="flex items-center gap-2 text-primary shrink-0" href="Trangchu.html">
+                <a class="flex items-center gap-2 text-[#f48c25] shrink-0" href="Trangchu.html">
                     <span class="material-symbols-outlined text-3xl md:text-4xl font-bold">fastfood</span>
                     <h2 class="text-xl md:text-2xl font-black tracking-tighter">FoodGo</h2>
                 </a>
@@ -275,7 +566,7 @@
                 <!-- Desktop Navigation -->
                 <nav class="hidden lg:flex items-center gap-6 xl:gap-8 shrink-0">
                     <a class="text-sm font-bold text-primary transition-colors hover:underline menu-item" href="./Trangchu.html">Trang chủ</a>
-                    <a class="text-sm font-bold text-[#9c7349] dark:text-gray-300 hover:text-primary transition-colors menu-item" href="./Thucđon.html">Thực đơn</a>
+                    <a class="text-sm font-bold text-[#9c7349] dark:text-gray-300 hover:text-primary transition-colors menu-item" href="./Thucdon.html">Thực đơn</a>
                     <a class="text-sm font-bold text-[#9c7349] dark:text-gray-300 hover:text-primary transition-colors menu-item" href="./Khuyenmai.html">Khuyến mãi</a>
                     <a class="text-sm font-bold text-[#9c7349] dark:text-gray-300 hover:text-primary transition-colors menu-item" href="./Donhang.html">Đơn hàng</a>
                 </nav>
@@ -441,7 +732,7 @@
                             Trải nghiệm dịch vụ giao hàng nhanh nhất với hàng ngàn món ăn đa dạng. Bữa ăn yêu thích của bạn chỉ cách một cú chạm.
                         </p>
                         <div class="flex flex-wrap gap-3 md:gap-4">
-                            <a href="./Thucdon.html" class="px-6 md:px-8 py-3 md:py-4 bg-primary text-white font-bold rounded-2xl hover:scale-105 transition-transform shadow-lg shadow-primary/20 flex items-center gap-2 whitespace-nowrap">
+                            <a href="./Thucdon.html" class="px-6 md:px-8 py-3 md:py-4 bg-[#f48c25] text-white font-bold rounded-2xl hover:scale-105 transition-transform shadow-lg shadow-[#f48c25]/20 flex items-center gap-2 whitespace-nowrap">
                                 Đặt hàng ngay
                                 <span class="material-symbols-outlined">arrow_forward</span>
                             </a>
@@ -522,7 +813,7 @@
                         <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded mb-2"></div>
                         <div class="h-3 bg-gray-200 dark:bg-gray-700 rounded mb-3"></div>
                         <div class="flex justify-between">
-                            <div class="h-6 w-20 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                            <div class="h-6 w-20 bg-gray-200 dark:bg-gray-700 rounded></div>
                             <div class="h-10 w-10 bg-gray-200 dark:bg-gray-700 rounded-xl"></div>
                         </div>
                     </div>
@@ -535,7 +826,7 @@
                 <div class="category-slider mb-10" data-category-id="1">
                     <div class="flex items-center justify-between mb-6 md:mb-8 px-2">
                         <h2 class="text-xl md:text-2xl font-bold tracking-tight">Món chính</h2>
-                        <a href="Thucdon.html?category=mon-chinh" class="text-primary font-bold text-sm hover:underline whitespace-nowrap">Xem tất cả →</a>
+                        <a href="Thucdon.html?category=mon_chinh" class="text-primary font-bold text-sm hover:underline whitespace-nowrap">Xem tất cả →</a>
                     </div>
                     <div class="category-slider-container relative px-10">
                         <button class="slider-nav-btn prev disabled">
@@ -552,11 +843,11 @@
                     </div>
                 </div>
                 
-                <!-- Đồ ăn nhanh -->
+                <!-- Món phụ -->
                 <div class="category-slider mb-10" data-category-id="2">
                     <div class="flex items-center justify-between mb-6 md:mb-8 px-2">
-                        <h2 class="text-xl md:text-2xl font-bold tracking-tight">Đồ ăn nhanh</h2>
-                        <a href="Thucdon.html?category=do-an-nhanh" class="text-primary font-bold text-sm hover:underline whitespace-nowrap">Xem tất cả →</a>
+                        <h2 class="text-xl md:text-2xl font-bold tracking-tight">Món phụ</h2>
+                        <a href="Thucdon.html?category=mon_phu" class="text-primary font-bold text-sm hover:underline whitespace-nowrap">Xem tất cả →</a>
                     </div>
                     <div class="category-slider-container relative px-10">
                         <button class="slider-nav-btn prev disabled">
@@ -577,7 +868,7 @@
                 <div class="category-slider mb-10" data-category-id="3">
                     <div class="flex items-center justify-between mb-6 md:mb-8 px-2">
                         <h2 class="text-xl md:text-2xl font-bold tracking-tight">Đồ uống</h2>
-                        <a href="Thucdon.html?category=do-uong" class="text-primary font-bold text-sm hover:underline whitespace-nowrap">Xem tất cả →</a>
+                        <a href="Thucdon.html?category=do_uong" class="text-primary font-bold text-sm hover:underline whitespace-nowrap">Xem tất cả →</a>
                     </div>
                     <div class="category-slider-container relative px-10">
                         <button class="slider-nav-btn prev disabled">
@@ -598,7 +889,7 @@
                 <div class="category-slider mb-10" data-category-id="4">
                     <div class="flex items-center justify-between mb-6 md:mb-8 px-2">
                         <h2 class="text-xl md:text-2xl font-bold tracking-tight">Tráng miệng</h2>
-                        <a href="Thucdon.html?category=trang-mieng" class="text-primary font-bold text-sm hover:underline whitespace-nowrap">Xem tất cả →</a>
+                        <a href="Thucdon.html?category=trang_mieng" class="text-primary font-bold text-sm hover:underline whitespace-nowrap">Xem tất cả →</a>
                     </div>
                     <div class="category-slider-container relative px-10">
                         <button class="slider-nav-btn prev disabled">
@@ -637,13 +928,6 @@
                 </div>
             </section>
             
-            <!-- Promo Banner -->
-            <section id="promo-section" class="mt-10 md:mt-12 hidden">
-                <div id="promo-banner" class="bg-gradient-to-r from-primary to-orange-400 rounded-3xl p-6 md:p-8 text-white overflow-hidden relative">
-                    <!-- Promo content will be loaded here -->
-                </div>
-            </section>
-            
             <!-- Google Map Section -->
             <section class="mt-10 md:mt-12">
                 <div class="flex items-center justify-between mb-4 md:mb-6">
@@ -668,34 +952,23 @@
                 </div>
             </section>
             
-            <!-- Featured Restaurants (Optional) -->
-            <section id="restaurants-section" class="mt-10 md:mt-12 hidden">
-                <div class="flex items-center justify-between mb-6 md:mb-8 px-2">
-                    <h2 class="text-xl md:text-2xl font-bold tracking-tight">Nhà hàng nổi bật</h2>
-                    <a href="Thucdon.html" class="text-primary font-bold text-sm hover:underline whitespace-nowrap">Xem tất cả →</a>
-                </div>
-                <div id="restaurants-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                    <!-- Restaurants will be loaded here -->
-                </div>
-            </section>
-            
             <!-- Stats Section -->
             <section class="mt-10 md:mt-12">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                     <div class="bg-white dark:bg-[#2a2015] p-4 md:p-6 rounded-2xl md:rounded-3xl border border-[#f4ede7] dark:border-[#3d2e1f] text-center">
-                        <div class="text-2xl md:text-3xl font-black text-primary mb-2" id="stats-foods">1,000+</div>
+                        <div class="text-2xl md:text-3xl font-black text-[#f48c25] mb-2" id="stats-foods">0</div>
                         <div class="text-sm text-[#9c7349]">Món ăn</div>
                     </div>
                     <div class="bg-white dark:bg-[#2a2015] p-4 md:p-6 rounded-2xl md:rounded-3xl border border-[#f4ede7] dark:border-[#3d2e1f] text-center">
-                        <div class="text-2xl md:text-3xl font-black text-primary mb-2" id="stats-restaurants">1</div>
+                        <div class="text-2xl md:text-3xl font-black text-[#f48c25] mb-2" id="stats-restaurants">0</div>
                         <div class="text-sm text-[#9c7349]">Cửa hàng</div>
                     </div>
                     <div class="bg-white dark:bg-[#2a2015] p-4 md:p-6 rounded-2xl md:rounded-3xl border border-[#f4ede7] dark:border-[#3d2e1f] text-center">
-                        <div class="text-2xl md:text-3xl font-black text-primary mb-2" id="stats-deliveries">50,000+</div>
+                        <div class="text-2xl md:text-3xl font-black text-[#f48c25] mb-2" id="stats-deliveries">0</div>
                         <div class="text-sm text-[#9c7349]">Đơn giao thành công</div>
                     </div>
                     <div class="bg-white dark:bg-[#2a2015] p-4 md:p-6 rounded-2xl md:rounded-3xl border border-[#f4ede7] dark:border-[#3d2e1f] text-center">
-                        <div class="text-2xl md:text-3xl font-black text-primary mb-2" id="stats-users">10,000+</div>
+                        <div class="text-2xl md:text-3xl font-black text-[#f48c25] mb-2" id="stats-users">0</div>
                         <div class="text-sm text-[#9c7349]">Khách hàng hài lòng</div>
                     </div>
                 </div>
@@ -703,29 +976,20 @@
             
             <!-- App Download Banner -->
             <section class="mt-10 md:mt-12">
-                <div class="bg-gradient-to-r from-[#1c140d] to-[#2a2015] rounded-3xl p-6 md:p-8 text-white overflow-hidden">
-                    <div class="flex flex-col md:flex-row items-center justify-between">
-                        <div class="mb-6 md:mb-0 md:mr-8">
-                            <h3 class="text-xl md:text-2xl font-black mb-3">Tải ứng dụng FoodGo</h3>
-                            <p class="text-gray-400 mb-4">Đặt hàng nhanh hơn, tích điểm và nhận ưu đãi độc quyền</p>
-                            <div class="flex flex-col sm:flex-row gap-3">
-                                <button class="px-6 py-3 bg-white text-[#1c140d] font-bold rounded-xl hover:bg-gray-100 transition-colors flex items-center justify-center gap-2">
-                                    <span class="material-symbols-outlined">android</span>
-                                    Google Play
-                                </button>
-                                <button class="px-6 py-3 bg-[#2a2015] border border-gray-700 text-white font-bold rounded-xl hover:bg-gray-800 transition-colors flex items-center justify-center gap-2">
-                                    <span class="material-symbols-outlined">phone_iphone</span>
-                                    App Store
-                                </button>
-                            </div>
-                        </div>
-                        <div class="relative">
-                            <div class="w-48 h-48 md:w-56 md:h-56 bg-gradient-to-br from-primary/20 to-transparent rounded-full flex items-center justify-center">
-                                <div class="w-32 h-32 md:w-40 md:h-40 bg-primary/30 rounded-full flex items-center justify-center">
-                                    <span class="material-symbols-outlined text-6xl md:text-7xl text-white">phone_iphone</span>
-                                </div>
-                            </div>
-                        </div>
+                <div class="app-download-simple">
+                    <h3 class="app-title">Tải ứng dụng FoodGo</h3>
+                    <p class="app-subtitle">
+                        Đặt hàng nhanh hơn, tích điểm và nhận ưu đãi độc quyền
+                    </p>
+                    <div class="app-buttons-row">
+                        <a href="#" class="app-btn-simple google">
+                            <span class="material-symbols-outlined">android</span>
+                            Google Play
+                        </a>
+                        <a href="#" class="app-btn-simple apple">
+                            <span class="material-symbols-outlined">phone_iphone</span>
+                            App Store
+                        </a>
                     </div>
                 </div>
             </section>
@@ -836,6 +1100,53 @@
         </div>
     </div>
 
+    <!-- Food Detail Modal -->
+    <div id="food-detail-modal" class="fixed inset-0 bg-black/70 hidden items-center justify-center z-[1100] p-4">
+        <div class="bg-white dark:bg-[#2a2015] rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
+            <!-- Header -->
+            <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-[#3d2e1f]">
+                <h3 class="text-xl font-black">Chi tiết món ăn</h3>
+                <button id="close-food-detail" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white">
+                    <span class="material-symbols-outlined text-2xl">close</span>
+                </button>
+            </div>
+            
+            <!-- Content -->
+            <div class="overflow-y-auto max-h-[70vh] p-6">
+                <div id="food-detail-content">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="p-6 border-t border-gray-200 dark:border-[#3d2e1f] bg-gray-50 dark:bg-[#2a2015]">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <div class="text-2xl font-extrabold text-[#f48c25]" id="food-detail-price">0đ</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400" id="food-stock-status"></div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="flex items-center border border-gray-300 dark:border-[#3d2e1f] rounded-xl overflow-hidden">
+                            <button id="decrease-quantity" class="h-10 w-10 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3d2e1f]">
+                                <span class="material-symbols-outlined">remove</span>
+                            </button>
+                            <input id="food-quantity" type="number" min="1" max="20" value="1" 
+                                   class="h-10 w-12 text-center border-x border-gray-300 dark:border-[#3d2e1f] bg-transparent font-bold">
+                            <button id="increase-quantity" class="h-10 w-10 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3d2e1f]">
+                                <span class="material-symbols-outlined">add</span>
+                            </button>
+                        </div>
+                        <button id="add-to-cart-from-detail" 
+                                class="h-12 px-6 bg-[#f48c25] text-white font-bold rounded-xl hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                            <span class="material-symbols-outlined align-middle mr-2">add_shopping_cart</span>
+                            Thêm vào giỏ
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Chatbot -->
     <button id="chatbot-toggle" class="h-14 w-14 bg-primary text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform">
         <span class="material-symbols-outlined text-2xl">chat</span>
@@ -880,63 +1191,17 @@
 
     <script>
         // API Configuration
-        const API_BASE_URL = '../api'; // Đổi thành đường dẫn API của bạn
+        const API_BASE_URL = '../../api';
         const DEFAULT_AVATAR = 'https://lh3.googleusercontent.com/aida-public/AB6AXuD5QyJdrgQc8EU6pqDDaTBolO1VlDlv6lM8W2XV1DfKW4a5PlcqAbGalkVd2R5tSpPt995mjv7mrHl-CbBn8v1DFbLCTf_OXGHrYxelVSZPnRc9GwzER6YHTfHVgz8FOOLJtzUXlcTs-Ohiq-FbZN3MOYmblmy5AiIh0jZq_KhWiEuCqRq1UOXjoyuOyasYqgDUu4FSlFWDRS8FWTie8S6FNhxcsTx5nj8MIEdRXRnvlOFI9qMcjFUC1jM6NQ0RgNfy0VOZHlmNrGI';
 
-        // Google Maps
+        // Variables
         let map;
         let markers = [];
         let userLocation = null;
-        
-        // Slider variables
         let heroSliderIndex = 0;
         let heroSliderInterval;
-        
-        // Category sliders data
+        let currentFoodDetail = null;
         const categorySliders = new Map();
-
-        // Initialize demo data
-        function initDemoData() {
-            if (!localStorage.getItem('foodgo_users')) {
-                const demoUsers = [
-                    {
-                        id: 1,
-                        fullName: "Nguyễn Văn Khách",
-                        phone: "0912345678",
-                        email: "customer@foodgo.vn",
-                        username: "customer123",
-                        password: "123456",
-                        role: "customer",
-                        createdAt: "2024-01-01"
-                    },
-                    {
-                        id: 2,
-                        fullName: "Trần Thị Nhân Viên",
-                        phone: "0923456789",
-                        email: "staff@foodgo.vn",
-                        username: "staff456",
-                        password: "123456",
-                        role: "staff",
-                        createdAt: "2024-01-01"
-                    },
-                    {
-                        id: 3,
-                        fullName: "Admin FoodGo",
-                        phone: "0934567890",
-                        email: "admin@foodgo.vn",
-                        username: "admin789",
-                        password: "123456",
-                        role: "admin",
-                        createdAt: "2024-01-01"
-                    }
-                ];
-                localStorage.setItem('foodgo_users', JSON.stringify(demoUsers));
-            }
-            
-            if (!localStorage.getItem('foodgo_cart')) {
-                localStorage.setItem('foodgo_cart', JSON.stringify([]));
-            }
-        }
 
         // Check authentication
         function checkAuth() {
@@ -972,7 +1237,6 @@
             updateCartCount();
         }
 
-        // Get role name
         function getRoleName(role) {
             const roles = {
                 'customer': 'Khách hàng',
@@ -1044,7 +1308,6 @@
             });
         }
 
-        // Perform logout
         function performLogout() {
             localStorage.removeItem('foodgo_current_user');
             document.getElementById('logout-modal').classList.add('hidden');
@@ -1060,23 +1323,19 @@
             const currentUser = JSON.parse(localStorage.getItem('foodgo_current_user') || 'null');
             
             if (currentUser) {
-                // Nếu đã đăng nhập, lấy từ API
                 fetch(`${API_BASE_URL}/home.php?action=get_cart_count&user_id=${currentUser.id}`)
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
                             document.getElementById('cart-count').textContent = data.count || 0;
                         } else {
-                            // Fallback to localStorage
                             updateCartFromLocalStorage();
                         }
                     })
                     .catch(() => {
-                        // Fallback to localStorage
                         updateCartFromLocalStorage();
                     });
             } else {
-                // Nếu chưa đăng nhập, lấy từ localStorage
                 updateCartFromLocalStorage();
             }
         }
@@ -1092,7 +1351,6 @@
             const toast = document.getElementById('toast');
             const toastIcon = document.getElementById('toast-icon');
             
-            // Set icon based on type
             if (type === 'error') {
                 toastIcon.className = 'h-10 w-10 bg-red-100 text-red-600 rounded-full flex items-center justify-center';
                 toastIcon.innerHTML = '<span class="material-symbols-outlined">error</span>';
@@ -1139,7 +1397,6 @@
                 return await response.json();
             } catch (error) {
                 console.error('API Error:', error);
-                showToast('Lỗi', 'Không thể kết nối đến máy chủ', 'error');
                 return { success: false, message: error.message };
             }
         }
@@ -1196,6 +1453,32 @@
             }
         }
 
+        // Update stats
+        function updateStats(stats) {
+            if (!stats) return;
+            
+            animateCounter(document.getElementById('stats-foods'), stats.total_foods || 0);
+            animateCounter(document.getElementById('stats-restaurants'), stats.total_restaurants || 0);
+            animateCounter(document.getElementById('stats-deliveries'), stats.total_deliveries || 0);
+            animateCounter(document.getElementById('stats-users'), stats.total_users || 0);
+        }
+
+        // Animate counter
+        function animateCounter(element, targetValue, duration = 2000) {
+            const startValue = 0;
+            const increment = targetValue / (duration / 16);
+            let currentValue = startValue;
+            
+            const timer = setInterval(() => {
+                currentValue += increment;
+                if (currentValue >= targetValue) {
+                    currentValue = targetValue;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(currentValue).toLocaleString();
+            }, 16);
+        }
+
         // Load hero image slider
         function loadHeroSlider() {
             const heroImages = [
@@ -1247,7 +1530,6 @@
             sliderTrack.innerHTML = html;
             dotsContainer.innerHTML = dotsHtml;
             
-            // Setup slider navigation
             const dots = dotsContainer.querySelectorAll('.slider-dot');
             dots.forEach(dot => {
                 dot.addEventListener('click', function() {
@@ -1256,10 +1538,8 @@
                 });
             });
             
-            // Auto slide
             heroSliderInterval = setInterval(nextSlide, 5000);
             
-            // Pause on hover
             sliderTrack.addEventListener('mouseenter', () => clearInterval(heroSliderInterval));
             sliderTrack.addEventListener('mouseleave', () => {
                 heroSliderInterval = setInterval(nextSlide, 5000);
@@ -1279,7 +1559,6 @@
             heroSliderIndex = index;
             sliderTrack.style.transform = `translateX(-${index * 100}%)`;
             
-            // Update dots
             document.querySelectorAll('#hero-slider .slider-dot').forEach((dot, i) => {
                 dot.classList.toggle('active', i === index);
             });
@@ -1301,26 +1580,25 @@
             
             let html = '';
             
-            // First category (active)
-            html += `
-                <a href="Thucdon.html?category=${categories[0].slug}" 
-                   class="flex h-12 md:h-14 shrink-0 items-center justify-center gap-x-2 md:gap-x-3 rounded-2xl bg-primary text-white px-4 md:px-6 cursor-pointer shadow-md shadow-primary/20 hover:shadow-lg transition-shadow menu-item">
-                    <span class="material-symbols-outlined text-lg md:text-xl">${categories[0].icon || 'restaurant_menu'}</span>
-                    <p class="text-xs md:text-sm font-bold whitespace-nowrap">${categories[0].name}</p>
-                </a>
-            `;
-            
-            // Other categories
-            for (let i = 1; i < Math.min(categories.length, 8); i++) {
-                const category = categories[i];
-                html += `
-                    <a href="Thucdon.html?category=${category.slug}" 
-                       class="flex h-12 md:h-14 shrink-0 items-center justify-center gap-x-2 md:gap-x-3 rounded-2xl bg-white dark:bg-[#2a2015] border border-[#f4ede7] dark:border-[#3d2e1f] px-4 md:px-6 cursor-pointer hover:border-primary transition-colors menu-item">
-                        <span class="material-symbols-outlined text-lg md:text-xl text-primary">${category.icon || 'restaurant_menu'}</span>
-                        <p class="text-xs md:text-sm font-bold whitespace-nowrap">${category.name}</p>
-                    </a>
-                `;
-            }
+            categories.forEach((category, index) => {
+                if (index === 0) {
+                    html += `
+                        <a href="Thucdon.html?category=${category.slug}" 
+                           class="flex h-12 md:h-14 shrink-0 items-center justify-center gap-x-2 md:gap-x-3 rounded-2xl bg-[#f48c25] text-white px-4 md:px-6 cursor-pointer shadow-md shadow-[#f48c25]/20 hover:shadow-lg transition-shadow menu-item">
+                            <span class="material-symbols-outlined text-lg md:text-xl">${category.icon || 'restaurant_menu'}</span>
+                            <p class="text-xs md:text-sm font-bold whitespace-nowrap">${category.name}</p>
+                        </a>
+                    `;
+                } else {
+                    html += `
+                        <a href="Thucdon.html?category=${category.slug}" 
+                           class="flex h-12 md:h-14 shrink-0 items-center justify-center gap-x-2 md:gap-x-3 rounded-2xl bg-white dark:bg-[#2a2015] border border-[#f4ede7] dark:border-[#3d2e1f] px-4 md:px-6 cursor-pointer hover:border-primary transition-colors menu-item">
+                            <span class="material-symbols-outlined text-lg md:text-xl text-primary">${category.icon || 'restaurant_menu'}</span>
+                            <p class="text-xs md:text-sm font-bold whitespace-nowrap">${category.name}</p>
+                        </a>
+                    `;
+                }
+            });
             
             container.innerHTML = html;
         }
@@ -1346,16 +1624,10 @@
             
             foods.forEach(food => {
                 const isOutOfStock = food.stock_quantity <= 0;
-                const hasDiscount = food.original_price && food.original_price > food.price;
-                const discountPercent = hasDiscount ? Math.round((food.original_price - food.price) / food.original_price * 100) : 0;
                 
                 html += `
-                    <div class="group bg-white dark:bg-[#2a2015] rounded-2xl md:rounded-3xl overflow-hidden border border-[#f4ede7] dark:border-[#3d2e1f] hover:shadow-xl transition-all duration-300 menu-item ${isOutOfStock ? 'opacity-60' : ''}">
-                        ${hasDiscount ? `
-                            <div class="absolute top-3 left-3 z-10">
-                                <span class="px-2 py-1 bg-red-500 text-white text-xs font-bold rounded-lg">-${discountPercent}%</span>
-                            </div>
-                        ` : ''}
+                    <div class="group bg-white dark:bg-[#2a2015] rounded-2xl md:rounded-3xl overflow-hidden border border-[#f4ede7] dark:border-[#3d2e1f] hover:shadow-xl transition-all duration-300 menu-item ${isOutOfStock ? 'opacity-60' : ''} cursor-pointer"
+                         onclick="showFoodDetail(${food.id})">
                         
                         <div class="relative h-40 xs:h-48 md:h-52 overflow-hidden">
                             <img src="${food.image_url}" 
@@ -1379,23 +1651,19 @@
                                 ${food.name}
                             </h3>
                             <p class="text-[#9c7349] dark:text-gray-400 text-xs mb-3 md:mb-4 line-clamp-2">
-                                ${food.short_description || food.description?.substring(0, 100) || 'Món ăn hấp dẫn'}
+                                ${food.description?.substring(0, 100) || 'Món ăn hấp dẫn'}
                             </p>
                             <div class="flex items-center justify-between">
                                 <div class="flex flex-col">
                                     <span class="text-lg md:text-xl font-extrabold text-[#1c140d] dark:text-white">
                                         ${food.price_formatted}
                                     </span>
-                                    ${hasDiscount ? `
-                                        <span class="text-xs text-[#9c7349] line-through">
-                                            ${food.original_price_formatted}
-                                        </span>
-                                    ` : ''}
                                 </div>
-                                <button class="add-to-cart-btn h-9 w-9 md:h-10 md:w-10 bg-primary text-white rounded-xl flex items-center justify-center hover:scale-110 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
+                                <button class="add-to-cart-btn h-9 w-9 md:h-10 md:w-10 bg-[#f48c25] text-white rounded-xl flex items-center justify-center hover:scale-110 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
                                         data-food-id="${food.id}"
                                         data-food-name="${food.name}"
                                         data-food-price="${food.price}"
+                                        onclick="event.stopPropagation(); ${isOutOfStock ? '' : `addToCart('${food.id}', '${food.name}', ${food.price})`}"
                                         ${isOutOfStock ? 'disabled' : ''}>
                                     <span class="material-symbols-outlined">add_shopping_cart</span>
                                 </button>
@@ -1406,113 +1674,191 @@
             });
             
             container.innerHTML = html;
-            
-            // Add event listeners to add-to-cart buttons
-            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const foodId = this.dataset.foodId;
-                    const foodName = this.dataset.foodName;
-                    const foodPrice = parseInt(this.dataset.foodPrice);
-                    
-                    addToCart(foodId, foodName, foodPrice);
-                });
-            });
         }
 
         // Render category foods
         function renderCategoryFoods(categoriesData) {
             const categoryElements = document.querySelectorAll('.category-slider');
             
+            const categoryMapping = {
+                1: 'mon_chinh',
+                2: 'mon_phu',
+                3: 'do_uong',
+                4: 'trang_mieng',
+                5: 'combo'
+            };
+            
             categoryElements.forEach(element => {
                 const categoryId = element.dataset.categoryId;
-                const categoryData = categoriesData.find(cat => cat.id == categoryId);
+                const categorySlug = categoryMapping[categoryId];
                 
-                if (categoryData && categoryData.foods && categoryData.foods.length > 0) {
-                    const sliderTrack = element.querySelector('.slider-track');
-                    let html = '';
+                if (categorySlug) {
+                    const categoryData = categoriesData.find(cat => cat.slug === categorySlug);
                     
-                    categoryData.foods.slice(0, 8).forEach(food => {
-                        const isOutOfStock = food.stock_quantity <= 0;
-                        const hasDiscount = food.original_price && food.original_price > food.price;
-                        const discountPercent = hasDiscount ? Math.round((food.original_price - food.price) / food.original_price * 100) : 0;
+                    if (categoryData && categoryData.foods && categoryData.foods.length > 0) {
+                        const titleElement = element.querySelector('h2');
+                        if (titleElement && categoryData.name !== titleElement.textContent) {
+                            titleElement.textContent = categoryData.name;
+                        }
                         
-                        html += `
-                            <div class="flex-shrink-0 w-56 md:w-64 group bg-white dark:bg-[#2a2015] rounded-2xl overflow-hidden border border-[#f4ede7] dark:border-[#3d2e1f] hover:shadow-xl transition-all duration-300 menu-item ${isOutOfStock ? 'opacity-60' : ''}">
-                                ${hasDiscount ? `
-                                    <div class="absolute top-3 left-3 z-10">
-                                        <span class="px-2 py-1 bg-red-500 text-white text-xs font-bold rounded-lg">-${discountPercent}%</span>
-                                    </div>
-                                ` : ''}
-                                
-                                <div class="relative h-40 overflow-hidden">
-                                    <img src="${food.image_url}" 
-                                         alt="${food.name}" 
-                                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                                    
-                                    ${isOutOfStock ? `
-                                        <div class="absolute inset-0 bg-black/60 flex items-center justify-center">
-                                            <span class="text-white font-bold text-sm">HẾT HÀNG</span>
-                                        </div>
-                                    ` : ''}
-                                    
-                                    <div class="absolute top-3 right-3 bg-white/90 dark:bg-black/60 backdrop-blur-sm px-2 py-1 rounded-xl flex items-center gap-1">
-                                        <span class="material-symbols-outlined text-yellow-500 text-sm fill-1">star</span>
-                                        <span class="text-xs font-bold">${food.avg_rating || 0}</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="p-4">
-                                    <h3 class="font-bold text-sm md:text-base mb-1 group-hover:text-primary transition-colors truncate">
-                                        ${food.name}
-                                    </h3>
-                                    <p class="text-[#9c7349] dark:text-gray-400 text-xs mb-3 line-clamp-2">
-                                        ${food.short_description || food.description?.substring(0, 80) || 'Món ăn hấp dẫn'}
-                                    </p>
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex flex-col">
-                                            <span class="text-base md:text-lg font-extrabold text-[#1c140d] dark:text-white">
-                                                ${food.price_formatted}
-                                            </span>
-                                            ${hasDiscount ? `
-                                                <span class="text-xs text-[#9c7349] line-through">
-                                                    ${food.original_price_formatted}
-                                                </span>
-                                            ` : ''}
-                                        </div>
-                                        <button class="add-to-cart-btn h-8 w-8 md:h-9 md:w-9 bg-primary text-white rounded-xl flex items-center justify-center hover:scale-110 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
-                                                data-food-id="${food.id}"
-                                                data-food-name="${food.name}"
-                                                data-food-price="${food.price}"
-                                                ${isOutOfStock ? 'disabled' : ''}>
-                                            <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                    
-                    sliderTrack.innerHTML = html;
-                    
-                    // Initialize slider for this category
-                    initCategorySlider(element);
-                    
-                    // Add event listeners to add-to-cart buttons
-                    element.querySelectorAll('.add-to-cart-btn').forEach(button => {
-                        button.addEventListener('click', function(e) {
-                            e.stopPropagation();
-                            const foodId = this.dataset.foodId;
-                            const foodName = this.dataset.foodName;
-                            const foodPrice = parseInt(this.dataset.foodPrice);
+                        const viewAllLink = element.querySelector('a[href*="Thucdon.html"]');
+                        if (viewAllLink) {
+                            viewAllLink.href = `Thucdon.html?category=${categoryData.slug}`;
+                        }
+                        
+                        const sliderTrack = element.querySelector('.slider-track');
+                        let html = '';
+                        
+                        categoryData.foods.slice(0, 8).forEach(food => {
+                            const isOutOfStock = food.stock_quantity <= 0;
                             
-                            addToCart(foodId, foodName, foodPrice);
+                            html += `
+                                <div class="flex-shrink-0 w-56 md:w-64 group bg-white dark:bg-[#2a2015] rounded-2xl overflow-hidden border border-[#f4ede7] dark:border-[#3d2e1f] hover:shadow-xl transition-all duration-300 menu-item ${isOutOfStock ? 'opacity-60' : ''} cursor-pointer"
+                                     onclick="showFoodDetail(${food.id})">
+                                    <div class="relative h-40 overflow-hidden">
+                                        <img src="${food.image_url}" 
+                                             alt="${food.name}" 
+                                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                                        
+                                        ${isOutOfStock ? `
+                                            <div class="absolute inset-0 bg-black/60 flex items-center justify-center">
+                                                <span class="text-white font-bold text-sm">HẾT HÀNG</span>
+                                            </div>
+                                        ` : ''}
+                                        
+                                        <div class="absolute top-3 right-3 bg-white/90 dark:bg-black/60 backdrop-blur-sm px-2 py-1 rounded-xl flex items-center gap-1">
+                                            <span class="material-symbols-outlined text-yellow-500 text-sm fill-1">star</span>
+                                            <span class="text-xs font-bold">${food.avg_rating || 0}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="p-4">
+                                        <h3 class="font-bold text-sm md:text-base mb-1 group-hover:text-primary transition-colors truncate">
+                                            ${food.name}
+                                        </h3>
+                                        <p class="text-[#9c7349] dark:text-gray-400 text-xs mb-3 line-clamp-2">
+                                            ${food.description?.substring(0, 80) || 'Món ăn hấp dẫn'}
+                                        </p>
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex flex-col">
+                                                <span class="text-base md:text-lg font-extrabold text-[#1c140d] dark:text-white">
+                                                    ${food.price_formatted}
+                                                </span>
+                                            </div>
+                                            <button class="add-to-cart-btn h-8 w-8 md:h-9 md:w-9 bg-[#f48c25] text-white rounded-xl flex items-center justify-center hover:scale-110 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
+                                                    data-food-id="${food.id}"
+                                                    data-food-name="${food.name}"
+                                                    data-food-price="${food.price}"
+                                                    onclick="event.stopPropagation(); ${isOutOfStock ? '' : `addToCart('${food.id}', '${food.name}', ${food.price})`}"
+                                                    ${isOutOfStock ? 'disabled' : ''}>
+                                                <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
                         });
-                    });
-                } else {
-                    element.style.display = 'none';
+                        
+                        sliderTrack.innerHTML = html;
+                        initCategorySlider(element);
+                    } else {
+                        element.style.display = 'none';
+                    }
                 }
             });
+        }
+
+        // Render promotions
+        function renderPromotions(promotions) {
+            // Check if promotions section exists, if not create it
+            let promotionsSection = document.getElementById('promotions-section');
+            if (!promotionsSection) {
+                // Create promotions section after category foods section
+                const categoryFoodsSection = document.getElementById('category-foods-section');
+                if (categoryFoodsSection) {
+                    promotionsSection = document.createElement('section');
+                    promotionsSection.id = 'promotions-section';
+                    promotionsSection.className = 'mb-10 md:mb-12';
+                    categoryFoodsSection.insertAdjacentElement('afterend', promotionsSection);
+                }
+            }
+            
+            if (!promotionsSection || !promotions || promotions.length === 0) {
+                return;
+            }
+            
+            let html = `
+                <div class="flex items-center justify-between mb-6 md:mb-8 px-2">
+                    <h2 class="text-xl md:text-2xl font-bold tracking-tight">Khuyến mãi hot</h2>
+                    <a href="./Khuyenmai.html" class="text-primary font-bold text-sm hover:underline whitespace-nowrap">Xem tất cả →</a>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 px-2">
+            `;
+            
+            promotions.slice(0, 6).forEach(promo => {
+                html += `
+                    <div class="group bg-white dark:bg-[#2a2015] rounded-2xl overflow-hidden border border-[#f4ede7] dark:border-[#3d2e1f] hover:shadow-xl transition-all duration-300 cursor-pointer">
+                        <div class="relative h-40 xs:h-48 md:h-52 overflow-hidden bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                            <div class="text-center">
+                                <div class="text-5xl font-black text-primary mb-2">${promo.discount_percent || promo.discount_amount || '0'}${promo.discount_percent ? '%' : 'đ'}</div>
+                                <div class="text-sm font-bold text-[#9c7349]">Giảm</div>
+                            </div>
+                        </div>
+                        <div class="p-4 md:p-5">
+                            <h3 class="font-bold text-base md:text-lg mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                                ${promo.title || 'Khuyến mãi'}
+                            </h3>
+                            <p class="text-[#9c7349] dark:text-gray-400 text-xs mb-3 md:mb-4 line-clamp-2">
+                                ${promo.description || 'Ưu đãi hấp dẫn chỉ có tại FoodGo'}
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs text-[#9c7349]">
+                                    ${promo.expiry_date ? 'HSD: ' + new Date(promo.expiry_date).toLocaleDateString('vi-VN') : 'Không giới hạn'}
+                                </span>
+                                <button class="h-9 w-9 md:h-10 md:w-10 bg-[#f48c25] text-white rounded-xl flex items-center justify-center hover:scale-110 transition-transform">
+                                    <span class="material-symbols-outlined">arrow_forward</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            
+            promotionsSection.innerHTML = html;
+        }
+
+        // Render fallback data (when API fails)
+        function renderFallbackData() {
+            // Show placeholder content
+            const foodsContainer = document.getElementById('foods-container');
+            if (foodsContainer) {
+                foodsContainer.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <div class="h-16 w-16 bg-gray-100 dark:bg-[#3d2e1f] text-gray-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="material-symbols-outlined text-3xl">restaurant_menu</span>
+                        </div>
+                        <h4 class="text-lg font-bold mb-2">Tạm thời không tải được dữ liệu</h4>
+                        <p class="text-[#9c7349] mb-4">Vui lòng tải lại trang để tiếp tục</p>
+                        <button onclick="location.reload()" class="px-6 py-2 bg-primary text-white font-bold rounded-xl hover:opacity-90 transition-all">
+                            Tải lại
+                        </button>
+                    </div>
+                `;
+            }
+            
+            // Hide category sections
+            const categorySections = document.querySelectorAll('.category-slider');
+            categorySections.forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Hide promotions section if it exists
+            const promotionsSection = document.getElementById('promotions-section');
+            if (promotionsSection) {
+                promotionsSection.style.display = 'none';
+            }
         }
 
         // Initialize category slider
@@ -1529,23 +1875,20 @@
                 return;
             }
             
-            const itemWidth = 224; // w-56 = 14rem = 224px
-            const gap = 16; // gap-4 = 1rem = 16px
+            const itemWidth = 224;
+            const gap = 16;
             const itemsPerView = window.innerWidth >= 768 ? 3 : 2;
             const maxIndex = items.length - itemsPerView;
             let currentIndex = 0;
             
-            // Store slider state
             categorySliders.set(categoryElement, {
                 currentIndex,
                 maxIndex,
                 itemsPerView
             });
             
-            // Update button states
             updateSliderButtons(categoryElement);
             
-            // Event listeners
             prevBtn.addEventListener('click', () => {
                 const slider = categorySliders.get(categoryElement);
                 if (slider.currentIndex > 0) {
@@ -1584,45 +1927,8 @@
             }
         }
 
-        // Render promotions
-        function renderPromotions(promotions) {
-            const promoSection = document.getElementById('promo-section');
-            const promoBanner = document.getElementById('promo-banner');
-            
-            if (!promotions || promotions.length === 0) {
-                promoSection.classList.add('hidden');
-                return;
-            }
-            
-            promoSection.classList.remove('hidden');
-            
-            // Lấy promotion đầu tiên
-            const promo = promotions[0];
-            
-            let html = `
-                <div class="relative z-10">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold uppercase tracking-wider">Khuyến mãi</span>
-                        <span class="text-white/90 text-sm">Còn ${promo.days_left} ngày</span>
-                    </div>
-                    <h3 class="text-xl md:text-2xl font-black mb-2">${promo.title}</h3>
-                    <p class="text-white/90 text-sm md:text-base mb-4 md:mb-6 max-w-lg">${promo.description}</p>
-                    <a href="Khuyenmai.html" class="inline-flex items-center gap-2 px-6 py-3 bg-white text-primary font-bold rounded-2xl hover:scale-105 transition-transform shadow-lg">
-                        Xem ngay
-                        <span class="material-symbols-outlined">arrow_forward</span>
-                    </a>
-                </div>
-                <div class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 opacity-20 md:opacity-30">
-                    <span class="material-symbols-outlined text-[200px] md:text-[250px]">local_offer</span>
-                </div>
-            `;
-            
-            promoBanner.innerHTML = html;
-        }
-
         // Initialize Google Maps
         function initMap() {
-            // FoodGo Store Location: 79 Đ. Hồ Tùng Mậu, Mai Dịch, Nam Từ Liêm, Hà Nội 122868, Việt Nam
             const storeLocation = { lat: 21.0374, lng: 105.7767 };
             
             map = new google.maps.Map(document.getElementById('map'), {
@@ -1637,7 +1943,6 @@
                 ]
             });
             
-            // Add store marker
             const storeMarker = new google.maps.Marker({
                 position: storeLocation,
                 map: map,
@@ -1656,7 +1961,7 @@
                         <p>📞 028 1234 5678</p>
                         <p>⏰ 7:00 - 22:00 hàng ngày</p>
                         <p>⭐ 4.8/5.0 (1,234 đánh giá)</p>
-                        <button onclick="window.open('Thực đơn.html', '_blank')" class="mt-2 px-3 py-1 bg-primary text-white text-xs rounded hover:opacity-90">
+                        <button onclick="window.open('Thucdon.html', '_blank')" class="mt-2 px-3 py-1 bg-primary text-white text-xs rounded hover:opacity-90">
                             Xem thực đơn
                         </button>
                     </div>
@@ -1669,7 +1974,6 @@
             
             markers.push(storeMarker);
             
-            // Locate me button
             document.getElementById('locate-me-btn').addEventListener('click', locateUser);
         }
 
@@ -1683,13 +1987,11 @@
                             lng: position.coords.longitude
                         };
                         
-                        // Center map between user and store
                         const bounds = new google.maps.LatLngBounds();
                         bounds.extend(userLocation);
-                        bounds.extend({ lat: 10.7758, lng: 106.7019 }); // Store location
+                        bounds.extend({ lat: 21.0374, lng: 105.7767 });
                         map.fitBounds(bounds);
                         
-                        // Add user marker
                         const userMarker = new google.maps.Marker({
                             position: userLocation,
                             map: map,
@@ -1702,12 +2004,11 @@
                         
                         markers.push(userMarker);
                         
-                        // Calculate distance
                         const distance = calculateDistance(
                             userLocation.lat,
                             userLocation.lng,
-                            10.7758,
-                            106.7019
+                            21.0374,
+                            105.7767
                         );
                         
                         showToast('Thành công', `Bạn cách cửa hàng ${distance.toFixed(1)} km`, 'success');
@@ -1724,7 +2025,7 @@
 
         // Calculate distance between two coordinates (in km)
         function calculateDistance(lat1, lon1, lat2, lon2) {
-            const R = 6371; // Earth's radius in km
+            const R = 6371;
             const dLat = (lat2 - lat1) * Math.PI / 180;
             const dLon = (lon2 - lon1) * Math.PI / 180;
             const a = 
@@ -1735,117 +2036,38 @@
             return R * c;
         }
 
-        // Render fallback data (khi API lỗi)
-        function renderFallbackData() {
-            // Categories fallback
-            const categories = [
-                { name: 'Món chính', slug: 'mon-chinh', icon: 'dinner_dining' },
-                { name: 'Đồ ăn nhanh', slug: 'do-an-nhanh', icon: 'lunch_dining' },
-                { name: 'Đồ uống', slug: 'do-uong', icon: 'local_bar' },
-                { name: 'Tráng miệng', slug: 'trang-mieng', icon: 'icecream' },
-                { name: 'Combo', slug: 'combo', icon: 'package' }
-            ];
-            renderCategories(categories);
-            
-            // Foods fallback
-            const foods = [
-                {
-                    id: 1,
-                    name: "Burger Bò Phô Mai",
-                    description: "Burger với thịt bò Angus, phô mai Cheddar, rau sống tươi",
-                    price: 89000,
-                    price_formatted: "89.000đ",
-                    image_url: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&auto=format&fit=crop",
-                    avg_rating: 4.8,
-                    stock_quantity: 10
-                },
-                {
-                    id: 2,
-                    name: "Pizza Pepperoni",
-                    description: "Pizza với sốt cà chua, phô mai Mozzarella và Pepperoni cay",
-                    price: 145000,
-                    price_formatted: "145.000đ",
-                    image_url: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&auto=format&fit=crop",
-                    avg_rating: 4.7,
-                    stock_quantity: 5
-                },
-                {
-                    id: 3,
-                    name: "Trà Sữa Trân Châu",
-                    description: "Trà sữa với trân châu đường đen thơm ngon",
-                    price: 45000,
-                    price_formatted: "45.000đ",
-                    original_price: 55000,
-                    original_price_formatted: "55.000đ",
-                    image_url: "https://images.unsplash.com/photo-1567306301408-9b74779a11af?w=800&auto=format&fit=crop",
-                    avg_rating: 4.5,
-                    stock_quantity: 20
-                },
-                {
-                    id: 4,
-                    name: "Salad Cá Hồi",
-                    description: "Salad tươi với cá hồi nướng, rau xanh và sốt mè",
-                    price: 120000,
-                    price_formatted: "120.000đ",
-                    image_url: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&auto=format&fit=crop",
-                    avg_rating: 4.6,
-                    stock_quantity: 0
-                }
-            ];
-            renderFoods(foods);
-            
-            // Promotions fallback
-            const promotions = [{
-                title: 'Ưu đãi đặc biệt 50%!',
-                description: 'Đặt hàng trong tháng này và nhận ngay 50% giá trị đơn hàng đầu tiên. Áp dụng cho tất cả khách hàng mới.',
-                days_left: 15
-            }];
-            renderPromotions(promotions);
-        }
-
         // Add to cart function
-        async function addToCart(foodId, foodName, price) {
+        async function addToCart(foodId, foodName, price, quantity = 1) {
             const currentUser = JSON.parse(localStorage.getItem('foodgo_current_user') || 'null');
-            const quantity = 1;
+            
+            const button = event?.target.closest('.add-to-cart-btn');
+            let originalHTML = '';
+            if (button) {
+                originalHTML = button.innerHTML;
+                button.innerHTML = '<span class="material-symbols-outlined">check</span>';
+                button.style.backgroundColor = '#10b981';
+                button.disabled = true;
+            }
             
             try {
-                // If user is logged in, call API
                 if (currentUser) {
-                    const response = await fetch(`${API_BASE_URL}/foods.php`, {
+                    const response = await fetch(`${API_BASE_URL}/home.php`, {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json',
+                            'Content-Type': 'application/x-www-form-urlencoded',
                         },
-                        body: JSON.stringify({
-                            action: 'add_to_cart',
-                            user_id: currentUser.id,
-                            food_id: foodId,
-                            quantity: quantity
-                        })
+                        body: `action=add_to_cart&user_id=${currentUser.id}&food_id=${foodId}&quantity=${quantity}`
                     });
                     
                     const result = await response.json();
                     
                     if (result.success) {
-                        showToast('Thành công', `Đã thêm "${foodName}" vào giỏ hàng`, 'success');
+                        showToast('Thành công', `Đã thêm ${quantity} "${foodName}" vào giỏ hàng`, 'success');
                         updateCartCount();
-                        
-                        // Button animation
-                        const button = event?.target;
-                        if (button) {
-                            button.innerHTML = '<span class="material-symbols-outlined">check</span>';
-                            button.style.backgroundColor = '#10b981';
-                            
-                            setTimeout(() => {
-                                button.innerHTML = '<span class="material-symbols-outlined">add_shopping_cart</span>';
-                                button.style.backgroundColor = '';
-                            }, 1000);
-                        }
                     } else {
                         showToast('Lỗi', result.message || 'Không thể thêm vào giỏ hàng', 'error');
                     }
                 } else {
-                    // If user is not logged in, use localStorage
                     let cart = JSON.parse(localStorage.getItem('foodgo_cart') || '[]');
                     
                     const existingItem = cart.find(item => item.id == foodId);
@@ -1864,24 +2086,186 @@
                     localStorage.setItem('foodgo_cart', JSON.stringify(cart));
                     updateCartCount();
                     
-                    // Button animation
-                    const button = event?.target;
-                    if (button) {
-                        button.innerHTML = '<span class="material-symbols-outlined">check</span>';
-                        button.style.backgroundColor = '#10b981';
-                        
-                        setTimeout(() => {
-                            button.innerHTML = '<span class="material-symbols-outlined">add_shopping_cart</span>';
-                            button.style.backgroundColor = '';
-                        }, 1000);
-                    }
-                    
-                    showToast('Thành công', `Đã thêm "${foodName}" vào giỏ hàng`, 'success');
+                    showToast('Thành công', `Đã thêm ${quantity} "${foodName}" vào giỏ hàng`, 'success');
                 }
             } catch (error) {
                 console.error('Error adding to cart:', error);
                 showToast('Lỗi', 'Không thể thêm vào giỏ hàng', 'error');
+            } finally {
+                if (button) {
+                    setTimeout(() => {
+                        button.innerHTML = originalHTML;
+                        button.style.backgroundColor = '';
+                        button.disabled = false;
+                    }, 1000);
+                }
             }
+        }
+
+        // Food detail modal functions
+        async function showFoodDetail(foodId) {
+            showLoading();
+            
+            try {
+                const food = await fetchFoodDetail(foodId);
+                
+                hideLoading();
+                
+                if (!food) {
+                    showToast('Lỗi', 'Không thể tải thông tin món ăn', 'error');
+                    return;
+                }
+                
+                currentFoodDetail = food;
+                renderFoodDetail(food);
+                
+                const modal = document.getElementById('food-detail-modal');
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            } catch (error) {
+                hideLoading();
+                console.error('Error loading food detail:', error);
+                showToast('Lỗi', 'Không thể tải thông tin món ăn', 'error');
+            }
+        }
+
+        async function fetchFoodDetail(foodId) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/home.php?action=get_food_detail&food_id=${foodId}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    return data.data;
+                }
+            } catch (error) {
+                console.error('API Error:', error);
+            }
+            return null;
+        }
+
+        function renderFoodDetail(food) {
+            const content = document.getElementById('food-detail-content');
+            const isOutOfStock = food.stock_quantity <= 0;
+            
+            let html = `
+                <div class="food-detail-image">
+                    <img src="${food.image_url}" 
+                         alt="${food.name}" 
+                         class="w-full h-full object-cover">
+                </div>
+                
+                <h2 class="food-title">${food.name}</h2>
+                
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="food-category">${food.category_name || 'Món ngon'}</span>
+                    <div class="food-rating">
+                        <span class="material-symbols-outlined fill-1 text-yellow-500">star</span>
+                        <span class="font-bold">${food.avg_rating || 4.5}</span>
+                        <span class="text-gray-500 text-sm">(${food.review_count || 0} đánh giá)</span>
+                    </div>
+                </div>
+                
+                <div class="food-description">
+                    ${food.description || 'Món ăn được chế biến công phu với nguyên liệu tươi ngon nhất. Hương vị đặc trưng mang đến trải nghiệm ẩm thực tuyệt vời.'}
+                </div>
+                
+                ${food.ingredients && food.ingredients.length > 0 ? `
+                    <div class="food-ingredients">
+                        <h4>Thành phần chính:</h4>
+                        <div class="ingredients-list">
+                            ${food.ingredients.map(ing => `<span class="ingredient-tag">${ing}</span>`).join('')}
+                        </div>
+                    </div>
+                ` : ''}
+                
+                <div class="mt-6 pt-6 border-t border-gray-200 dark:border-[#3d2e1f]">
+                    <h4 class="font-bold mb-2">Thông tin thêm:</h4>
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">restaurant</span>
+                            <span>Phục vụ nóng</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">schedule</span>
+                            <span>Chuẩn bị: 15-20 phút</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">local_shipping</span>
+                            <span>Giao hàng miễn phí từ 150k</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">inventory</span>
+                            <span class="${isOutOfStock ? 'text-red-500' : 'text-green-500'}">
+                                ${isOutOfStock ? 'Hết hàng' : 'Còn hàng'}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            content.innerHTML = html;
+            
+            document.getElementById('food-detail-price').textContent = food.price_formatted;
+            
+            const stockStatus = document.getElementById('food-stock-status');
+            if (isOutOfStock) {
+                stockStatus.textContent = 'Hết hàng';
+                stockStatus.className = 'text-sm text-red-500';
+                document.getElementById('add-to-cart-from-detail').disabled = true;
+            } else {
+                stockStatus.textContent = `Còn ${food.stock_quantity} suất`;
+                stockStatus.className = 'text-sm text-green-500';
+                document.getElementById('add-to-cart-from-detail').disabled = false;
+            }
+            
+            document.getElementById('food-quantity').value = 1;
+        }
+
+        function closeFoodDetailModal() {
+            const modal = document.getElementById('food-detail-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = '';
+            currentFoodDetail = null;
+        }
+
+        // Setup food detail event listeners
+        function setupFoodDetailEvents() {
+            document.getElementById('close-food-detail').addEventListener('click', closeFoodDetailModal);
+            
+            document.getElementById('food-detail-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeFoodDetailModal();
+                }
+            });
+            
+            document.getElementById('increase-quantity').addEventListener('click', function() {
+                const input = document.getElementById('food-quantity');
+                const currentValue = parseInt(input.value);
+                if (currentValue < 20) {
+                    input.value = currentValue + 1;
+                }
+            });
+            
+            document.getElementById('decrease-quantity').addEventListener('click', function() {
+                const input = document.getElementById('food-quantity');
+                const currentValue = parseInt(input.value);
+                if (currentValue > 1) {
+                    input.value = currentValue - 1;
+                }
+            });
+            
+            document.getElementById('add-to-cart-from-detail').addEventListener('click', function() {
+                if (!currentFoodDetail) return;
+                
+                const quantity = parseInt(document.getElementById('food-quantity').value);
+                addToCart(currentFoodDetail.id, currentFoodDetail.name, currentFoodDetail.price, quantity);
+                
+                setTimeout(() => {
+                    closeFoodDetailModal();
+                }, 1000);
+            });
         }
 
         // Chatbot functions
@@ -1891,7 +2275,6 @@
             const closeBtn = document.getElementById('close-chatbot');
             const sendBtn = document.getElementById('send-message');
             const input = document.getElementById('chatbot-input');
-            const messagesContainer = document.getElementById('chatbot-messages');
             
             toggleBtn.addEventListener('click', () => {
                 chatbot.style.display = chatbot.style.display === 'block' ? 'none' : 'block';
@@ -1909,7 +2292,6 @@
                 }
             });
             
-            // Quick question buttons
             document.querySelectorAll('.quick-question').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const question = this.dataset.question;
@@ -1926,11 +2308,9 @@
             
             if (!message) return;
             
-            // Add user message
             addMessage(message, 'user');
             input.value = '';
             
-            // Simulate AI response
             setTimeout(() => {
                 const response = getAIResponse(message);
                 addMessage(response, 'bot');
@@ -1946,7 +2326,6 @@
             contentDiv.className = 'message-content';
             contentDiv.innerHTML = text;
             
-            // Add quick questions for bot messages
             if (sender === 'bot' && !text.includes('quick-question')) {
                 contentDiv.innerHTML += `
                     <div class="mt-2 flex flex-wrap gap-2">
@@ -1960,10 +2339,8 @@
             messageDiv.appendChild(contentDiv);
             messagesContainer.appendChild(messageDiv);
             
-            // Scroll to bottom
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
             
-            // Re-attach quick question listeners
             messageDiv.querySelectorAll('.quick-question').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const question = this.dataset.question;
@@ -1975,14 +2352,14 @@
 
         function getAIResponse(message) {
             const responses = {
-                'món ăn phổ biến': 'Hiện tại các món ăn phổ biến nhất tại FoodGo là: Burger Bò Phô Mai, Pizza Pepperoni, Trà Sữa Trân Châu và Salad Cá Hồi. Bạn có muốn xem chi tiết món nào không?',
-                'khuyến mãi': 'Hiện đang có chương trình khuyến mãi 50% cho đơn hàng đầu tiên. Ngoài ra còn có combo tiết kiệm và giảm giá đặc biệt vào cuối tuần.',
+                'món ăn phổ biến': 'Hiện tại các món ăn phổ biến nhất tại FoodGo là: Phở Bò, Cơm Gà Xối Mỡ, Trà Đào, Chè Khúc Bạch và Gỏi Cuốn. Bạn có muốn xem chi tiết món nào không?',
+                'khuyến mãi': 'Hiện đang có chương trình khuyến mãi 10% cho đơn từ 100k. Ngoài ra còn có combo tiết kiệm và giảm giá đặc biệt vào cuối tuần.',
                 'đặt hàng': 'Để đặt hàng, bạn có thể chọn món từ thực đơn, thêm vào giỏ hàng và thanh toán. Hoặc gọi số 1900 1234 để được hỗ trợ đặt hàng nhanh.',
                 'cửa hàng': 'FoodGo có 1 cửa hàng tại: 79, Hồ Tùng Mậu, Hà Nội. Mở cửa từ 7:00 - 22:00 hàng ngày. ĐT: 028 1234 5678',
                 'chào': 'Xin chào! Tôi là trợ lý ảo FoodGo. Tôi có thể giúp bạn tìm món ăn, xem khuyến mãi hoặc hướng dẫn đặt hàng.',
                 'cảm ơn': 'Không có chi! Nếu cần thêm thông tin, bạn cứ hỏi nhé. 😊',
-                'giá': 'Giá cả phụ thuộc vào từng món ăn. Bạn có thể xem giá chi tiết trong phần thực đơn. Hiện đang có nhiều ưu đãi giảm giá.',
-                'giao hàng': 'Chúng tôi giao hàng trong vòng 30-45 phút tại TP.Hà Nội. Phí giao hàng từ 10.000đ - 20.000đ tùy khoảng cách.',
+                'giá': 'Giá cả phụ thuộc vào từng món ăn. Bạn có thể xem giá chi tiết trong phần thực đơn.',
+                'giao hàng': 'Chúng tôi giao hàng trong vòng 30-45 phút tại Hà Nội.',
                 'default': 'Tôi có thể giúp bạn tìm kiếm món ăn, xem khuyến mãi, hướng dẫn đặt hàng hoặc giải đáp thắc mắc về dịch vụ.'
             };
             
@@ -1998,9 +2375,9 @@
 
         // Initialize everything when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            initDemoData();
             checkAuth();
             setupLogout();
+            setupFoodDetailEvents();
             loadHomeData();
             initChatbot();
             
@@ -2011,14 +2388,12 @@
             function handleSearch() {
                 const searchTerm = searchInput?.value || mobileSearchInput?.value || '';
                 if (searchTerm.trim().length >= 2) {
-                    // Redirect to menu page with search term
                     window.location.href = `./Thucdon.html?search=${encodeURIComponent(searchTerm.trim())}`;
                 } else if (searchTerm.trim().length === 1) {
                     showToast('Thông báo', 'Vui lòng nhập ít nhất 2 ký tự để tìm kiếm', 'warning');
                 }
             }
             
-            // Enter key search
             if (searchInput) {
                 searchInput.addEventListener('keyup', function(e) {
                     if (e.key === 'Enter') {
@@ -2054,30 +2429,6 @@
                     mobileSearchBar.classList.add('hidden');
                 }
             });
-            
-            // Update stats with animation
-            function animateCounter(element, targetValue, duration = 2000) {
-                const startValue = 0;
-                const increment = targetValue / (duration / 16); // 60fps
-                let currentValue = startValue;
-                
-                const timer = setInterval(() => {
-                    currentValue += increment;
-                    if (currentValue >= targetValue) {
-                        currentValue = targetValue;
-                        clearInterval(timer);
-                    }
-                    element.textContent = Math.floor(currentValue).toLocaleString() + '+';
-                }, 16);
-            }
-            
-            // Animate stats after page loads
-            setTimeout(() => {
-                animateCounter(document.getElementById('stats-foods'), 1000);
-                animateCounter(document.getElementById('stats-restaurants'), 1);
-                animateCounter(document.getElementById('stats-deliveries'), 50000);
-                animateCounter(document.getElementById('stats-users'), 10000);
-            }, 1000);
         });
         
         // Responsive adjustments on resize
@@ -2090,7 +2441,6 @@
                 if (mobileSearchBar) mobileSearchBar.classList.add('hidden');
             }
             
-            // Update category sliders on resize
             categorySliders.forEach((slider, element) => {
                 const track = element.querySelector('.slider-track');
                 const items = track.querySelectorAll('.flex-shrink-0');
