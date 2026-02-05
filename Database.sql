@@ -251,3 +251,13 @@ INSERT INTO GIOHANG (nguoidung_id, monan_id, so_luong) VALUES
 ('KH001', 'MA001', 2),
 ('KH001', 'MA003', 1),
 ('KH002', 'MA002', 1);
+
+-- Thêm dữ liệu mẫu cho THANHTOAN 
+INSERT INTO THONGTINGIAOHANG (hoten, sodienthoai, diachi) VALUES
+('Nguyễn Văn Hùng', '0987123456', 'Số 12 ngõ 45 Trần Duy Hưng, phường Trung Hòa, quận Cầu Giấy, Hà Nội'),
+('Trần Thị Mai', '0912345678', 'Số 25 phố Huế, phường Phố Huế, quận Hai Bà Trưng, Hà Nội'),
+('Phạm Đức Long', '0978456123', 'Số 8 ngách 32 Kim Mã, phường Kim Mã, quận Ba Đình, Hà Nội'),
+('Lê Thu Trang', '0905123789', 'Số 102 đường Nguyễn Trãi, phường Thượng Đình, quận Thanh Xuân, Hà Nội'),
+('Đỗ Minh Anh', '0963344556', 'Số 5 ngõ 78 Xuân La, phường Xuân La, quận Tây Hồ, Hà Nội');
+
+
