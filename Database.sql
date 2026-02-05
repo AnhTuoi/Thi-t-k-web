@@ -84,7 +84,7 @@ CREATE TABLE DONHANG (
     tong_cuoi_cung DECIMAL(10,2) NOT NULL CHECK (tong_cuoi_cung >= 0),
     phuong_thuc_thanhtoan ENUM('tien_mat', 'the_ngan_hang', 'vi_dien_tu') NOT NULL,
     trang_thai_thanhtoan ENUM('cho_thanh_toan', 'da_thanh_toan', 'that_bai') DEFAULT 'cho_thanh_toan',
-    trang_thai_donhang ENUM('cho_xac_nhan', 'da_xac_nhan', 'dang_chuan_bi', 'san_sang', 'dang_giao', 'da_giao', 'da_huy') DEFAULT 'cho_xac_nhan',
+    trang_thai_donhang ENUM('cho_xac_nhan', 'da_xac_nhan', 'dang_giao', 'da_giao', 'da_huy') DEFAULT 'cho_xac_nhan',
     ghi_chu TEXT,
     ngay_tao DATETIME DEFAULT CURRENT_TIMESTAMP,
     ngay_cap_nhat DATETIME ON UPDATE CURRENT_TIMESTAMP,
@@ -259,5 +259,6 @@ INSERT INTO THONGTINGIAOHANG (hoten, sodienthoai, diachi) VALUES
 ('Phạm Đức Long', '0978456123', 'Số 8 ngách 32 Kim Mã, phường Kim Mã, quận Ba Đình, Hà Nội'),
 ('Lê Thu Trang', '0905123789', 'Số 102 đường Nguyễn Trãi, phường Thượng Đình, quận Thanh Xuân, Hà Nội'),
 ('Đỗ Minh Anh', '0963344556', 'Số 5 ngõ 78 Xuân La, phường Xuân La, quận Tây Hồ, Hà Nội');
+
 
 
