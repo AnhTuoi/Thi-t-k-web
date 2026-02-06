@@ -78,6 +78,8 @@ CREATE TABLE DONHANG (
     nguoidung_id VARCHAR(10) NOT NULL,
     khuyenmai_id VARCHAR(10),
     tong_tien DECIMAL(10,2) NOT NULL DEFAULT 0 CHECK (tong_tien >= 0),
+    ho_ten VARCHAR(150) NOT NULL,
+    sodienthoai VARCHAR(10) NOT NULL,
     diachi_giaohang TEXT NOT NULL,
     phi_vanchuyen DECIMAL(10,2) DEFAULT 0 CHECK (phi_vanchuyen >= 0),
     giam_gia DECIMAL(10,2) DEFAULT 0 CHECK (giam_gia >= 0),
@@ -217,10 +219,10 @@ INSERT INTO KHUYENMAI (khuyenmai_id, ma_khuyenmai, mo_ta, loai_giam_gia, gia_tri
 ('KM003', 'FREESHIP', 'Miễn phí vận chuyển', 'so_tien_co_dinh', 15000, 0, NULL, NULL, '2024-01-01', '2024-12-31');
 
 -- Thêm dữ liệu mẫu cho DONHANG
-INSERT INTO DONHANG (donhang_id, nguoidung_id, khuyenmai_id, tong_tien, diachi_giaohang, phi_vanchuyen, phuong_thuc_thanhtoan, trang_thai_donhang) VALUES
-('DH001', 'KH001', 'KM001', 120000, '123 Đường ABC, Quận 1, TP.HCM', 15000, 'tien_mat', 'da_giao'),
-('DH002', 'KH002', 'KM002', 180000, '456 Đường XYZ, Quận 2, TP.HCM', 15000, 'vi_dien_tu', 'da_giao'),
-('DH003', 'KH001', NULL, 80000, '123 Đường ABC, Quận 1, TP.HCM', 15000, 'the_ngan_hang', 'dang_giao');
+INSERT INTO DONHANG (donhang_id, nguoidung_id, khuyenmai_id, tong_tien, ho_ten, sodienthoai diachi_giaohang, phi_vanchuyen, phuong_thuc_thanhtoan, trang_thai_donhang) VALUES
+('DH001', 'KH001', 'KM001', 120000,'Nguyễn Văn Hùng', '0987123456' , '123 Đường ABC, Quận 1, TP.HCM', 15000, 'tien_mat', 'da_giao'),
+('DH002', 'KH002', 'KM002', 180000, 'Trần Thị Mai', '0912345678', '456 Đường XYZ, Quận 2, TP.HCM', 15000, 'vi_dien_tu', 'da_giao'),
+('DH003', 'KH001', NULL, 80000, 'Lê Thu Trang', '0905123789', '123 Đường ABC, Quận 1, TP.HCM', 15000, 'the_ngan_hang', 'dang_giao');
 
 -- Thêm dữ liệu mẫu cho CHITIETDONHANG
 INSERT INTO CHITIETDONHANG (donhang_id, monan_id, so_luong, don_gia, thanh_tien) VALUES
@@ -252,13 +254,8 @@ INSERT INTO GIOHANG (nguoidung_id, monan_id, so_luong) VALUES
 ('KH001', 'MA003', 1),
 ('KH002', 'MA002', 1);
 
--- Thêm dữ liệu mẫu cho THANHTOAN 
-INSERT INTO THONGTINGIAOHANG (hoten, sodienthoai, diachi) VALUES
-('Nguyễn Văn Hùng', '0987123456', 'Số 12 ngõ 45 Trần Duy Hưng, phường Trung Hòa, quận Cầu Giấy, Hà Nội'),
-('Trần Thị Mai', '0912345678', 'Số 25 phố Huế, phường Phố Huế, quận Hai Bà Trưng, Hà Nội'),
-('Phạm Đức Long', '0978456123', 'Số 8 ngách 32 Kim Mã, phường Kim Mã, quận Ba Đình, Hà Nội'),
-('Lê Thu Trang', '0905123789', 'Số 102 đường Nguyễn Trãi, phường Thượng Đình, quận Thanh Xuân, Hà Nội'),
-('Đỗ Minh Anh', '0963344556', 'Số 5 ngõ 78 Xuân La, phường Xuân La, quận Tây Hồ, Hà Nội');
+
+
 
 
 
