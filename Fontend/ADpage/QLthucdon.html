@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html class="light" lang="vi"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Quản lý Món ăn Admin FoodGo</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+<html class="light" lang="vi">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Quản lý Món ăn Admin FoodGo</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -16,50 +17,34 @@
                         "background-light": "#f8f7f5",
                         "sidebar-bg": "#ffffff",
                         "card-bg": "#ffffff",
+                        "success": "#10b981",
+                        "warning": "#f59e0b",
+                        "danger": "#ef4444"
                     },
-                    fontFamily: {
-                        "display": ["Plus Jakarta Sans", "sans-serif"]
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "2xl": "1rem",
-                        "3xl": "1.5rem",
-                        "full": "9999px"
-                    },
+                    fontFamily: { "display": ["Plus Jakarta Sans", "sans-serif"] },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "3xl": "1.5rem", "full": "9999px" }
                 },
             },
         }
     </script>
-<style type="text/tailwindcss">
-        body {
-            font-family: "Plus Jakarta Sans", sans-serif;
-        }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .active-menu {
-            @apply bg-primary/10 text-primary border-r-4 border-primary;
-        }
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        #chatbot-window {
-            display: none;
-        }
+    <style type="text/tailwindcss">
+        body { font-family: "Plus Jakarta Sans", sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .active-menu { @apply bg-primary/10 text-primary border-r-4 border-primary; }
+        .tab-active { @apply border-primary text-primary; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        #chatbot-window { display: none; }
         #chatbot-toggle:focus-within + #chatbot-window,
         #chatbot-window:hover,
-        #chatbot-window:focus-within {
-            display: flex;
-        }
+        #chatbot-window:focus-within { display: flex; }
+        .status-instock  { @apply bg-green-100 text-green-700; }
+        .status-outstock { @apply bg-red-100 text-red-700; }
     </style>
 </head>
 <body class="bg-background-light text-[#1c140d] min-h-screen flex">
+
+<!-- Sidebar (kết hợp từ file gốc) -->
 <aside class="w-64 bg-sidebar-bg border-r border-[#f4ede7] flex flex-col fixed h-full z-50">
 <div class="p-6 flex items-center gap-2 text-primary shrink-0">
 <span class="material-symbols-outlined text-4xl font-bold">fastfood</span>
@@ -115,163 +100,247 @@
 </div>
 </div>
 </aside>
+
 <main class="flex-1 ml-64 p-8">
-<header class="flex items-center justify-between mb-8">
-<div>
-<h1 class="text-2xl font-black tracking-tight text-[#1c140d]">Quản lý món ăn</h1>
-<p class="text-sm text-[#9c7349]">Quản lý danh sách thực đơn, giá bán và tồn kho</p>
-</div>
-<div class="flex items-center gap-4">
-<div class="relative">
-<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-[#9c7349]">
-<span class="material-symbols-outlined text-xl">search</span>
-</span>
-<input class="h-11 pl-10 pr-4 rounded-xl border-none bg-white shadow-sm text-sm w-64 focus:ring-2 focus:ring-primary/50 transition-all" placeholder="Tìm kiếm món ăn..." type="text"/>
-</div>
-<button class="flex items-center gap-2 px-6 py-2.5 bg-primary text-white text-sm font-bold rounded-xl hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all">
-<span class="material-symbols-outlined">add</span>
-                    Thêm món ăn mới
-                </button>
-</div>
+
+<header class="mb-8">
+    <div class="flex items-center justify-between mb-6">
+        <div>
+            <h1 class="text-2xl font-black tracking-tight text-[#1c140d]">Quản lý món ăn</h1>
+            <p class="text-sm text-[#9c7349]">Quản lý danh sách món, giá bán, tồn kho và hình ảnh</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <button id="exportBtn" class="flex items-center gap-2 px-6 py-2.5 bg-white border border-[#f4ede7] text-[#1c140d] text-sm font-bold rounded-xl hover:bg-gray-50 shadow-sm transition-all">
+                <span class="material-symbols-outlined text-xl">download</span>
+                Export dữ liệu
+            </button>
+            <button id="importBtn" class="flex items-center gap-2 px-6 py-2.5 bg-white border border-[#f4ede7] text-[#1c140d] text-sm font-bold rounded-xl hover:bg-gray-50 shadow-sm transition-all">
+                <span class="material-symbols-outlined text-xl">upload</span>
+                Import
+            </button>
+            <button id="addDishBtn" class="flex items-center gap-2 px-6 py-2.5 bg-primary text-white text-sm font-bold rounded-xl hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all">
+                <span class="material-symbols-outlined text-xl">add</span>
+                Thêm món ăn
+            </button>
+        </div>
+    </div>
+
+    <div class="flex items-center justify-between border-b border-[#f4ede7]">
+        <div class="flex gap-8">
+            <button id="tabAll" class="pb-4 text-sm font-bold tab-active border-b-2 transition-all">Tất cả</button>
+            <button id="tabInStock" class="pb-4 text-sm font-bold text-[#9c7349] hover:text-primary border-b-2 border-transparent transition-all">Còn hàng</button>
+            <button id="tabOutStock" class="pb-4 text-sm font-bold text-[#9c7349] hover:text-primary border-b-2 border-transparent transition-all">Hết hàng</button>
+            <button id="tabPizza" class="pb-4 text-sm font-bold text-[#9c7349] hover:text-primary border-b-2 border-transparent transition-all">Pizza</button>
+            <button id="tabBurger" class="pb-4 text-sm font-bold text-[#9c7349] hover:text-primary border-b-2 border-transparent transition-all">Burger</button>
+        </div>
+        <div class="flex items-center gap-4 pb-4">
+            <div class="relative">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-[#9c7349]">
+                    <span class="material-symbols-outlined text-xl">search</span>
+                </span>
+                <input id="searchInput" class="h-10 pl-10 pr-4 rounded-xl border-none bg-white shadow-sm text-sm w-64 focus:ring-2 focus:ring-primary/50 transition-all" placeholder="Tìm món ăn..." type="text"/>
+            </div>
+            <select id="sortSelect" class="h-10 px-4 rounded-xl border-none bg-white shadow-sm text-sm text-[#1c140d] focus:ring-2 focus:ring-primary/50 transition-all">
+                <option value="newest">Mới nhất</option>
+                <option value="oldest">Cũ nhất</option>
+                <option value="name_asc">A → Z</option>
+                <option value="name_desc">Z → A</option>
+                <option value="price_asc">Giá tăng dần</option>
+                <option value="price_desc">Giá giảm dần</option>
+                <option value="stock_desc">Tồn kho cao → thấp</option>
+            </select>
+        </div>
+    </div>
 </header>
+
+<!-- Modal thêm/sửa món ăn -->
+<div id="dishModal" class="hidden fixed inset-0 bg-black/50 z-[999] flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
+        <div class="bg-primary p-6 text-white flex items-center justify-between">
+            <h3 class="text-lg font-black" id="modalTitle">Thêm món ăn mới</h3>
+            <button id="closeDishModal" class="p-2 hover:bg-white/10 rounded-xl transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="p-6 overflow-y-auto max-h-[70vh]">
+            <form id="dishForm">
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <label class="block text-sm font-bold text-[#1c140d] mb-2" for="dishName">Tên món *</label>
+                        <input id="dishName" type="text" required class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] focus:ring-2 focus:ring-primary/50"/>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-[#1c140d] mb-2" for="dishPrice">Giá bán (đ) *</label>
+                        <input id="dishPrice" type="number" required class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] focus:ring-2 focus:ring-primary/50"/>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <label class="block text-sm font-bold text-[#1c140d] mb-2" for="dishCategory">Danh mục *</label>
+                        <select id="dishCategory" required class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] focus:ring-2 focus:ring-primary/50">
+                            <option value="Pizza">Pizza</option>
+                            <option value="Burger">Burger</option>
+                            <option value="Pasta">Pasta</option>
+                            <option value="Drink">Đồ uống</option>
+                            <option value="Dessert">Tráng miệng</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-[#1c140d] mb-2" for="dishUnit">Đơn vị tính *</label>
+                        <input id="dishUnit" type="text" required value="Phần" class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] focus:ring-2 focus:ring-primary/50"/>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-bold text-[#1c140d] mb-2" for="dishStock">Tồn kho *</label>
+                    <input id="dishStock" type="number" required min="0" class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] focus:ring-2 focus:ring-primary/50"/>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-bold text-[#1c140d] mb-2" for="dishImage">URL hình ảnh</label>
+                    <input id="dishImage" type="url" class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] focus:ring-2 focus:ring-primary/50"/>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-bold text-[#1c140d] mb-2">Mô tả ngắn</label>
+                    <textarea id="dishDesc" class="h-24 w-full px-4 py-3 rounded-xl border border-[#f4ede7] resize-none focus:ring-2 focus:ring-primary/50"></textarea>
+                </div>
+                <div class="flex justify-end gap-3">
+                    <button type="button" id="cancelDishBtn" class="px-6 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 rounded-xl">Hủy</button>
+                    <button type="submit" class="px-6 py-3 bg-primary text-white text-sm font-bold rounded-xl hover:bg-primary/90">Lưu món ăn</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal xem chi tiết món -->
+<div id="detailDishModal" class="hidden fixed inset-0 bg-black/50 z-[999] flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+        <div class="bg-primary p-6 text-white flex items-center justify-between">
+            <h3 class="text-lg font-black">Chi tiết món ăn</h3>
+            <button id="closeDetailDish" class="p-2 hover:bg-white/10 rounded-xl transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="p-6 overflow-y-auto max-h-[70vh] grid grid-cols-3 gap-6">
+            <div class="col-span-1">
+                <div class="bg-gray-50 rounded-2xl p-6 text-center">
+                    <div class="h-40 w-40 rounded-2xl bg-cover bg-center border-4 border-white mx-auto mb-4" id="detailDishImage"></div>
+                    <h3 class="text-xl font-black text-[#1c140d]" id="detailDishName"></h3>
+                    <p class="text-sm text-[#9c7349] mt-1" id="detailDishCategory"></p>
+                    <div class="mt-4">
+                        <span class="inline-block px-4 py-1 rounded-full text-sm font-bold" id="detailDishStatus"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-2">
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="bg-gray-50 rounded-2xl p-6">
+                        <h4 class="text-sm font-bold text-[#9c7349] mb-4">Thông tin giá & tồn kho</h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between"><span class="text-[#9c7349]">Giá bán:</span><span class="font-bold" id="detailDishPrice"></span></div>
+                            <div class="flex justify-between"><span class="text-[#9c7349]">Đơn vị:</span><span class="font-bold" id="detailDishUnit"></span></div>
+                            <div class="flex justify-between"><span class="text-[#9c7349]">Tồn kho hiện tại:</span><span class="font-bold" id="detailDishStock"></span></div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 rounded-2xl p-6">
+                        <h4 class="text-sm font-bold text-[#9c7349] mb-4">Thông tin khác</h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between"><span class="text-[#9c7349]">Mã món:</span><span class="font-bold" id="detailDishId"></span></div>
+                            <div class="flex justify-between"><span class="text-[#9c7349]">Ngày thêm:</span><span class="font-bold" id="detailDishAdded"></span></div>
+                            <div class="flex justify-between"><span class="text-[#9c7349]">Mô tả:</span><span class="font-bold" id="detailDishDesc"></span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bảng danh sách món ăn -->
 <section class="bg-white rounded-3xl border border-[#f4ede7] shadow-sm overflow-hidden mb-12">
-<div class="p-6 border-b border-[#f4ede7] flex items-center justify-between">
-<h4 class="font-bold text-lg text-[#1c140d]">Danh sách món ăn</h4>
-<div class="flex items-center gap-2">
-<button class="flex items-center gap-2 px-4 py-2 rounded-xl border border-[#f4ede7] text-sm font-bold text-[#9c7349] hover:bg-gray-50 transition-all">
-<span class="material-symbols-outlined text-lg">filter_list</span>
-                        Lọc
-                    </button>
-<button class="p-2 rounded-xl border border-[#f4ede7] text-[#9c7349] hover:bg-gray-50">
-<span class="material-symbols-outlined">download</span>
-</button>
-</div>
-</div>
-<div class="overflow-x-auto">
-<table class="w-full text-left">
-<thead class="bg-[#fcfaf8] text-[#9c7349] text-xs font-bold uppercase tracking-wider">
-<tr>
-<th class="px-6 py-4">Hình ảnh</th>
-<th class="px-6 py-4">Mã món</th>
-<th class="px-6 py-4">Tên món</th>
-<th class="px-6 py-4">Danh mục</th>
-<th class="px-6 py-4">Giá bán</th>
-<th class="px-6 py-4">ĐVT</th>
-<th class="px-6 py-4 text-center">Tồn kho</th>
-<th class="px-6 py-4">Trạng thái</th>
-<th class="px-6 py-4 text-center">Thao tác</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-[#f4ede7]">
-<tr class="hover:bg-gray-50/50 transition-colors">
-<td class="px-6 py-4">
-<div class="h-12 w-12 rounded-xl bg-cover bg-center border border-[#f4ede7]" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDE7HfMcRBZG_PL1xI95sGSBmYq6LS1IAGvc5cIJDhG3kqStDMOoYvT6PQGALTG0iESug5lkiiKfm0kgypRoWNpWnYid3-3s3c1oTnjbIYw9Oq8i6GgUxiiarzURC6T4YiOh6g7p9VRMY50YmnPgjzTfJO9ONuWPOYKf6pizy1CUH6gOZat09R-8f3zbn6GeBTn67LpHSzhW1C1nsyxmKj6gKZs3RVVoT8C63ZS77woMX97rcaFf1w7SK_I2B9lAIpkQnQkL0Hs4sg');"></div>
-</td>
-<td class="px-6 py-4 text-sm font-bold text-primary">#MON-001</td>
-<td class="px-6 py-4">
-<span class="text-sm font-bold text-[#1c140d]">Pizza Hải Sản Cao Cấp</span>
-</td>
-<td class="px-6 py-4">
-<span class="px-2.5 py-1 bg-[#f4ede7] text-[#9c7349] text-[10px] font-bold rounded-lg uppercase">Pizza</span>
-</td>
-<td class="px-6 py-4 text-sm font-bold text-[#1c140d]">259,000đ</td>
-<td class="px-6 py-4 text-sm text-[#9c7349]">Cái</td>
-<td class="px-6 py-4 text-center">
-<span class="text-sm font-bold text-[#1c140d]">45</span>
-</td>
-<td class="px-6 py-4">
-<span class="px-3 py-1 bg-green-100 text-green-700 text-[10px] font-bold rounded-full uppercase">Còn hàng</span>
-</td>
-<td class="px-6 py-4">
-<div class="flex items-center justify-center gap-2">
-<button class="p-2 rounded-xl hover:bg-blue-50 text-blue-600 transition-colors" title="Chỉnh sửa">
-<span class="material-symbols-outlined text-xl">edit</span>
-</button>
-<button class="p-2 rounded-xl hover:bg-red-50 text-red-600 transition-colors" title="Xóa">
-<span class="material-symbols-outlined text-xl">delete</span>
-</button>
-</div>
-</td>
-</tr>
-<tr class="hover:bg-gray-50/50 transition-colors">
-<td class="px-6 py-4">
-<div class="h-12 w-12 rounded-xl bg-cover bg-center border border-[#f4ede7]" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCl5OJ3IPnxS8LTUE7iEOdM5zMYJmOKms53fEesCk7fRqNke9uyyzdMfeyGXbxgXQUgTmk2HFFwBDj0SoNKmHP44Q2Hgoy1GbUW1KBu8jrym3Xu6cFw8M4w--6OqexwJqtm9QNweCkbGabeXlkEbFs0ssADMgnP_vvpa9Th7R_YA7kJC8JjoEuCScEVYaCoV67JDUtmg3zGHkzn4Zzp7OHNgbKfkf-MRSKtvUyiIreMFzAtjaqZ4r1zmBM47JQttGiQThIfpidG06w');"></div>
-</td>
-<td class="px-6 py-4 text-sm font-bold text-primary">#MON-002</td>
-<td class="px-6 py-4">
-<span class="text-sm font-bold text-[#1c140d]">Burger Bò Wagyu</span>
-</td>
-<td class="px-6 py-4">
-<span class="px-2.5 py-1 bg-[#f4ede7] text-[#9c7349] text-[10px] font-bold rounded-lg uppercase">Burger</span>
-</td>
-<td class="px-6 py-4 text-sm font-bold text-[#1c140d]">189,000đ</td>
-<td class="px-6 py-4 text-sm text-[#9c7349]">Phần</td>
-<td class="px-6 py-4 text-center">
-<span class="text-sm font-bold text-[#1c140d]">12</span>
-</td>
-<td class="px-6 py-4">
-<span class="px-3 py-1 bg-green-100 text-green-700 text-[10px] font-bold rounded-full uppercase">Còn hàng</span>
-</td>
-<td class="px-6 py-4">
-<div class="flex items-center justify-center gap-2">
-<button class="p-2 rounded-xl hover:bg-blue-50 text-blue-600 transition-colors">
-<span class="material-symbols-outlined text-xl">edit</span>
-</button>
-<button class="p-2 rounded-xl hover:bg-red-50 text-red-600 transition-colors">
-<span class="material-symbols-outlined text-xl">delete</span>
-</button>
-</div>
-</td>
-</tr>
-<tr class="hover:bg-gray-50/50 transition-colors">
-<td class="px-6 py-4">
-<div class="h-12 w-12 rounded-xl bg-cover bg-center border border-[#f4ede7]" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCsYcIOTg0TE_dhdGGZlQhThMxmfb1tTkr4quiWmDly3hP-Yi0RCMbpaUg2JUEV3VqOUdY1jnQqsD3HFJpO9juKTKib9gkEK0yi4wddo8fNdxt_byITU8RInVCWLcnC1PlBx2LGFJJrFHRvwQOxn_zcrTf4qSqC2zfZCGIfRPVNYmqNZG7Nj6cMIyg-JS8r2fX36M6NmnxdKABiMhvw06Q4wls7rS6eB6XOsj8ROwwmRxB8QbY8G9DvajXgJv05nho_fs6H6KUj5ak');"></div>
-</td>
-<td class="px-6 py-4 text-sm font-bold text-primary">#MON-003</td>
-<td class="px-6 py-4">
-<span class="text-sm font-bold text-[#1c140d]">Mì Ý Sốt Bò Bằm</span>
-</td>
-<td class="px-6 py-4">
-<span class="px-2.5 py-1 bg-[#f4ede7] text-[#9c7349] text-[10px] font-bold rounded-lg uppercase">Pasta</span>
-</td>
-<td class="px-6 py-4 text-sm font-bold text-[#1c140d]">145,000đ</td>
-<td class="px-6 py-4 text-sm text-[#9c7349]">Đĩa</td>
-<td class="px-6 py-4 text-center">
-<span class="text-sm font-bold text-red-500">0</span>
-</td>
-<td class="px-6 py-4">
-<span class="px-3 py-1 bg-red-100 text-red-700 text-[10px] font-bold rounded-full uppercase">Hết hàng</span>
-</td>
-<td class="px-6 py-4">
-<div class="flex items-center justify-center gap-2">
-<button class="p-2 rounded-xl hover:bg-blue-50 text-blue-600 transition-colors">
-<span class="material-symbols-outlined text-xl">edit</span>
-</button>
-<button class="p-2 rounded-xl hover:bg-red-50 text-red-600 transition-colors">
-<span class="material-symbols-outlined text-xl">delete</span>
-</button>
-</div>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="p-6 border-t border-[#f4ede7] flex items-center justify-between">
-<p class="text-sm text-[#9c7349]">Hiển thị 1-3 trong tổng số 48 món ăn</p>
-<div class="flex items-center gap-2">
-<button class="h-10 w-10 flex items-center justify-center rounded-xl border border-[#f4ede7] text-[#9c7349] hover:bg-gray-50 transition-colors">
-<span class="material-symbols-outlined">chevron_left</span>
-</button>
-<button class="h-10 w-10 flex items-center justify-center rounded-xl bg-primary text-white font-bold">1</button>
-<button class="h-10 w-10 flex items-center justify-center rounded-xl border border-[#f4ede7] text-[#9c7349] hover:bg-gray-50 transition-colors">2</button>
-<button class="h-10 w-10 flex items-center justify-center rounded-xl border border-[#f4ede7] text-[#9c7349] hover:bg-gray-50 transition-colors">3</button>
-<button class="h-10 w-10 flex items-center justify-center rounded-xl border border-[#f4ede7] text-[#9c7349] hover:bg-gray-50 transition-colors">
-<span class="material-symbols-outlined">chevron_right</span>
-</button>
-</div>
-</div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left">
+            <thead class="bg-[#fcfaf8] text-[#9c7349] text-xs font-bold uppercase tracking-wider">
+                <tr>
+                    <th class="px-6 py-4">Hình ảnh</th>
+                    <th class="px-6 py-4">Mã món</th>
+                    <th class="px-6 py-4">Tên món</th>
+                    <th class="px-6 py-4">Danh mục</th>
+                    <th class="px-6 py-4">Giá bán</th>
+                    <th class="px-6 py-4">ĐVT</th>
+                    <th class="px-6 py-4 text-center">Tồn kho</th>
+                    <th class="px-6 py-4">Trạng thái</th>
+                    <th class="px-6 py-4 text-center">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody id="dishesTable" class="divide-y divide-[#f4ede7]"></tbody>
+        </table>
+    </div>
+    <div class="p-6 border-t border-[#f4ede7] flex items-center justify-between">
+        <p class="text-sm text-[#9c7349]" id="paginationInfo">Hiển thị 1-8 trong tổng số 48 món ăn</p>
+        <div class="flex items-center gap-2">
+            <button id="prevPage" class="h-10 w-10 flex items-center justify-center rounded-xl border border-[#f4ede7] text-[#9c7349] hover:bg-gray-50">
+                <span class="material-symbols-outlined">chevron_left</span>
+            </button>
+            <button class="h-10 w-10 flex items-center justify-center rounded-xl bg-primary text-white font-bold">1</button>
+            <button class="h-10 w-10 flex items-center justify-center rounded-xl border border-[#f4ede7] text-[#9c7349] hover:bg-gray-50">2</button>
+            <button id="nextPage" class="h-10 w-10 flex items-center justify-center rounded-xl border border-[#f4ede7] text-[#9c7349] hover:bg-gray-50">
+                <span class="material-symbols-outlined">chevron_right</span>
+            </button>
+        </div>
+    </div>
 </section>
+
+<!-- Thống kê nhanh -->
+<div class="grid grid-cols-4 gap-6 mb-8">
+    <div class="bg-white rounded-3xl border border-[#f4ede7] shadow-sm p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm text-[#9c7349]">Tổng món ăn</p>
+                <p class="text-2xl font-black text-[#1c140d]" id="totalDishes">48</p>
+            </div>
+            <div class="h-12 w-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                <span class="material-symbols-outlined text-primary">restaurant_menu</span>
+            </div>
+        </div>
+    </div>
+    <div class="bg-white rounded-3xl border border-[#f4ede7] shadow-sm p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm text-[#9c7349]">Còn hàng</p>
+                <p class="text-2xl font-black text-[#1c140d]" id="inStock">42</p>
+            </div>
+            <div class="h-12 w-12 bg-green-100 rounded-xl flex items-center justify-center">
+                <span class="material-symbols-outlined text-green-600">inventory_2</span>
+            </div>
+        </div>
+    </div>
+    <div class="bg-white rounded-3xl border border-[#f4ede7] shadow-sm p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm text-[#9c7349]">Hết hàng</p>
+                <p class="text-2xl font-black text-[#1c140d]" id="outStock">6</p>
+            </div>
+            <div class="h-12 w-12 bg-red-100 rounded-xl flex items-center justify-center">
+                <span class="material-symbols-outlined text-red-600">block</span>
+            </div>
+        </div>
+    </div>
+    <div class="bg-white rounded-3xl border border-[#f4ede7] shadow-sm p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm text-[#9c7349]">Giá trị tồn kho</p>
+                <p class="text-2xl font-black text-[#1c140d]" id="stockValue">~85.6tr</p>
+            </div>
+            <div class="h-12 w-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                <span class="material-symbols-outlined text-purple-600">payments</span>
+            </div>
+        </div>
+    </div>
+</div>
+
 </main>
+
+<!-- Chatbot (kết hợp từ file gốc) -->
 <div class="fixed bottom-6 right-6 z-[100] flex flex-col items-end">
 <div class="flex flex-col w-[380px] h-[520px] bg-white rounded-3xl shadow-2xl border border-[#f4ede7] overflow-hidden mb-4 animate-in fade-in slide-in-from-bottom-4 duration-300" id="chatbot-window">
 <div class="bg-primary p-4 flex items-center justify-between text-white">
@@ -329,4 +398,270 @@
 </button>
 </div>
 
-</body></html>
+<script>
+// Dữ liệu món ăn mẫu (tương tự như usersData)
+let dishesData = [
+    { id: "#MON-001", name: "Pizza Hải Sản Cao Cấp", category: "Pizza", price: 259000, unit: "Cái", stock: 45, image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDE7HfMcRBZG_PL1xI95sGSBmYq6LS1IAGvc5cIJDhG3kqStDMOoYvT6PQGALTG0iESug5lkiiKfm0kgypRoWNpWnYid3-3s3c1oTnjbIYw9Oq8i6GgUxiiarzURC6T4YiOh6g7p9VRMY50YmnPgjzTfJO9ONuWPOYKf6pizy1CUH6gOZat09R-8f3zbn6GeBTn67LpHSzhW1C1nsyxmKj6gKZs3RVVoT8C63ZS77woMX97rcaFf1w7SK_I2B9lAIpkQnQkL0Hs4sg", desc: "Pizza hải sản cao cấp với tôm, mực tươi", addedDate: "10/01/2025" },
+    { id: "#MON-002", name: "Burger Bò Wagyu", category: "Burger", price: 189000, unit: "Phần", stock: 12, image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCl5OJ3IPnxS8LTUE7iEOdM5zMYJmOKms53fEesCk7fRqNke9uyyzdMfeyGXbxgXQUgTmk2HFFwBDj0SoNKmHP44Q2Hgoy1GbUW1KBu8jrym3Xu6cFw8M4w--6OqexwJqtm9QNweCkbGabeXlkEbFs0ssADMgnP_vvpa9Th7R_YA7kJC8JjoEuCScEVYaCoV67JDUtmg3zGHkzn4Zzp7OHNgbKfkf-MRSKtvUyiIreMFzAtjaqZ4r1zmBM47JQttGiQThIfpidG06w", desc: "Burger bò Wagyu thượng hạng", addedDate: "15/01/2025" },
+    { id: "#MON-003", name: "Mì Ý Sốt Bò Bằm", category: "Pasta", price: 145000, unit: "Đĩa", stock: 0, image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCsYcIOTg0TE_dhdGGZlQhThMxmfb1tTkr4quiWmDly3hP-Yi0RCMbpaUg2JUEV3VqOUdY1jnQqsD3HFJpO9juKTKib9gkEK0yi4wddo8fNdxt_byITU8RInVCWLcnC1PlBx2LGFJJrFHRvwQOxn_zcrTf4qSqC2zfZCGIfRPVNYmqNZG7Nj6cMIyg-JS8r2fX36M6NmnxdKABiMhvw06Q4wls7rS6eB6XOsj8ROwwmRxB8QbY8G9DvajXgJv05nho_fs6H6KUj5ak", desc: "Mì Ý sốt bò bằm truyền thống", addedDate: "20/01/2025" },
+    // ... thêm món khác nếu muốn
+];
+
+let currentFilter = 'all';
+let currentSort = 'newest';
+let currentSearch = '';
+let currentPage = 1;
+const itemsPerPage = 8;
+let editingDishId = null;
+
+// DOM elements
+const dishesTable = document.getElementById('dishesTable');
+const addDishBtn = document.getElementById('addDishBtn');
+const dishModal = document.getElementById('dishModal');
+const closeDishModal = document.getElementById('closeDishModal');
+const cancelDishBtn = document.getElementById('cancelDishBtn');
+const dishForm = document.getElementById('dishForm');
+const modalTitle = document.getElementById('modalTitle');
+const searchInput = document.getElementById('searchInput');
+const sortSelect = document.getElementById('sortSelect');
+const tabAll = document.getElementById('tabAll');
+const tabInStock = document.getElementById('tabInStock');
+const tabOutStock = document.getElementById('tabOutStock');
+const tabPizza = document.getElementById('tabPizza');
+const tabBurger = document.getElementById('tabBurger');
+const exportBtn = document.getElementById('exportBtn');
+const importBtn = document.getElementById('importBtn');
+const detailDishModal = document.getElementById('detailDishModal');
+const closeDetailDish = document.getElementById('closeDetailDish');
+const paginationInfo = document.getElementById('paginationInfo');
+const prevPage = document.getElementById('prevPage');
+const nextPage = document.getElementById('nextPage');
+
+// Hiển thị bảng món ăn
+function displayDishes(dishes) {
+    dishesTable.innerHTML = '';
+    const start = (currentPage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const paginated = dishes.slice(start, end);
+
+    paginated.forEach(dish => {
+        const row = document.createElement('tr');
+        row.className = 'hover:bg-gray-50/50 transition-colors';
+        row.innerHTML = `
+            <td class="px-6 py-4"><div class="h-12 w-12 rounded-xl bg-cover bg-center border border-[#f4ede7]" style="background-image: url('${dish.image}')"></div></td>
+            <td class="px-6 py-4 text-sm font-bold text-primary">${dish.id}</td>
+            <td class="px-6 py-4"><span class="text-sm font-bold text-[#1c140d]">${dish.name}</span></td>
+            <td class="px-6 py-4"><span class="px-2.5 py-1 bg-[#f4ede7] text-[#9c7349] text-[10px] font-bold rounded-lg uppercase">${dish.category}</span></td>
+            <td class="px-6 py-4 text-sm font-bold text-[#1c140d]">${dish.price.toLocaleString()}đ</td>
+            <td class="px-6 py-4 text-sm text-[#9c7349]">${dish.unit}</td>
+            <td class="px-6 py-4 text-center"><span class="text-sm font-bold ${dish.stock > 0 ? 'text-[#1c140d]' : 'text-red-500'}">${dish.stock}</span></td>
+            <td class="px-6 py-4"><span class="px-3 py-1 ${dish.stock > 0 ? 'status-instock' : 'status-outstock'} text-[10px] font-bold rounded-full uppercase">${dish.stock > 0 ? 'Còn hàng' : 'Hết hàng'}</span></td>
+            <td class="px-6 py-4">
+                <div class="flex items-center justify-center gap-2">
+                    <button onclick="viewDishDetail('${dish.id}')" class="p-2 hover:bg-blue-50 text-blue-600" title="Xem chi tiết"><span class="material-symbols-outlined">visibility</span></button>
+                    <button onclick="editDish('${dish.id}')" class="p-2 hover:bg-primary/10 text-primary" title="Chỉnh sửa"><span class="material-symbols-outlined">edit</span></button>
+                    <button onclick="deleteDish('${dish.id}')" class="p-2 hover:bg-red-50 text-red-600" title="Xóa"><span class="material-symbols-outlined">delete</span></button>
+                </div>
+            </td>
+        `;
+        dishesTable.appendChild(row);
+    });
+
+    paginationInfo.textContent = `Hiển thị ${start+1}-${Math.min(end, dishes.length)} trong tổng số ${dishes.length} món ăn`;
+    prevPage.disabled = currentPage === 1;
+    nextPage.disabled = end >= dishes.length;
+
+    // Cập nhật thống kê
+    const total = dishesData.length;
+    const inStock = dishesData.filter(d => d.stock > 0).length;
+    const outStock = total - inStock;
+    const stockValue = dishesData.reduce((sum, d) => sum + d.price * d.stock, 0);
+
+    document.getElementById('totalDishes').textContent = total;
+    document.getElementById('inStock').textContent = inStock;
+    document.getElementById('outStock').textContent = outStock;
+    document.getElementById('stockValue').textContent = `~${(stockValue / 1000000).toFixed(1)}tr`;
+}
+
+// Lọc + sắp xếp
+function filterAndSortDishes() {
+    let filtered = dishesData.filter(d => {
+        if (currentFilter === 'instock' && d.stock <= 0) return false;
+        if (currentFilter === 'outstock' && d.stock > 0) return false;
+        if (currentFilter === 'pizza' && d.category !== 'Pizza') return false;
+        if (currentFilter === 'burger' && d.category !== 'Burger') return false;
+        if (currentSearch) {
+            const s = currentSearch.toLowerCase();
+            return d.id.toLowerCase().includes(s) || d.name.toLowerCase().includes(s) || d.category.toLowerCase().includes(s);
+        }
+        return true;
+    });
+
+    filtered.sort((a,b) => {
+        switch(currentSort) {
+            case 'newest': return new Date(b.addedDate.split('/').reverse().join('-')) - new Date(a.addedDate.split('/').reverse().join('-'));
+            case 'oldest': return new Date(a.addedDate.split('/').reverse().join('-')) - new Date(b.addedDate.split('/').reverse().join('-'));
+            case 'name_asc': return a.name.localeCompare(b.name);
+            case 'name_desc': return b.name.localeCompare(a.name);
+            case 'price_asc': return a.price - b.price;
+            case 'price_desc': return b.price - a.price;
+            case 'stock_desc': return b.stock - a.stock;
+            default: return 0;
+        }
+    });
+
+    return filtered;
+}
+
+// Xem chi tiết
+window.viewDishDetail = function(id) {
+    const dish = dishesData.find(d => d.id === id);
+    if (!dish) return;
+
+    document.getElementById('detailDishImage').style.backgroundImage = `url('${dish.image}')`;
+    document.getElementById('detailDishName').textContent = dish.name;
+    document.getElementById('detailDishCategory').textContent = dish.category;
+    document.getElementById('detailDishPrice').textContent = dish.price.toLocaleString() + 'đ';
+    document.getElementById('detailDishUnit').textContent = dish.unit;
+    document.getElementById('detailDishStock').textContent = dish.stock;
+    document.getElementById('detailDishId').textContent = dish.id;
+    document.getElementById('detailDishAdded').textContent = dish.addedDate;
+    document.getElementById('detailDishDesc').textContent = dish.desc || 'Không có mô tả';
+
+    const statusEl = document.getElementById('detailDishStatus');
+    statusEl.textContent = dish.stock > 0 ? 'Còn hàng' : 'Hết hàng';
+    statusEl.className = `inline-block px-4 py-1 rounded-full text-sm font-bold ${dish.stock > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`;
+
+    detailDishModal.classList.remove('hidden');
+};
+
+// Chỉnh sửa
+window.editDish = function(id) {
+    const dish = dishesData.find(d => d.id === id);
+    if (!dish) return;
+
+    editingDishId = id;
+    modalTitle.textContent = 'Chỉnh sửa món ăn';
+    document.getElementById('dishName').value = dish.name;
+    document.getElementById('dishPrice').value = dish.price;
+    document.getElementById('dishCategory').value = dish.category;
+    document.getElementById('dishUnit').value = dish.unit;
+    document.getElementById('dishStock').value = dish.stock;
+    document.getElementById('dishImage').value = dish.image;
+    document.getElementById('dishDesc').value = dish.desc || '';
+
+    dishModal.classList.remove('hidden');
+};
+
+// Xóa món
+window.deleteDish = function(id) {
+    if (!confirm('Xác nhận xóa món ăn này?')) return;
+    dishesData = dishesData.filter(d => d.id !== id);
+    updateDisplay();
+    alert('Đã xóa món ăn thành công!');
+};
+
+// Submit form
+dishForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const data = {
+        name: document.getElementById('dishName').value,
+        price: parseInt(document.getElementById('dishPrice').value),
+        category: document.getElementById('dishCategory').value,
+        unit: document.getElementById('dishUnit').value,
+        stock: parseInt(document.getElementById('dishStock').value),
+        image: document.getElementById('dishImage').value || 'https://via.placeholder.com/300',
+        desc: document.getElementById('dishDesc').value
+    };
+
+    if (editingDishId) {
+        const idx = dishesData.findIndex(d => d.id === editingDishId);
+        if (idx !== -1) {
+            dishesData[idx] = { ...dishesData[idx], ...data };
+            alert('Cập nhật món ăn thành công!');
+        }
+    } else {
+        const newId = `#MON-${String(dishesData.length + 1).padStart(3, '0')}`;
+        dishesData.unshift({
+            id: newId,
+            ...data,
+            addedDate: new Date().toLocaleDateString('vi-VN')
+        });
+        alert('Thêm món ăn mới thành công!');
+    }
+
+    dishModal.classList.add('hidden');
+    updateDisplay();
+});
+
+// Đóng modal
+closeDishModal.addEventListener('click', () => dishModal.classList.add('hidden'));
+cancelDishBtn.addEventListener('click', () => dishModal.classList.add('hidden'));
+closeDetailDish.addEventListener('click', () => detailDishModal.classList.add('hidden'));
+
+// Tìm kiếm & sắp xếp
+searchInput.addEventListener('input', e => { currentSearch = e.target.value; currentPage = 1; updateDisplay(); });
+sortSelect.addEventListener('change', e => { currentSort = e.target.value; updateDisplay(); });
+
+// Tab
+function setActiveTab(btn, filter) {
+    [tabAll, tabInStock, tabOutStock, tabPizza, tabBurger].forEach(b => {
+        b.classList.remove('tab-active', 'text-primary');
+        b.classList.add('text-[#9c7349]', 'border-transparent');
+    });
+    btn.classList.add('tab-active', 'text-primary');
+    currentFilter = filter;
+    currentPage = 1;
+    updateDisplay();
+}
+
+tabAll.addEventListener('click', () => setActiveTab(tabAll, 'all'));
+tabInStock.addEventListener('click', () => setActiveTab(tabInStock, 'instock'));
+tabOutStock.addEventListener('click', () => setActiveTab(tabOutStock, 'outstock'));
+tabPizza.addEventListener('click', () => setActiveTab(tabPizza, 'pizza'));
+tabBurger.addEventListener('click', () => setActiveTab(tabBurger, 'burger'));
+
+// Export CSV
+exportBtn.addEventListener('click', () => {
+    const filtered = filterAndSortDishes();
+    let csv = "Mã món,Tên món,Danh mục,Giá,ĐVT,Tồn kho,Trạng thái\n";
+    filtered.forEach(d => {
+        csv += `${d.id},"${d.name}",${d.category},${d.price},${d.unit},${d.stock},${d.stock > 0 ? 'Còn hàng' : 'Hết hàng'}\n`;
+    });
+    const uri = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+    const link = document.createElement('a');
+    link.href = uri;
+    link.download = 'mon_an_foodgo.csv';
+    link.click();
+});
+
+// Import 
+importBtn.addEventListener('click', () => {
+    alert('Chức năng import đang được phát triển. Hiện tại hỗ trợ import JSON/CSV trong tương lai.');
+});
+
+// Phân trang
+prevPage.addEventListener('click', () => { if (currentPage > 1) { currentPage--; updateDisplay(); } });
+nextPage.addEventListener('click', () => {
+    const filtered = filterAndSortDishes();
+    if (currentPage * itemsPerPage < filtered.length) { currentPage++; updateDisplay(); }
+});
+
+// Cập nhật giao diện
+function updateDisplay() {
+    const filtered = filterAndSortDishes();
+    displayDishes(filtered);
+}
+
+// Khởi tạo
+addDishBtn.addEventListener('click', () => {
+    editingDishId = null;
+    modalTitle.textContent = 'Thêm món ăn mới';
+    dishForm.reset();
+    dishModal.classList.remove('hidden');
+});
+
+updateDisplay();
+</script>
+</body>
+</html>
