@@ -1,1089 +1,1715 @@
 <!DOCTYPE html>
-<html class="light" lang="vi"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Quản lý Người dùng Admin FoodGo</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-    tailwind.config = {
-        darkMode: "class",
-        theme: {
-            extend: {
-                colors: {
-                    "primary": "#f48c25",
-                    "secondary": "#3b82f6",
-                    "background-light": "#f8f7f5",
-                    "sidebar-bg": "#ffffff",
-                    "card-bg": "#ffffff",
-                    "success": "#10b981",
-                    "warning": "#f59e0b",
-                    "danger": "#ef4444"
-                },
-                fontFamily: {
-                    "display": ["Plus Jakarta Sans", "sans-serif"]
-                },
-                borderRadius: {
-                    "DEFAULT": "0.25rem",
-                    "lg": "0.5rem",
-                    "xl": "0.75rem",
-                    "2xl": "1rem",
-                    "3xl": "1.5rem",
-                    "full": "9999px"
+<html class="light" lang="vi">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Quản lý Người dùng Admin FoodGo</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f48c25",
+                        "secondary": "#3b82f6",
+                        "background-light": "#f8f7f5",
+                        "sidebar-bg": "#ffffff",
+                        "card-bg": "#ffffff",
+                        "success": "#10b981",
+                        "warning": "#f59e0b",
+                        "danger": "#ef4444"
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        "full": "9999px"
+                    },
                 },
             },
-        },
-    }
-</script>
-<style type="text/tailwindcss">
-    body {
-        font-family: "Plus Jakarta Sans", sans-serif;
-    }
-    .material-symbols-outlined {
-        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-    }
-    .active-menu {
-        @apply bg-primary/10 text-primary border-r-4 border-primary;
-    }
-    .tab-active {
-        @apply border-primary text-primary;
-    }
-    .no-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
-    .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-    #chatbot-window {
-        display: none;
-    }
-    #chatbot-toggle:focus-within + #chatbot-window,
-    #chatbot-window:hover,
-    #chatbot-window:focus-within {
-        display: flex;
-    }
-    .status-active {
-        @apply bg-green-100 text-green-700;
-    }
-    .status-locked {
-        @apply bg-red-100 text-red-700;
-    }
-    .status-inactive {
-        @apply bg-gray-100 text-gray-700;
-    }
-    .role-customer {
-        @apply bg-gray-100 text-gray-700;
-    }
-    .role-staff {
-        @apply bg-blue-100 text-blue-700;
-    }
-    .role-admin {
-        @apply bg-purple-100 text-purple-700;
-    }
-</style>
+        }
+    </script>
+    <style type="text/tailwindcss">
+        body {
+            font-family: "Plus Jakarta Sans", sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-menu {
+            @apply bg-primary/10 text-primary border-r-4 border-primary;
+        }
+        .tab-active {
+            @apply border-primary text-primary;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        #chatbot-window {
+            display: none;
+        }
+        #chatbot-toggle:focus-within + #chatbot-window,
+        #chatbot-window:hover,
+        #chatbot-window:focus-within {
+            display: flex;
+        }
+        .status-active {
+            @apply bg-green-100 text-green-700;
+        }
+        .status-locked {
+            @apply bg-red-100 text-red-700;
+        }
+        .status-inactive {
+            @apply bg-gray-100 text-gray-700;
+        }
+        .role-customer {
+            @apply bg-gray-100 text-gray-700;
+        }
+        .role-staff {
+            @apply bg-blue-100 text-blue-700;
+        }
+        .role-admin {
+            @apply bg-purple-100 text-purple-700;
+        }
+        /* Toast notification styles */
+        .toast-success {
+            @apply bg-green-100 border-green-300 text-green-700;
+        }
+        .toast-error {
+            @apply bg-red-100 border-red-300 text-red-700;
+        }
+        .toast-warning {
+            @apply bg-yellow-100 border-yellow-300 text-yellow-700;
+        }
+        .toast-info {
+            @apply bg-blue-100 border-blue-300 text-blue-700;
+        }
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideOutRight {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(20px); }
+        }
+        .animate-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+        .slide-in-right {
+            animation: slideInRight 0.3s ease-out;
+        }
+        .slide-out-right {
+            animation: slideOutRight 0.3s ease-out;
+        }
+    </style>
 </head>
 <body class="bg-background-light text-[#1c140d] min-h-screen flex">
-<aside class="w-64 bg-sidebar-bg border-r border-[#f4ede7] flex flex-col fixed h-full z-50">
-<div class="p-6 flex items-center gap-2 text-primary shrink-0">
-<span class="material-symbols-outlined text-4xl font-bold">fastfood</span>
-<h2 class="text-xl font-black tracking-tighter">FoodGo <span class="text-[10px] bg-primary text-white px-1.5 py-0.5 rounded ml-1 uppercase">Admin</span></h2>
-</div>
-<nav class="flex-1 px-4 space-y-1 overflow-y-auto no-scrollbar">
-<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="Tongquan.html">
-<span class="material-symbols-outlined">dashboard</span>
-    Tổng quan
-</a>
-<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="QLthucdon.html">
-<span class="material-symbols-outlined">restaurant_menu</span>
-    Món ăn
-</a>
-<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="QLdon.html">
-<span class="material-symbols-outlined">receipt_long</span>
-    Đơn hàng
-</a>
-<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold active-menu rounded-lg transition-all" href="QLnguoidung.html">
-<span class="material-symbols-outlined">group</span>
-    Người dùng
-</a>
-<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="QLtaikhoan.html">
-<span class="material-symbols-outlined">key</span>
-    Tài khoản
-</a>
-<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="QLkhuyenmai.html">
-<span class="material-symbols-outlined">redeem</span>
-    Khuyến mãi
-</a>
-<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="QLdanhgia.html">
-<span class="material-symbols-outlined">star</span>
-    Đánh giá
-</a>
-<div class="pt-4 mt-4 border-t border-[#f4ede7]">
-<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="TKrieng.html">
-<span class="material-symbols-outlined">person</span>
-    Tài khoản của tôi
-</a>
-<a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="Caidat.html">
-<span class="material-symbols-outlined">settings</span>
-    Cài đặt
-</a>
-</div>
-</nav>
-<div class="p-4 border-t border-[#f4ede7]">
-<div class="flex items-center gap-3 p-2 bg-[#f4ede7] rounded-2xl">
-<div class="h-10 w-10 rounded-xl bg-cover bg-center border border-white" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCa-A_xiobVGkBwC98jkh3MfvIrJEVa75kurLiQOhyxLHiqGDmWSsVr_3YTAoQYZRPXRahwTNzZ-dbYqIqOHu7aoq0os0D0gWI2Hs1R73wlAgMKuVw6wQ-tOxile4ilTWsYrJeyspkP0VAn11Fjld90gLhccOvG5qah2fn0VZ8gg3bqja4zkLKIb04lGzuBtFVdm9JuODdXB16H5j2gDoRiGFOEUVv2Qa8kEbuzaZGy4kqLSkOeL060s65bgJBfG73sSlq7ro4ydPw");'></div>
-<div class="overflow-hidden">
-<p class="text-xs font-bold truncate">Admin FoodGo</p>
-<p class="text-[10px] text-[#9c7349]">Quản trị viên</p>
-</div>
-</div>
-</div>
-</aside>
-<main class="flex-1 ml-64 p-8">
-<header class="mb-8">
-<div class="flex items-center justify-between mb-6">
-<div>
-<h1 class="text-2xl font-black tracking-tight text-[#1c140d]">Quản lý người dùng</h1>
-<p class="text-sm text-[#9c7349]">Quản lý thông tin cá nhân, phân loại và lịch sử hoạt động người dùng</p>
-</div>
-<div class="flex items-center gap-3">
-<button id="exportBtn" class="flex items-center gap-2 px-6 py-2.5 bg-white border border-[#f4ede7] text-[#1c140d] text-sm font-bold rounded-xl hover:bg-gray-50 shadow-sm transition-all">
-<span class="material-symbols-outlined text-xl">download</span>
-    Export dữ liệu
-</button>
-<button id="importBtn" class="flex items-center gap-2 px-6 py-2.5 bg-white border border-[#f4ede7] text-[#1c140d] text-sm font-bold rounded-xl hover:bg-gray-50 shadow-sm transition-all">
-<span class="material-symbols-outlined text-xl">upload</span>
-    Import
-</button>
-<button id="addUserBtn" class="flex items-center gap-2 px-6 py-2.5 bg-primary text-white text-sm font-bold rounded-xl hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all">
-<span class="material-symbols-outlined text-xl">person_add</span>
-    Thêm người dùng
-</button>
-</div>
-</div>
-<div class="flex items-center justify-between border-b border-[#f4ede7]">
-<div class="flex gap-8">
-<button id="tabAllUsers" class="pb-4 text-sm font-bold tab-active border-b-2 transition-all">Tất cả</button>
-<button id="tabCustomers" class="pb-4 text-sm font-bold text-[#9c7349] hover:text-primary border-b-2 border-transparent transition-all">Khách hàng</button>
-<button id="tabStaff" class="pb-4 text-sm font-bold text-[#9c7349] hover:text-primary border-b-2 border-transparent transition-all">Nhân viên</button>
-<button id="tabInactive" class="pb-4 text-sm font-bold text-[#9c7349] hover:text-primary border-b-2 border-transparent transition-all">Không hoạt động</button>
-</div>
-<div class="flex items-center gap-4 pb-4">
-<div class="relative">
-<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-[#9c7349]">
-<span class="material-symbols-outlined text-xl">search</span>
-</span>
-<input id="searchUserInput" class="h-10 pl-10 pr-4 rounded-xl border-none bg-white shadow-sm text-sm w-64 focus:ring-2 focus:ring-primary/50 transition-all" placeholder="Tìm người dùng..." type="text"/>
-</div>
-<select id="sortUserSelect" class="h-10 px-4 rounded-xl border-none bg-white shadow-sm text-sm text-[#1c140d] focus:ring-2 focus:ring-primary/50 transition-all">
-<option value="newest">Mới nhất</option>
-<option value="oldest">Cũ nhất</option>
-<option value="name_asc">A → Z</option>
-<option value="name_desc">Z → A</option>
-<option value="most_orders">Nhiều đơn nhất</option>
-</select>
-</div>
-</div>
-</header>
-
-<!-- Modal thêm/sửa người dùng -->
-<div id="userModal" class="hidden fixed inset-0 bg-black/50 z-[999] flex items-center justify-center p-4">
-<div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
-<div class="bg-primary p-6 text-white flex items-center justify-between">
-<h3 class="text-lg font-black" id="modalTitle">Thêm người dùng mới</h3>
-<button id="closeUserModalBtn" class="p-2 hover:bg-white/10 rounded-xl transition-colors">
-<span class="material-symbols-outlined">close</span>
-</button>
-</div>
-<div class="p-6 overflow-y-auto max-h-[70vh]">
-<form id="userForm">
-<div class="grid grid-cols-2 gap-4 mb-6">
-<div>
-<label class="block text-sm font-bold text-[#1c140d] mb-2" for="fullName">Họ tên *</label>
-<input class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] bg-white text-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" id="fullName" type="text" required/>
-</div>
-<div>
-<label class="block text-sm font-bold text-[#1c140d] mb-2" for="phone">Số điện thoại *</label>
-<input class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] bg-white text-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" id="phone" type="tel" required/>
-</div>
-</div>
-<div class="mb-6">
-<label class="block text-sm font-bold text-[#1c140d] mb-2" for="email">Email *</label>
-<input class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] bg-white text-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" id="email" type="email" required/>
-</div>
-<div class="grid grid-cols-2 gap-4 mb-6">
-<div>
-<label class="block text-sm font-bold text-[#1c140d] mb-2" for="userRole">Vai trò *</label>
-<select class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] bg-white text-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" id="userRole" required>
-<option value="customer">Khách hàng</option>
-<option value="staff">Nhân viên</option>
-<option value="admin">Quản trị viên</option>
-</select>
-</div>
-<div>
-<label class="block text-sm font-bold text-[#1c140d] mb-2" for="userStatus">Trạng thái *</label>
-<select class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] bg-white text-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" id="userStatus" required>
-<option value="active">Hoạt động</option>
-<option value="inactive">Không hoạt động</option>
-<option value="locked">Đã khóa</option>
-</select>
-</div>
-</div>
-<div class="mb-6">
-<label class="block text-sm font-bold text-[#1c140d] mb-2" for="address">Địa chỉ</label>
-<textarea class="h-24 w-full px-4 py-3 rounded-xl border border-[#f4ede7] bg-white text-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all resize-none" id="address"></textarea>
-</div>
-<div class="mb-6">
-<label class="block text-sm font-bold text-[#1c140d] mb-2">Thông tin bổ sung</label>
-<div class="grid grid-cols-3 gap-3">
-<div class="flex items-center gap-2">
-<input type="checkbox" id="newsletter" class="rounded border-[#f4ede7] text-primary focus:ring-primary/50"/>
-<label for="newsletter" class="text-sm text-[#1c140d]">Nhận bản tin</label>
-</div>
-<div class="flex items-center gap-2">
-<input type="checkbox" id="promo" class="rounded border-[#f4ede7] text-primary focus:ring-primary/50"/>
-<label for="promo" class="text-sm text-[#1c140d]">Nhận khuyến mãi</label>
-</div>
-<div class="flex items-center gap-2">
-<input type="checkbox" id="verified" class="rounded border-[#f4ede7] text-primary focus:ring-primary/50"/>
-<label for="verified" class="text-sm text-[#1c140d]">Đã xác minh</label>
-</div>
-</div>
-</div>
-<div class="flex justify-end gap-3">
-<button type="button" id="cancelUserBtn" class="px-6 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 rounded-xl transition-all">
-    Hủy
-</button>
-<button type="submit" class="px-6 py-3 bg-primary text-white text-sm font-bold rounded-xl hover:bg-primary/90 transition-all">
-    Lưu thông tin
-</button>
-</div>
-</form>
-</div>
-</div>
-</div>
-
-<!-- Modal xem chi tiết -->
-<div id="detailModal" class="hidden fixed inset-0 bg-black/50 z-[999] flex items-center justify-center p-4">
-<div class="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
-<div class="bg-primary p-6 text-white flex items-center justify-between">
-<h3 class="text-lg font-black">Chi tiết người dùng</h3>
-<button id="closeDetailModalBtn" class="p-2 hover:bg-white/10 rounded-xl transition-colors">
-<span class="material-symbols-outlined">close</span>
-</button>
-</div>
-<div class="p-6 overflow-y-auto max-h-[70vh]">
-<div class="grid grid-cols-3 gap-6">
-<div class="col-span-1">
-<div class="bg-gray-50 rounded-2xl p-6 text-center">
-<div class="h-32 w-32 rounded-full bg-cover bg-center border-4 border-white mx-auto mb-4" id="detailAvatar"></div>
-<h3 class="text-xl font-black text-[#1c140d] mb-1" id="detailName"></h3>
-<p class="text-sm text-[#9c7349]" id="detailEmail"></p>
-<div class="mt-4">
-<span class="inline-block px-3 py-1 rounded-full text-xs font-bold" id="detailStatus"></span>
-</div>
-</div>
-<div class="mt-4 space-y-3">
-<div class="flex items-center justify-between text-sm">
-<span class="text-[#9c7349]">Mã người dùng:</span>
-<span class="font-bold text-[#1c140d]" id="detailUserId"></span>
-</div>
-<div class="flex items-center justify-between text-sm">
-<span class="text-[#9c7349]">Ngày tham gia:</span>
-<span class="font-bold text-[#1c140d]" id="detailJoinDate"></span>
-</div>
-<div class="flex items-center justify-between text-sm">
-<span class="text-[#9c7349]">Vai trò:</span>
-<span class="font-bold text-[#1c140d]" id="detailRole"></span>
-</div>
-</div>
-</div>
-<div class="col-span-2">
-<div class="grid grid-cols-2 gap-6">
-<div class="bg-gray-50 rounded-2xl p-6">
-<h4 class="text-sm font-bold text-[#9c7349] mb-4">Thông tin liên hệ</h4>
-<div class="space-y-3">
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-[#9c7349]">phone</span>
-<span class="text-sm" id="detailPhone"></span>
-</div>
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-[#9c7349]">mail</span>
-<span class="text-sm" id="detailEmailFull"></span>
-</div>
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-[#9c7349]">location_on</span>
-<span class="text-sm" id="detailAddress"></span>
-</div>
-</div>
-</div>
-<div class="bg-gray-50 rounded-2xl p-6">
-<h4 class="text-sm font-bold text-[#9c7349] mb-4">Thống kê hoạt động</h4>
-<div class="space-y-3">
-<div class="flex items-center justify-between">
-<span class="text-sm text-[#9c7349]">Tổng đơn hàng:</span>
-<span class="font-bold text-[#1c140d]" id="detailTotalOrders">0</span>
-</div>
-<div class="flex items-center justify-between">
-<span class="text-sm text-[#9c7349]">Tổng chi tiêu:</span>
-<span class="font-bold text-[#1c140d]" id="detailTotalSpent">0đ</span>
-</div>
-<div class="flex items-center justify-between">
-<span class="text-sm text-[#9c7349]">Đơn trung bình:</span>
-<span class="font-bold text-[#1c140d]" id="detailAvgOrder">0đ</span>
-</div>
-<div class="flex items-center justify-between">
-<span class="text-sm text-[#9c7349]">Đánh giá trung bình:</span>
-<span class="font-bold text-[#1c140d]" id="detailAvgRating">0/5</span>
-</div>
-</div>
-</div>
-</div>
-<div class="mt-6">
-<h4 class="text-sm font-bold text-[#9c7349] mb-4">Lịch sử hoạt động gần đây</h4>
-<div class="space-y-2" id="activityHistory">
-<!-- Hoạt động sẽ được thêm bằng JS -->
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-<!-- Modal Import -->
-<div id="importModal" class="hidden fixed inset-0 bg-black/50 z-[999] flex items-center justify-center p-4">
-<div class="bg-white rounded-3xl max-w-lg w-full">
-<div class="bg-primary p-6 text-white flex items-center justify-between">
-<h3 class="text-lg font-black">Import dữ liệu người dùng</h3>
-<button id="closeImportModalBtn" class="p-2 hover:bg-white/10 rounded-xl transition-colors">
-<span class="material-symbols-outlined">close</span>
-</button>
-</div>
-<div class="p-6">
-<div class="border-2 border-dashed border-[#f4ede7] rounded-2xl p-8 text-center mb-6">
-<span class="material-symbols-outlined text-5xl text-[#9c7349] mb-4">upload</span>
-<h4 class="font-bold text-[#1c140d] mb-2">Kéo thả file hoặc chọn từ máy tính</h4>
-<p class="text-sm text-[#9c7349] mb-4">Hỗ trợ file CSV, Excel (max 5MB)</p>
-<input type="file" id="fileInput" class="hidden" accept=".csv,.xlsx,.xls"/>
-<button id="selectFileBtn" class="px-6 py-2 bg-primary text-white text-sm font-bold rounded-xl hover:bg-primary/90 transition-all">
-    Chọn file
-</button>
-</div>
-<div class="bg-blue-50 rounded-xl p-4 mb-6">
-<div class="flex items-start gap-3">
-<span class="material-symbols-outlined text-blue-600 mt-0.5">info</span>
-<div>
-<h5 class="text-sm font-bold text-blue-800 mb-1">Lưu ý khi import</h5>
-<ul class="text-xs text-blue-700 space-y-1">
-<li>File CSV cần có các cột: Họ tên, Email, Số điện thoại, Vai trò</li>
-<li>Email phải là duy nhất trong hệ thống</li>
-<li>Vai trò: customer, staff hoặc admin</li>
-<li>Mẫu file có thể tải <a href="#" class="font-bold underline">tại đây</a></li>
-</ul>
-</div>
-</div>
-</div>
-<div class="flex justify-end gap-3">
-<button id="cancelImportBtn" class="px-6 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 rounded-xl transition-all">
-    Hủy
-</button>
-<button id="confirmImportBtn" class="px-6 py-3 bg-primary text-white text-sm font-bold rounded-xl hover:bg-primary/90 transition-all">
-    Import dữ liệu
-</button>
-</div>
-</div>
-</div>
-</div>
-
-<section class="bg-white rounded-3xl border border-[#f4ede7] shadow-sm overflow-hidden mb-12">
-<div class="overflow-x-auto">
-<table class="w-full text-left">
-<thead class="bg-[#fcfaf8] text-[#9c7349] text-xs font-bold uppercase tracking-wider">
-<tr>
-<th class="px-6 py-4">Ảnh đại diện</th>
-<th class="px-6 py-4">Mã ND</th>
-<th class="px-6 py-4">Họ tên</th>
-<th class="px-6 py-4">Email</th>
-<th class="px-6 py-4">Số điện thoại</th>
-<th class="px-6 py-4">Vai trò</th>
-<th class="px-6 py-4">Trạng thái</th>
-<th class="px-6 py-4">Ngày tạo</th>
-<th class="px-6 py-4 text-center">Thao tác</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-[#f4ede7]" id="usersTable">
-<!-- Danh sách người dùng sẽ được thêm bằng JS -->
-</tbody>
-</table>
-</div>
-<div class="p-6 border-t border-[#f4ede7] flex items-center justify-between">
-<p class="text-sm text-[#9c7349]" id="paginationInfo">Hiển thị 1-5 trong tổng số 450 người dùng</p>
-<div class="flex items-center gap-2">
-<button id="prevPage" class="h-10 w-10 flex items-center justify-center rounded-xl border border-[#f4ede7] text-[#9c7349] hover:bg-gray-50 transition-colors">
-<span class="material-symbols-outlined">chevron_left</span>
-</button>
-<button class="h-10 w-10 flex items-center justify-center rounded-xl bg-primary text-white font-bold">1</button>
-<button class="h-10 w-10 flex items-center justify-center rounded-xl border border-[#f4ede7] text-[#9c7349] hover:bg-gray-50 transition-colors">2</button>
-<button class="h-10 w-10 flex items-center justify-center rounded-xl border border-[#f4ede7] text-[#9c7349] hover:bg-gray-50 transition-colors">3</button>
-<button id="nextPage" class="h-10 w-10 flex items-center justify-center rounded-xl border border-[#f4ede7] text-[#9c7349] hover:bg-gray-50 transition-colors">
-<span class="material-symbols-outlined">chevron_right</span>
-</button>
-</div>
-</div>
-</section>
-
-<!-- Thống kê người dùng -->
-<div class="grid grid-cols-4 gap-6 mb-8">
-<div class="bg-white rounded-3xl border border-[#f4ede7] shadow-sm p-6">
-<div class="flex items-center justify-between">
-<div>
-<p class="text-sm text-[#9c7349]">Tổng người dùng</p>
-<p class="text-2xl font-black text-[#1c140d]">450</p>
-</div>
-<div class="h-12 w-12 bg-primary/10 rounded-xl flex items-center justify-center">
-<span class="material-symbols-outlined text-primary">groups</span>
-</div>
-</div>
-<p class="text-xs text-green-600 mt-2"><span class="font-bold">+12</span> so với tháng trước</p>
-</div>
-<div class="bg-white rounded-3xl border border-[#f4ede7] shadow-sm p-6">
-<div class="flex items-center justify-between">
-<div>
-<p class="text-sm text-[#9c7349]">Khách hàng</p>
-<p class="text-2xl font-black text-[#1c140d]">415</p>
-</div>
-<div class="h-12 w-12 bg-blue-100 rounded-xl flex items-center justify-center">
-<span class="material-symbols-outlined text-blue-600">person</span>
-</div>
-</div>
-<p class="text-xs text-green-600 mt-2"><span class="font-bold">86.5%</span> tổng người dùng</p>
-</div>
-<div class="bg-white rounded-3xl border border-[#f4ede7] shadow-sm p-6">
-<div class="flex items-center justify-between">
-<div>
-<p class="text-sm text-[#9c7349]">Nhân viên</p>
-<p class="text-2xl font-black text-[#1c140d]">30</p>
-</div>
-<div class="h-12 w-12 bg-green-100 rounded-xl flex items-center justify-center">
-<span class="material-symbols-outlined text-green-600">badge</span>
-</div>
-</div>
-<p class="text-xs text-green-600 mt-2"><span class="font-bold">+3</span> tháng này</p>
-</div>
-<div class="bg-white rounded-3xl border border-[#f4ede7] shadow-sm p-6">
-<div class="flex items-center justify-between">
-<div>
-<p class="text-sm text-[#9c7349]">Người dùng VIP</p>
-<p class="text-2xl font-black text-[#1c140d]">28</p>
-</div>
-<div class="h-12 w-12 bg-purple-100 rounded-xl flex items-center justify-center">
-<span class="material-symbols-outlined text-purple-600">workspace_premium</span>
-</div>
-</div>
-<p class="text-xs text-green-600 mt-2"><span class="font-bold">+5</span> so với tháng trước</p>
-</div>
-</div>
-</main>
-
-<div class="fixed bottom-6 right-6 z-[100] flex flex-col items-end">
-<div class="flex flex-col w-[380px] h-[520px] bg-white rounded-3xl shadow-2xl border border-[#f4ede7] overflow-hidden mb-4 animate-in fade-in slide-in-from-bottom-4 duration-300" id="chatbot-window">
-<div class="bg-primary p-4 flex items-center justify-between text-white">
-<div class="flex items-center gap-3">
-<div class="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center">
-<span class="material-symbols-outlined text-white">smart_toy</span>
-</div>
-<div>
-<h3 class="font-bold text-sm">FoodGo AI Assistant</h3>
-<div class="flex items-center gap-1.5">
-<span class="h-2 w-2 rounded-full bg-green-400"></span>
-<span class="text-[10px] opacity-90">Đang trực tuyến</span>
-</div>
-</div>
-</div>
-<button class="p-1 hover:bg-white/10 rounded-lg transition-colors">
-<span class="material-symbols-outlined">close</span>
-</button>
-</div>
-<div class="flex-1 p-4 overflow-y-auto bg-[#faf9f8] space-y-4 no-scrollbar">
-<div class="flex gap-2 max-w-[85%]">
-<div class="h-8 w-8 rounded-full bg-primary flex-shrink-0 flex items-center justify-center">
-<span class="material-symbols-outlined text-white text-sm">smart_toy</span>
-</div>
-<div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-[#f4ede7]">
-<p class="text-sm text-[#1c140d]">Chào Admin! Tôi có thể hỗ trợ bạn phân tích dữ liệu người dùng và đề xuất chiến lược phát triển.</p>
-</div>
-</div>
-<div class="flex flex-col gap-2 pt-2">
-<p class="text-[10px] font-bold text-[#9c7349] uppercase ml-10">Gợi ý cho bạn</p>
-<div class="flex flex-wrap gap-2 ml-10">
-<button class="px-3 py-1.5 bg-white border border-[#f4ede7] text-xs font-semibold text-primary rounded-full hover:bg-primary/5 hover:border-primary transition-all">
-    Phân tích khách hàng thân thiết
-</button>
-<button class="px-3 py-1.5 bg-white border border-[#f4ede7] text-xs font-semibold text-primary rounded-full hover:bg-primary/5 hover:border-primary transition-all">
-    Xu hướng đăng ký theo tháng
-</button>
-<button class="px-3 py-1.5 bg-white border border-[#f4ede7] text-xs font-semibold text-primary rounded-full hover:bg-primary/5 hover:border-primary transition-all">
-    Gợi ý phân nhóm người dùng
-</button>
-</div>
-</div>
-</div>
-<div class="p-4 bg-white border-t border-[#f4ede7]">
-<div class="relative flex items-center">
-<input class="w-full h-11 pl-4 pr-12 rounded-xl bg-gray-50 border-none text-sm focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Nhập tin nhắn..." type="text"/>
-<button class="absolute right-2 h-8 w-8 bg-primary text-white rounded-lg flex items-center justify-center hover:bg-primary/90 transition-colors">
-<span class="material-symbols-outlined text-lg">send</span>
-</button>
-</div>
-</div>
-</div>
-<button class="h-14 w-14 bg-primary text-white rounded-full flex items-center justify-center shadow-xl shadow-primary/30 hover:scale-110 active:scale-95 transition-all duration-300 group" id="chatbot-toggle" tabindex="0">
-<span class="material-symbols-outlined text-3xl transition-transform group-focus:rotate-90">smart_toy</span>
-</button>
-</div>
-
-<script>
-// Dữ liệu mẫu người dùng
-const usersData = [
-    {
-        id: "ND-001",
-        avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuD4SWB0vFcs25cURvWT-BW1MWwAbEy8KJJS9zNEt8DLt10N3k3hGllOdr1Q6ABkrnraE8JQhgo0_xMjtdBdv_m1uMTDV3v9zsTdKXy8SxcsW2VHPxWqAZgHkaAWX9AM5Nxc7Eg-_PX8j1KCjUwbxSAPBG0i2Hiw31N2ekAKwciGJoAr_5yw8PSTLM2gJM4NQ74yR7y3zdobm0ca33ONM34PSAL_7-m5NBZkrML4kSdLHenM-ww94b-mbJ2JeWwV1ZL2Hle3SbR8FUE",
-        name: "Nguyễn Văn Lộc",
-        email: "loc.nv@gmail.com",
-        phone: "0901234567",
-        role: "customer",
-        roleText: "Khách hàng",
-        status: "active",
-        statusText: "Hoạt động",
-        joinDate: "12/05/2024",
-        address: "123 Đường Lê Lợi, Quận 1, TP.HCM",
-        totalOrders: 45,
-        totalSpent: 12500000,
-        avgOrder: 277777,
-        avgRating: 4.8,
-        newsletter: true,
-        promo: true,
-        verified: true
-    },
-    {
-        id: "ND-002",
-        avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuBZsEZc1Qap0x1--bSurgoxJhNRPQVYAmemZKOZvL8GBdYnj0ql5Y4WnKUuqYO1RE2moaJDoAKI_L3lmlOHAG9hAcfx3Ik67hxCpwyaNjXhwTPyjC8INxCFF0e0_5emxnbURBnbt3MksOEV3ZSHEj2om4ixW23vJcZS8hkJ0w-AEuSjJoVxoiWCecc2HW_4ku0duHB0mEBYGq3QqdpG075zx_FSEZxXFi_MR5k756r1c75a7X97WDGIOKxUT4Uc3cUSJLRgyZBxV4o",
-        name: "Trần Thị Hoa",
-        email: "hoatran.foodgo@gmail.com",
-        phone: "0911223344",
-        role: "customer",
-        roleText: "Khách hàng",
-        status: "locked",
-        statusText: "Khóa",
-        joinDate: "10/05/2024",
-        address: "456 Nguyễn Thị Minh Khai, Quận 3, TP.HCM",
-        totalOrders: 12,
-        totalSpent: 3200000,
-        avgOrder: 266666,
-        avgRating: 4.2,
-        newsletter: false,
-        promo: true,
-        verified: true
-    },
-    {
-        id: "ND-003",
-        avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuBWgLKdDj1H6iF-pBXNeu9VqxCJAD7LXKPWcBCe4oVJOTUC9AtheeMz4ZRnvLLNYlr33yeq2XMWAe1qmtYyQ55kWosw7oNXG98EQcLS3lAqk4OyqYoOOSNsxSN1aeoQ0RHBH0hGlN0-8XRFJ8Yem4EvfkjNYCxybNA34HymMpn1pB-w5fQXLDoGuy2GQ8s-o60ZZ5Vno4LQ7Hcclz09YC8_FxJmBO7I4lZPdA65dnyxiKSE0nKrLqYY46jln0_Uoyj5L0MdvCaa1yE",
-        name: "Lê Anh Minh",
-        email: "minh.le.chef@foodgo.com",
-        phone: "0988776655",
-        role: "staff",
-        roleText: "Nhân viên",
-        status: "active",
-        statusText: "Hoạt động",
-        joinDate: "05/05/2024",
-        address: "789 Trần Hưng Đạo, Quận 5, TP.HCM",
-        totalOrders: 0,
-        totalSpent: 0,
-        avgOrder: 0,
-        avgRating: 0,
-        newsletter: true,
-        promo: false,
-        verified: true
-    },
-    {
-        id: "ND-004",
-        avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuC6d4P7oMhfj8XK-6ldljovmOp1P3LxH0K07V1rVd5D7V5J9Z5q5k5m5j5l5h5g5f5d5s5a5p5o5i5u5y5t5r5e5w5q",
-        name: "Phạm Văn Đức",
-        email: "duc.pham@foodgo.com",
-        phone: "0977888999",
-        role: "staff",
-        roleText: "Nhân viên giao hàng",
-        status: "active",
-        statusText: "Hoạt động",
-        joinDate: "03/05/2024",
-        address: "321 Võ Văn Kiệt, Quận 1, TP.HCM",
-        totalOrders: 0,
-        totalSpent: 0,
-        avgOrder: 0,
-        avgRating: 4.9,
-        newsletter: true,
-        promo: true,
-        verified: true
-    },
-    {
-        id: "ND-005",
-        avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuA1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6",
-        name: "Trần Minh Khang",
-        email: "khang.tran@gmail.com",
-        phone: "0966555444",
-        role: "customer",
-        roleText: "Khách hàng",
-        status: "inactive",
-        statusText: "Không hoạt động",
-        joinDate: "01/05/2024",
-        address: "654 Lý Tự Trọng, Quận 1, TP.HCM",
-        totalOrders: 3,
-        totalSpent: 750000,
-        avgOrder: 250000,
-        avgRating: 4.5,
-        newsletter: true,
-        promo: false,
-        verified: false
-    }
-];
-
-// DOM Elements
-const usersTable = document.getElementById('usersTable');
-const addUserBtn = document.getElementById('addUserBtn');
-const userModal = document.getElementById('userModal');
-const closeUserModalBtn = document.getElementById('closeUserModalBtn');
-const cancelUserBtn = document.getElementById('cancelUserBtn');
-const userForm = document.getElementById('userForm');
-const modalTitle = document.getElementById('modalTitle');
-const searchUserInput = document.getElementById('searchUserInput');
-const sortUserSelect = document.getElementById('sortUserSelect');
-const tabAllUsers = document.getElementById('tabAllUsers');
-const tabCustomers = document.getElementById('tabCustomers');
-const tabStaff = document.getElementById('tabStaff');
-const tabInactive = document.getElementById('tabInactive');
-const exportBtn = document.getElementById('exportBtn');
-const importBtn = document.getElementById('importBtn');
-const importModal = document.getElementById('importModal');
-const closeImportModalBtn = document.getElementById('closeImportModalBtn');
-const cancelImportBtn = document.getElementById('cancelImportBtn');
-const selectFileBtn = document.getElementById('selectFileBtn');
-const fileInput = document.getElementById('fileInput');
-const confirmImportBtn = document.getElementById('confirmImportBtn');
-const detailModal = document.getElementById('detailModal');
-const closeDetailModalBtn = document.getElementById('closeDetailModalBtn');
-const paginationInfo = document.getElementById('paginationInfo');
-const prevPage = document.getElementById('prevPage');
-const nextPage = document.getElementById('nextPage');
-
-let currentUserFilter = 'all';
-let currentSort = 'newest';
-let currentSearch = '';
-let currentPage = 1;
-const itemsPerPage = 5;
-let editingUserId = null;
-
-// Hiển thị danh sách người dùng
-function displayUsers(users) {
-    usersTable.innerHTML = '';
-    
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const paginatedUsers = users.slice(startIndex, endIndex);
-    
-    paginatedUsers.forEach(user => {
-        const row = document.createElement('tr');
-        row.className = 'hover:bg-gray-50/50 transition-colors';
-        row.innerHTML = `
-            <td class="px-6 py-4">
-                <div class="h-10 w-10 rounded-full bg-cover bg-center border-2 border-primary/20" style='background-image: url("${user.avatar}")'></div>
-            </td>
-            <td class="px-6 py-4 text-sm font-bold text-primary">${user.id}</td>
-            <td class="px-6 py-4">
-                <div class="text-sm font-bold text-[#1c140d]">${user.name}</div>
-                <div class="text-xs text-[#9c7349]">${user.email}</div>
-            </td>
-            <td class="px-6 py-4 text-sm text-[#9c7349]">${user.email}</td>
-            <td class="px-6 py-4 text-sm text-[#1c140d]">${user.phone}</td>
-            <td class="px-6 py-4">
-                <span class="px-2.5 py-1 ${user.role === 'admin' ? 'role-admin' : user.role === 'staff' ? 'role-staff' : 'role-customer'} text-[10px] font-bold rounded-md uppercase">
-                    ${user.roleText}
-                </span>
-            </td>
-            <td class="px-6 py-4">
-                <span class="px-2.5 py-1 ${user.status === 'active' ? 'status-active' : user.status === 'locked' ? 'status-locked' : 'status-inactive'} text-[10px] font-bold rounded-md uppercase">
-                    ${user.statusText}
-                </span>
-            </td>
-            <td class="px-6 py-4 text-sm text-[#9c7349]">${user.joinDate}</td>
-            <td class="px-6 py-4">
-                <div class="flex items-center justify-center gap-2">
-                    <button class="p-2 rounded-lg hover:bg-blue-50 text-blue-600 transition-colors" onclick="viewUserDetails('${user.id}')" title="Xem chi tiết">
-                        <span class="material-symbols-outlined text-lg">visibility</span>
-                    </button>
-                    <button class="p-2 rounded-lg hover:bg-primary/10 text-primary transition-colors" onclick="editUser('${user.id}')" title="Chỉnh sửa">
-                        <span class="material-symbols-outlined text-lg">edit</span>
-                    </button>
-                    <button class="p-2 rounded-lg hover:bg-green-50 text-green-600 transition-colors" onclick="changeUserRole('${user.id}')" title="Đổi vai trò">
-                        <span class="material-symbols-outlined text-lg">swap_horiz</span>
-                    </button>
-                    ${user.status === 'active' ? 
-                        `<button class="p-2 rounded-lg hover:bg-red-50 text-red-600 transition-colors" onclick="toggleUserStatus('${user.id}', 'lock')" title="Khóa người dùng">
-                            <span class="material-symbols-outlined text-lg">lock</span>
-                        </button>` : 
-                        `<button class="p-2 rounded-lg hover:bg-green-50 text-green-600 transition-colors" onclick="toggleUserStatus('${user.id}', 'unlock')" title="Mở khóa">
-                            <span class="material-symbols-outlined text-lg">lock_open</span>
-                        </button>`
-                    }
+    <aside class="w-64 bg-sidebar-bg border-r border-[#f4ede7] flex flex-col fixed h-full z-50">
+        <div class="p-6 flex items-center gap-2 text-primary shrink-0">
+            <span class="material-symbols-outlined text-4xl font-bold">fastfood</span>
+            <h2 class="text-xl font-black tracking-tighter">FoodGo <span class="text-[10px] bg-primary text-white px-1.5 py-0.5 rounded ml-1 uppercase">Admin</span></h2>
+        </div>
+        <nav class="flex-1 px-4 space-y-1 overflow-y-auto no-scrollbar">
+            <a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="Tongquan.html">
+                <span class="material-symbols-outlined">dashboard</span>
+                Tổng quan
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="QLthucdon.html">
+                <span class="material-symbols-outlined">restaurant_menu</span>
+                Món ăn
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="QLdon.html">
+                <span class="material-symbols-outlined">receipt_long</span>
+                Đơn hàng
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-sm font-bold active-menu rounded-lg transition-all" href="QLnguoidung.html">
+                <span class="material-symbols-outlined">group</span>
+                Người dùng
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="QLtaikhoan.html">
+                <span class="material-symbols-outlined">key</span>
+                Tài khoản
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="QLkhuyenmai.html">
+                <span class="material-symbols-outlined">redeem</span>
+                Khuyến mãi
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="QLdanhgia.html">
+                <span class="material-symbols-outlined">star</span>
+                Đánh giá
+            </a>
+            <div class="pt-4 mt-4 border-t border-[#f4ede7]">
+                <a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="TKrieng.html">
+                    <span class="material-symbols-outlined">person</span>
+                    Tài khoản của tôi
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 hover:text-primary rounded-lg transition-all" href="Caidat.html">
+                    <span class="material-symbols-outlined">settings</span>
+                    Cài đặt
+                </a>
+            </div>
+        </nav>
+        <div class="p-4 border-t border-[#f4ede7]">
+            <div class="flex items-center gap-3 p-2 bg-[#f4ede7] rounded-2xl">
+                <div class="h-10 w-10 rounded-xl bg-cover bg-center border border-white" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCa-A_xiobVGkBwC98jkh3MfvIrJEVa75kurLiQOhyxLHiqGDmWSsVr_3YTAoQYZRPXRahwTNzZ-dbYqIqOHu7aoq0os0D0gWI2Hs1R73wlAgMKuVw6wQ-tOxile4ilTWsYrJeyspkP0VAn11Fjld90gLhccOvG5qah2fn0VZ8gg3bqja4zkLKIb04lGzuBtFVdm9JuODdXB16H5j2gDoRiGFOEUVv2Qa8kEbuzaZGy4kqLSkOeL060s65bgJBfG73sSlq7ro4ydPw");'></div>
+                <div class="overflow-hidden">
+                    <p class="text-xs font-bold truncate">Admin FoodGo</p>
+                    <p class="text-[10px] text-[#9c7349]">Quản trị viên</p>
                 </div>
-            </td>
-        `;
-        usersTable.appendChild(row);
-    });
-    
-    // Cập nhật thông tin phân trang
-    paginationInfo.textContent = `Hiển thị ${startIndex + 1}-${Math.min(endIndex, users.length)} trong tổng số ${users.length} người dùng`;
-    
-    // Cập nhật trạng thái nút phân trang
-    prevPage.disabled = currentPage === 1;
-    nextPage.disabled = endIndex >= users.length;
-}
-
-// Lọc và sắp xếp người dùng
-function filterAndSortUsers() {
-    let filtered = usersData.filter(user => {
-        // Lọc theo tab
-        if (currentUserFilter === 'customers' && user.role !== 'customer') return false;
-        if (currentUserFilter === 'staff' && user.role !== 'staff') return false;
-        if (currentUserFilter === 'inactive' && user.status !== 'inactive') return false;
-        
-        // Lọc theo tìm kiếm
-        if (currentSearch) {
-            const searchLower = currentSearch.toLowerCase();
-            return (
-                user.id.toLowerCase().includes(searchLower) ||
-                user.name.toLowerCase().includes(searchLower) ||
-                user.email.toLowerCase().includes(searchLower) ||
-                user.phone.toLowerCase().includes(searchLower)
-            );
-        }
-        
-        return true;
-    });
-    
-    // Sắp xếp
-    filtered.sort((a, b) => {
-        switch(currentSort) {
-            case 'newest':
-                return new Date(b.joinDate.split('/').reverse().join('-')) - new Date(a.joinDate.split('/').reverse().join('-'));
-            case 'oldest':
-                return new Date(a.joinDate.split('/').reverse().join('-')) - new Date(b.joinDate.split('/').reverse().join('-'));
-            case 'name_asc':
-                return a.name.localeCompare(b.name);
-            case 'name_desc':
-                return b.name.localeCompare(a.name);
-            case 'most_orders':
-                return b.totalOrders - a.totalOrders;
-            default:
-                return 0;
-        }
-    });
-    
-    return filtered;
-}
-
-// Xem chi tiết người dùng
-window.viewUserDetails = function(userId) {
-    const user = usersData.find(u => u.id === userId);
-    if (!user) return;
-    
-    // Cập nhật thông tin modal
-    document.getElementById('detailAvatar').style.backgroundImage = `url('${user.avatar}')`;
-    document.getElementById('detailName').textContent = user.name;
-    document.getElementById('detailEmail').textContent = user.email;
-    document.getElementById('detailEmailFull').textContent = user.email;
-    document.getElementById('detailUserId').textContent = user.id;
-    document.getElementById('detailJoinDate').textContent = user.joinDate;
-    document.getElementById('detailRole').textContent = user.roleText;
-    document.getElementById('detailPhone').textContent = user.phone;
-    document.getElementById('detailAddress').textContent = user.address;
-    document.getElementById('detailTotalOrders').textContent = user.totalOrders;
-    document.getElementById('detailTotalSpent').textContent = user.totalSpent.toLocaleString() + 'đ';
-    document.getElementById('detailAvgOrder').textContent = user.avgOrder.toLocaleString() + 'đ';
-    document.getElementById('detailAvgRating').textContent = user.avgRating.toFixed(1) + '/5';
-    
-    // Cập nhật trạng thái
-    const statusElement = document.getElementById('detailStatus');
-    statusElement.textContent = user.statusText;
-    statusElement.className = `inline-block px-3 py-1 rounded-full text-xs font-bold ${user.status === 'active' ? 'bg-green-100 text-green-700' : user.status === 'locked' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-700'}`;
-    
-    // Hiển thị lịch sử hoạt động
-    const activityHistory = document.getElementById('activityHistory');
-    activityHistory.innerHTML = `
-        <div class="flex items-center justify-between text-sm py-2 border-b border-[#f4ede7]">
-            <span>Đặt hàng #DH-${String(user.totalOrders + 1000).padStart(4, '0')}</span>
-            <span class="text-[#9c7349]">Hôm nay, 14:30</span>
+            </div>
         </div>
-        <div class="flex items-center justify-between text-sm py-2 border-b border-[#f4ede7]">
-            <span>Cập nhật thông tin cá nhân</span>
-            <span class="text-[#9c7349]">2 ngày trước</span>
+    </aside>
+    
+    <main class="flex-1 ml-64 p-8">
+        <header class="mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h1 class="text-2xl font-black tracking-tight text-[#1c140d]">Quản lý người dùng</h1>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button id="exportBtn" class="flex items-center gap-2 px-6 py-2.5 bg-white border border-[#f4ede7] text-[#1c140d] text-sm font-bold rounded-xl hover:bg-gray-50 shadow-sm transition-all">
+                        <span class="material-symbols-outlined text-xl">download</span>
+                        Export dữ liệu
+                    </button>
+                    <button id="importBtn" class="flex items-center gap-2 px-6 py-2.5 bg-white border border-[#f4ede7] text-[#1c140d] text-sm font-bold rounded-xl hover:bg-gray-50 shadow-sm transition-all">
+                        <span class="material-symbols-outlined text-xl">upload</span>
+                        Import
+                    </button>
+                    <button id="addUserBtn" class="flex items-center gap-2 px-6 py-2.5 bg-primary text-white text-sm font-bold rounded-xl hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all">
+                        <span class="material-symbols-outlined text-xl">person_add</span>
+                        Thêm người dùng
+                    </button>
+                </div>
+            </div>
+            <div class="flex items-center justify-between border-b border-[#f4ede7]">
+                <div class="flex gap-8">
+                    <button id="tabAllUsers" class="pb-4 text-sm font-bold tab-active border-b-2 transition-all">Tất cả</button>
+                    <button id="tabCustomers" class="pb-4 text-sm font-bold text-[#9c7349] hover:text-primary border-b-2 border-transparent transition-all">Khách hàng</button>
+                    <button id="tabStaff" class="pb-4 text-sm font-bold text-[#9c7349] hover:text-primary border-b-2 border-transparent transition-all">Nhân viên</button>
+                    <button id="tabInactive" class="pb-4 text-sm font-bold text-[#9c7349] hover:text-primary border-b-2 border-transparent transition-all">Không hoạt động</button>
+                </div>
+                <div class="flex items-center gap-4 pb-4">
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-[#9c7349]">
+                            <span class="material-symbols-outlined text-xl">search</span>
+                        </span>
+                        <input id="searchUserInput" class="h-10 pl-10 pr-4 rounded-xl border-none bg-white shadow-sm text-sm w-64 focus:ring-2 focus:ring-primary/50 transition-all" placeholder="Tìm người dùng..." type="text"/>
+                    </div>
+                    <select id="sortUserSelect" class="h-10 px-4 rounded-xl border-none bg-white shadow-sm text-sm text-[#1c140d] focus:ring-2 focus:ring-primary/50 transition-all">
+                        <option value="newest">Mới nhất</option>
+                        <option value="oldest">Cũ nhất</option>
+                        <option value="name_asc">A → Z</option>
+                        <option value="name_desc">Z → A</option>
+                        <option value="most_orders">Nhiều đơn nhất</option>
+                        <option value="most_spent">Chi tiêu cao nhất</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+
+        <!-- Modal thêm/sửa người dùng -->
+        <div id="userModal" class="hidden fixed inset-0 bg-black/50 z-[999] flex items-center justify-center p-4">
+            <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
+                <div class="bg-primary p-6 text-white flex items-center justify-between">
+                    <h3 class="text-lg font-black" id="modalTitle">Thêm người dùng mới</h3>
+                    <button id="closeUserModalBtn" class="p-2 hover:bg-white/10 rounded-xl transition-colors">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                <div class="p-6 overflow-y-auto max-h-[70vh]">
+                    <form id="userForm">
+                        <input type="hidden" id="nguoidung_id" value="">
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div>
+                                <label class="block text-sm font-bold text-[#1c140d] mb-2" for="hoten">Họ tên *</label>
+                                <input class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] bg-white text-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" id="hoten" type="text" required/>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-[#1c140d] mb-2" for="sodienthoai">Số điện thoại *</label>
+                                <input class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] bg-white text-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" id="sodienthoai" type="tel" required/>
+                            </div>
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-sm font-bold text-[#1c140d] mb-2" for="email">Email *</label>
+                            <input class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] bg-white text-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" id="email" type="email" required/>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div>
+                                <label class="block text-sm font-bold text-[#1c140d] mb-2" for="vai_tro">Vai trò *</label>
+                                <select class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] bg-white text-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" id="vai_tro" required>
+                                    <option value="khach_hung">Khách hàng</option>
+                                    <option value="nhan_vien">Nhân viên</option>
+                                    <option value="quan_tri">Quản trị viên</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-[#1c140d] mb-2" for="trang_thai">Trạng thái *</label>
+                                <select class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] bg-white text-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" id="trang_thai" required>
+                                    <option value="hoat_dong">Hoạt động</option>
+                                    <option value="vo_hieu_hoa">Không hoạt động</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-sm font-bold text-[#1c140d] mb-2" for="diachi">Địa chỉ</label>
+                            <textarea class="h-24 w-full px-4 py-3 rounded-xl border border-[#f4ede7] bg-white text-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all resize-none" id="diachi"></textarea>
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-sm font-bold text-[#1c140d] mb-2">Tạo tài khoản đăng nhập</label>
+                            <div class="flex items-center gap-2 mb-4">
+                                <input type="checkbox" id="create_account" class="rounded border-[#f4ede7] text-primary focus:ring-primary/50"/>
+                                <label for="create_account" class="text-sm text-[#1c140d]">Tạo tài khoản đăng nhập</label>
+                            </div>
+                            <div id="accountFields" class="hidden space-y-4">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-bold text-[#1c140d] mb-2" for="ten_dang_nhap">Tên đăng nhập</label>
+                                        <input class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] bg-white text-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" id="ten_dang_nhap" type="text"/>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-bold text-[#1c140d] mb-2" for="mat_khau">Mật khẩu</label>
+                                        <input class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] bg-white text-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" id="mat_khau" type="password"/>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-[#1c140d] mb-2" for="account_status">Trạng thái tài khoản</label>
+                                    <select class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] bg-white text-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" id="account_status">
+                                        <option value="kich_hoat">Đã kích hoạt</option>
+                                        <option value="chua_kich_hoat">Chưa kích hoạt</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-end gap-3">
+                            <button type="button" id="cancelUserBtn" class="px-6 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 rounded-xl transition-all">
+                                Hủy
+                            </button>
+                            <button type="submit" id="saveUserBtn" class="px-6 py-3 bg-primary text-white text-sm font-bold rounded-xl hover:bg-primary/90 transition-all">
+                                Lưu thông tin
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="flex items-center justify-between text-sm py-2 border-b border-[#f4ede7]">
-            <span>Đánh giá đơn hàng ${user.avgRating}/5 sao</span>
-            <span class="text-[#9c7349]">5 ngày trước</span>
+
+        <!-- Modal xem chi tiết -->
+        <div id="detailModal" class="hidden fixed inset-0 bg-black/50 z-[999] flex items-center justify-center p-4">
+            <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+                <div class="bg-primary p-6 text-white flex items-center justify-between">
+                    <h3 class="text-lg font-black">Chi tiết người dùng</h3>
+                    <button id="closeDetailModalBtn" class="p-2 hover:bg-white/10 rounded-xl transition-colors">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                <div class="p-6 overflow-y-auto max-h-[70vh]">
+                    <div class="grid grid-cols-3 gap-6">
+                        <div class="col-span-1">
+                            <div class="bg-gray-50 rounded-2xl p-6 text-center">
+                                <div class="h-32 w-32 rounded-full bg-cover bg-center border-4 border-white mx-auto mb-4" id="detailAvatar"></div>
+                                <h3 class="text-xl font-black text-[#1c140d] mb-1" id="detailName"></h3>
+                                <p class="text-sm text-[#9c7349]" id="detailEmail"></p>
+                                <div class="mt-4">
+                                    <span class="inline-block px-3 py-1 rounded-full text-xs font-bold" id="detailStatus"></span>
+                                </div>
+                            </div>
+                            <div class="mt-4 space-y-3">
+                                <div class="flex items-center justify-between text-sm">
+                                    <span class="text-[#9c7349]">Mã người dùng:</span>
+                                    <span class="font-bold text-[#1c140d]" id="detailUserId"></span>
+                                </div>
+                                <div class="flex items-center justify-between text-sm">
+                                    <span class="text-[#9c7349]">Ngày tham gia:</span>
+                                    <span class="font-bold text-[#1c140d]" id="detailJoinDate"></span>
+                                </div>
+                                <div class="flex items-center justify-between text-sm">
+                                    <span class="text-[#9c7349]">Vai trò:</span>
+                                    <span class="font-bold text-[#1c140d]" id="detailRole"></span>
+                                </div>
+                                <div class="flex items-center justify-between text-sm">
+                                    <span class="text-[#9c7349]">Trạng thái tài khoản:</span>
+                                    <span class="font-bold text-[#1c140d]" id="detailAccountStatus"></span>
+                                </div>
+                                <div class="flex items-center justify-between text-sm">
+                                    <span class="text-[#9c7349]">Lần đăng nhập cuối:</span>
+                                    <span class="font-bold text-[#1c140d]" id="detailLastLogin"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-span-2">
+                            <div class="grid grid-cols-2 gap-6">
+                                <div class="bg-gray-50 rounded-2xl p-6">
+                                    <h4 class="text-sm font-bold text-[#9c7349] mb-4">Thông tin liên hệ</h4>
+                                    <div class="space-y-3">
+                                        <div class="flex items-center gap-3">
+                                            <span class="material-symbols-outlined text-[#9c7349]">phone</span>
+                                            <span class="text-sm" id="detailPhone"></span>
+                                        </div>
+                                        <div class="flex items-center gap-3">
+                                            <span class="material-symbols-outlined text-[#9c7349]">mail</span>
+                                            <span class="text-sm" id="detailEmailFull"></span>
+                                        </div>
+                                        <div class="flex items-center gap-3">
+                                            <span class="material-symbols-outlined text-[#9c7349]">location_on</span>
+                                            <span class="text-sm" id="detailAddress"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 rounded-2xl p-6">
+                                    <h4 class="text-sm font-bold text-[#9c7349] mb-4">Thống kê hoạt động</h4>
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm text-[#9c7349]">Tổng đơn hàng:</span>
+                                            <span class="font-bold text-[#1c140d]" id="detailTotalOrders">0</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm text-[#9c7349]">Tổng chi tiêu:</span>
+                                            <span class="font-bold text-[#1c140d]" id="detailTotalSpent">0đ</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm text-[#9c7349]">Đơn trung bình:</span>
+                                            <span class="font-bold text-[#1c140d]" id="detailAvgOrder">0đ</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm text-[#9c7349]">Đánh giá trung bình:</span>
+                                            <span class="font-bold text-[#1c140d]" id="detailAvgRating">0/5</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm text-[#9c7349]">Tổng đánh giá:</span>
+                                            <span class="font-bold text-[#1c140d]" id="detailTotalReviews">0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-6">
+                                <h4 class="text-sm font-bold text-[#9c7349] mb-4">Lịch sử hoạt động gần đây</h4>
+                                <div class="space-y-2" id="activityHistory">
+                                    <div class="text-center py-8 text-gray-400">
+                                        <span class="material-symbols-outlined text-4xl mb-2">history</span>
+                                        <p class="text-sm">Đang tải lịch sử hoạt động...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    `;
-    
-    // Hiển thị modal
-    detailModal.classList.remove('hidden');
-};
 
-// Chỉnh sửa người dùng
-window.editUser = function(userId) {
-    const user = usersData.find(u => u.id === userId);
-    if (!user) return;
-    
-    editingUserId = userId;
-    modalTitle.textContent = 'Chỉnh sửa thông tin người dùng';
-    
-    // Điền thông tin vào form
-    document.getElementById('fullName').value = user.name;
-    document.getElementById('phone').value = user.phone;
-    document.getElementById('email').value = user.email;
-    document.getElementById('userRole').value = user.role;
-    document.getElementById('userStatus').value = user.status;
-    document.getElementById('address').value = user.address;
-    document.getElementById('newsletter').checked = user.newsletter;
-    document.getElementById('promo').checked = user.promo;
-    document.getElementById('verified').checked = user.verified;
-    
-    // Hiển thị modal
-    userModal.classList.remove('hidden');
-};
+        <!-- Modal Import -->
+        <div id="importModal" class="hidden fixed inset-0 bg-black/50 z-[999] flex items-center justify-center p-4">
+            <div class="bg-white rounded-3xl max-w-lg w-full">
+                <div class="bg-primary p-6 text-white flex items-center justify-between">
+                    <h3 class="text-lg font-black">Import dữ liệu người dùng</h3>
+                    <button id="closeImportModalBtn" class="p-2 hover:bg-white/10 rounded-xl transition-colors">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                <div class="p-6">
+                    <form id="importForm" enctype="multipart/form-data">
+                        <div class="border-2 border-dashed border-[#f4ede7] rounded-2xl p-8 text-center mb-6">
+                            <span class="material-symbols-outlined text-5xl text-[#9c7349] mb-4">upload</span>
+                            <h4 class="font-bold text-[#1c140d] mb-2">Kéo thả file hoặc chọn từ máy tính</h4>
+                            <p class="text-sm text-[#9c7349] mb-4">Hỗ trợ file CSV, Excel (max 5MB)</p>
+                            <input type="file" name="file" id="fileInput" class="hidden" accept=".csv,.xlsx,.xls"/>
+                            <button type="button" id="selectFileBtn" class="px-6 py-2 bg-primary text-white text-sm font-bold rounded-xl hover:bg-primary/90 transition-all">
+                                Chọn file
+                            </button>
+                            <p id="selectedFileName" class="text-sm text-primary mt-2 hidden"></p>
+                        </div>
+                        <div class="bg-blue-50 rounded-xl p-4 mb-6">
+                            <div class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-blue-600 mt-0.5">info</span>
+                                <div>
+                                    <h5 class="text-sm font-bold text-blue-800 mb-1">Lưu ý khi import</h5>
+                                    <ul class="text-xs text-blue-700 space-y-1">
+                                        <li>File CSV cần có các cột: Họ tên, Email, Số điện thoại, Vai trò</li>
+                                        <li>Email phải là duy nhất trong hệ thống</li>
+                                        <li>Vai trò: customer, staff hoặc admin</li>
+                                        <li>Mẫu file có thể tải <a href="#" id="downloadTemplate" class="font-bold underline">tại đây</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-end gap-3">
+                            <button type="button" id="cancelImportBtn" class="px-6 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 rounded-xl transition-all">
+                                Hủy
+                            </button>
+                            <button type="submit" id="confirmImportBtn" class="px-6 py-3 bg-primary text-white text-sm font-bold rounded-xl hover:bg-primary/90 transition-all">
+                                Import dữ liệu
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-// Đổi vai trò người dùng
-window.changeUserRole = function(userId) {
-    const user = usersData.find(u => u.id === userId);
-    if (!user) return;
-    
-    const currentRole = user.roleText;
-    const newRole = prompt(`Đổi vai trò cho ${user.name}\n\nVai trò hiện tại: ${currentRole}\n\nNhập vai trò mới (customer/staff/admin):`, user.role);
-    
-    if (newRole && ['customer', 'staff', 'admin'].includes(newRole)) {
-        user.role = newRole;
-        user.roleText = newRole === 'admin' ? 'Quản trị viên' : newRole === 'staff' ? 'Nhân viên' : 'Khách hàng';
-        alert(`Đã đổi vai trò của ${user.name} thành ${user.roleText}`);
-        updateDisplay();
-    }
-};
+        <!-- Modal xác nhận khóa/mở khóa -->
+        <div id="confirmLockModal" class="hidden fixed inset-0 bg-black/50 z-[1000] flex items-center justify-center p-4">
+            <div class="bg-white rounded-3xl max-w-md w-full overflow-hidden">
+                <div class="bg-primary p-6 text-white">
+                    <h3 class="text-lg font-black" id="confirmLockTitle">Xác nhận khóa người dùng</h3>
+                </div>
+                <div class="p-6">
+                    <p class="text-sm text-[#1c140d] mb-6" id="confirmLockText"></p>
+                    <div class="flex justify-end gap-3">
+                        <button id="cancelLockBtn" class="px-6 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 rounded-xl transition-all">
+                            Hủy
+                        </button>
+                        <button id="confirmLockBtn" class="px-6 py-3 bg-primary text-white text-sm font-bold rounded-xl hover:bg-primary/90 transition-all">
+                            Xác nhận
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-// Thay đổi trạng thái người dùng
-window.toggleUserStatus = function(userId, action) {
-    const user = usersData.find(u => u.id === userId);
-    if (!user) return;
-    
-    const actionText = action === 'lock' ? 'khóa' : 'mở khóa';
-    if (confirm(`Bạn có chắc chắn muốn ${actionText} người dùng ${user.name}?`)) {
-        user.status = action === 'lock' ? 'locked' : 'active';
-        user.statusText = action === 'lock' ? 'Khóa' : 'Hoạt động';
-        alert(`Đã ${actionText} người dùng ${user.name} thành công!`);
-        updateDisplay();
-    }
-};
+        <!-- Modal xác nhận đổi vai trò -->
+        <div id="changeRoleModal" class="hidden fixed inset-0 bg-black/50 z-[1000] flex items-center justify-center p-4">
+            <div class="bg-white rounded-3xl max-w-md w-full overflow-hidden">
+                <div class="bg-primary p-6 text-white">
+                    <h3 class="text-lg font-black">Đổi vai trò người dùng</h3>
+                </div>
+                <div class="p-6">
+                    <input type="hidden" id="changeRoleUserId">
+                    <p class="text-sm text-[#1c140d] mb-6" id="changeRoleText"></p>
+                    <div class="mb-6">
+                        <label class="block text-sm font-bold text-[#1c140d] mb-2" for="newRoleSelect">Vai trò mới *</label>
+                        <select class="h-12 w-full px-4 rounded-xl border border-[#f4ede7] bg-white text-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" id="newRoleSelect">
+                            <option value="khach_hung">Khách hàng</option>
+                            <option value="nhan_vien">Nhân viên</option>
+                            <option value="quan_tri">Quản trị viên</option>
+                        </select>
+                    </div>
+                    <div class="flex justify-end gap-3">
+                        <button id="cancelChangeRoleBtn" class="px-6 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 rounded-xl transition-all">
+                            Hủy
+                        </button>
+                        <button id="confirmChangeRoleBtn" class="px-6 py-3 bg-primary text-white text-sm font-bold rounded-xl hover:bg-primary/90 transition-all">
+                            Đổi vai trò
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-// Mở modal thêm người dùng
-addUserBtn.addEventListener('click', function() {
-    editingUserId = null;
-    modalTitle.textContent = 'Thêm người dùng mới';
-    userForm.reset();
-    userModal.classList.remove('hidden');
-});
+        <section class="bg-white rounded-3xl border border-[#f4ede7] shadow-sm overflow-hidden mb-12">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="bg-[#fcfaf8] text-[#9c7349] text-xs font-bold uppercase tracking-wider">
+                        <tr>
+                            <th class="px-6 py-4">Ảnh đại diện</th>
+                            <th class="px-6 py-4">Mã ND</th>
+                            <th class="px-6 py-4">Họ tên</th>
+                            <th class="px-6 py-4">Email</th>
+                            <th class="px-6 py-4">Số điện thoại</th>
+                            <th class="px-6 py-4">Vai trò</th>
+                            <th class="px-6 py-4">Trạng thái</th>
+                            <th class="px-6 py-4">Ngày tạo</th>
+                            <th class="px-6 py-4 text-center">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-[#f4ede7]" id="usersTable">
+                        <tr id="loadingRow">
+                            <td colspan="9" class="px-6 py-12 text-center">
+                                <div class="flex flex-col items-center justify-center">
+                                    <div class="h-12 w-12 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
+                                    <p class="text-sm text-[#9c7349]">Đang tải dữ liệu người dùng...</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="p-6 border-t border-[#f4ede7] flex items-center justify-between">
+                <p class="text-sm text-[#9c7349]" id="paginationInfo">Hiển thị 0-0 trong tổng số 0 người dùng</p>
+                <div class="flex items-center gap-2" id="paginationButtons">
+                    <button id="prevPage" class="h-10 w-10 flex items-center justify-center rounded-xl border border-[#f4ede7] text-[#9c7349] hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </button>
+                    <button id="nextPage" class="h-10 w-10 flex items-center justify-center rounded-xl border border-[#f4ede7] text-[#9c7349] hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </button>
+                </div>
+            </div>
+        </section>
 
-// Đóng modal người dùng
-function closeUserModal() {
-    userModal.classList.add('hidden');
-    editingUserId = null;
-}
+        <!-- Thống kê người dùng -->
+        <div class="grid grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-3xl border border-[#f4ede7] shadow-sm p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-[#9c7349]">Tổng người dùng</p>
+                        <p class="text-2xl font-black text-[#1c140d]" id="totalUsers">0</p>
+                    </div>
+                    <div class="h-12 w-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary">groups</span>
+                    </div>
+                </div>
+                <p class="text-xs text-green-600 mt-2" id="totalUsersGrowth">+0 so với tháng trước</p>
+            </div>
+            <div class="bg-white rounded-3xl border border-[#f4ede7] shadow-sm p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-[#9c7349]">Khách hàng</p>
+                        <p class="text-2xl font-black text-[#1c140d]" id="customerCount">0</p>
+                    </div>
+                    <div class="h-12 w-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                        <span class="material-symbols-outlined text-blue-600">person</span>
+                    </div>
+                </div>
+                <p class="text-xs text-green-600 mt-2" id="customerPercentage">0% tổng người dùng</p>
+            </div>
+            <div class="bg-white rounded-3xl border border-[#f4ede7] shadow-sm p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-[#9c7349]">Nhân viên</p>
+                        <p class="text-2xl font-black text-[#1c140d]" id="staffCount">0</p>
+                    </div>
+                    <div class="h-12 w-12 bg-green-100 rounded-xl flex items-center justify-center">
+                        <span class="material-symbols-outlined text-green-600">badge</span>
+                    </div>
+                </div>
+                <p class="text-xs text-green-600 mt-2" id="staffGrowth">+0 tháng này</p>
+            </div>
+            <div class="bg-white rounded-3xl border border-[#f4ede7] shadow-sm p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-[#9c7349]">Người dùng mới</p>
+                        <p class="text-2xl font-black text-[#1c140d]" id="newUsersCount">0</p>
+                    </div>
+                    <div class="h-12 w-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                        <span class="material-symbols-outlined text-purple-600">workspace_premium</span>
+                    </div>
+                </div>
+                <p class="text-xs text-green-600 mt-2" id="newUsersGrowth">+0 so với tháng trước</p>
+            </div>
+        </div>
+    </main>
 
-closeUserModalBtn.addEventListener('click', closeUserModal);
-cancelUserBtn.addEventListener('click', closeUserModal);
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="fixed top-4 right-4 z-[2000] flex flex-col gap-3 w-80"></div>
 
-// Xử lý submit form
-userForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const formData = {
-        name: document.getElementById('fullName').value,
-        phone: document.getElementById('phone').value,
-        email: document.getElementById('email').value,
-        role: document.getElementById('userRole').value,
-        status: document.getElementById('userStatus').value,
-        address: document.getElementById('address').value,
-        newsletter: document.getElementById('newsletter').checked,
-        promo: document.getElementById('promo').checked,
-        verified: document.getElementById('verified').checked
-    };
-    
-    if (editingUserId) {
-        // Cập nhật người dùng
-        const userIndex = usersData.findIndex(u => u.id === editingUserId);
-        if (userIndex !== -1) {
-            usersData[userIndex] = {
-                ...usersData[userIndex],
-                ...formData,
-                roleText: formData.role === 'admin' ? 'Quản trị viên' : formData.role === 'staff' ? 'Nhân viên' : 'Khách hàng',
-                statusText: formData.status === 'active' ? 'Hoạt động' : formData.status === 'locked' ? 'Khóa' : 'Không hoạt động'
-            };
-            alert('Cập nhật thông tin người dùng thành công!');
+    <div class="fixed bottom-6 right-6 z-[100] flex flex-col items-end">
+        <div class="flex flex-col w-[380px] h-[520px] bg-white rounded-3xl shadow-2xl border border-[#f4ede7] overflow-hidden mb-4 animate-in fade-in slide-in-from-bottom-4 duration-300" id="chatbot-window">
+            <div class="bg-primary p-4 flex items-center justify-between text-white">
+                <div class="flex items-center gap-3">
+                    <div class="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-white">smart_toy</span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm">FoodGo AI Assistant</h3>
+                        <div class="flex items-center gap-1.5">
+                            <span class="h-2 w-2 rounded-full bg-green-400"></span>
+                            <span class="text-[10px] opacity-90">Đang trực tuyến</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="p-1 hover:bg-white/10 rounded-lg transition-colors">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="flex-1 p-4 overflow-y-auto bg-[#faf9f8] space-y-4 no-scrollbar">
+                <div class="flex gap-2 max-w-[85%]">
+                    <div class="h-8 w-8 rounded-full bg-primary flex-shrink-0 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-white text-sm">smart_toy</span>
+                    </div>
+                    <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-[#f4ede7]">
+                        <p class="text-sm text-[#1c140d]">Chào Admin! Tôi có thể hỗ trợ bạn phân tích dữ liệu người dùng và đề xuất chiến lược phát triển.</p>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2 pt-2">
+                    <p class="text-[10px] font-bold text-[#9c7349] uppercase ml-10">Gợi ý cho bạn</p>
+                    <div class="flex flex-wrap gap-2 ml-10">
+                        <button class="px-3 py-1.5 bg-white border border-[#f4ede7] text-xs font-semibold text-primary rounded-full hover:bg-primary/5 hover:border-primary transition-all">
+                            Phân tích khách hàng thân thiết
+                        </button>
+                        <button class="px-3 py-1.5 bg-white border border-[#f4ede7] text-xs font-semibold text-primary rounded-full hover:bg-primary/5 hover:border-primary transition-all">
+                            Xu hướng đăng ký theo tháng
+                        </button>
+                        <button class="px-3 py-1.5 bg-white border border-[#f4ede7] text-xs font-semibold text-primary rounded-full hover:bg-primary/5 hover:border-primary transition-all">
+                            Gợi ý phân nhóm người dùng
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 bg-white border-t border-[#f4ede7]">
+                <div class="relative flex items-center">
+                    <input class="w-full h-11 pl-4 pr-12 rounded-xl bg-gray-50 border-none text-sm focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Nhập tin nhắn..." type="text"/>
+                    <button class="absolute right-2 h-8 w-8 bg-primary text-white rounded-lg flex items-center justify-center hover:bg-primary/90 transition-colors">
+                        <span class="material-symbols-outlined text-lg">send</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <button class="h-14 w-14 bg-primary text-white rounded-full flex items-center justify-center shadow-xl shadow-primary/30 hover:scale-110 active:scale-95 transition-all duration-300 group" id="chatbot-toggle" tabindex="0">
+            <span class="material-symbols-outlined text-3xl transition-transform group-focus:rotate-90">smart_toy</span>
+        </button>
+    </div>
+
+    <script>
+        // ============ API FUNCTIONS ============
+
+        // Lấy danh sách người dùng
+        async function fetchUsers() {
+            try {
+                const params = new URLSearchParams({
+                    action: 'get_users',
+                    page: currentPage,
+                    limit: itemsPerPage,
+                    role: getRoleFilter(),
+                    status: getStatusFilter(),
+                    search: currentSearch,
+                    sort: currentSort
+                });
+
+                const response = await fetch(`user.php?${params}`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    return result;
+                } else {
+                    showToast('error', result.message);
+                    return { data: [], pagination: { total: 0 } };
+                }
+            } catch (error) {
+                console.error('Error fetching users:', error);
+                showToast('error', 'Không thể tải dữ liệu người dùng');
+                return { data: [], pagination: { total: 0 } };
+            }
         }
-    } else {
+
+        // Lấy chi tiết người dùng
+        async function fetchUserDetail(userId) {
+            try {
+                const response = await fetch(`user.php?action=get_user_detail&user_id=${userId}`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    return result;
+                } else {
+                    showToast('error', result.message);
+                    return null;
+                }
+            } catch (error) {
+                console.error('Error fetching user detail:', error);
+                showToast('error', 'Không thể tải thông tin người dùng');
+                return null;
+            }
+        }
+
         // Thêm người dùng mới
-        const newId = `ND-${String(usersData.length + 1).padStart(3, '0')}`;
-        const newUser = {
-            id: newId,
-            avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD4SWB0vFcs25cURvWT-BW1MWwAbEy8KJJS9zNEt8DLt10N3k3hGllOdr1Q6ABkrnraE8JQhgo0_xMjtdBdv_m1uMTDV3v9zsTdKXy8SxcsW2VHPxWqAZgHkaAWX9AM5Nxc7Eg-_PX8j1KCjUwbxSAPBG0i2Hiw31N2ekAKwciGJoAr_5yw8PSTLM2gJM4NQ74yR7y3zdobm0ca33ONM34PSAL_7-m5NBZkrML4kSdLHenM-ww94b-mbJ2JeWwV1ZL2Hle3SbR8FUE',
-            ...formData,
-            roleText: formData.role === 'admin' ? 'Quản trị viên' : formData.role === 'staff' ? 'Nhân viên' : 'Khách hàng',
-            statusText: formData.status === 'active' ? 'Hoạt động' : formData.status === 'locked' ? 'Khóa' : 'Không hoạt động',
-            joinDate: new Date().toLocaleDateString('vi-VN'),
-            totalOrders: 0,
-            totalSpent: 0,
-            avgOrder: 0,
-            avgRating: 0
-        };
-        usersData.unshift(newUser);
-        alert(`Thêm người dùng ${newUser.name} thành công!`);
-    }
-    
-    closeUserModal();
-    updateDisplay();
-});
+        async function addUser(userData) {
+            try {
+                const response = await fetch('user.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'add_user',
+                        ...userData
+                    })
+                });
+                
+                return await response.json();
+            } catch (error) {
+                console.error('Error adding user:', error);
+                return { success: false, message: 'Lỗi kết nối' };
+            }
+        }
 
-// Xử lý tìm kiếm
-searchUserInput.addEventListener('input', function() {
-    currentSearch = this.value;
-    currentPage = 1;
-    updateDisplay();
-});
+        // Cập nhật người dùng
+        async function updateUser(userId, userData) {
+            try {
+                const response = await fetch('user.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'update_user',
+                        nguoidung_id: userId,
+                        ...userData
+                    })
+                });
+                
+                return await response.json();
+            } catch (error) {
+                console.error('Error updating user:', error);
+                return { success: false, message: 'Lỗi kết nối' };
+            }
+        }
 
-// Xử lý sắp xếp
-sortUserSelect.addEventListener('change', function() {
-    currentSort = this.value;
-    updateDisplay();
-});
+        // Đổi vai trò
+        async function changeUserRole(userId, newRole) {
+            try {
+                const response = await fetch('user.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'change_user_role',
+                        nguoidung_id: userId,
+                        vai_tro: newRole
+                    })
+                });
+                
+                return await response.json();
+            } catch (error) {
+                console.error('Error changing role:', error);
+                return { success: false, message: 'Lỗi kết nối' };
+            }
+        }
 
-// Xử lý chuyển tab
-function setActiveUserTab(tabElement, filter) {
-    [tabAllUsers, tabCustomers, tabStaff, tabInactive].forEach(tab => {
-        tab.classList.remove('tab-active', 'text-primary');
-        tab.classList.add('text-[#9c7349]', 'border-transparent');
-    });
-    
-    tabElement.classList.remove('text-[#9c7349]', 'border-transparent');
-    tabElement.classList.add('tab-active', 'text-primary');
-    
-    currentUserFilter = filter;
-    currentPage = 1;
-    updateDisplay();
-}
+        // Thay đổi trạng thái
+        async function toggleUserStatus(userId, newStatus) {
+            try {
+                const response = await fetch('user.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'toggle_user_status',
+                        nguoidung_id: userId,
+                        trang_thai: newStatus
+                    })
+                });
+                
+                return await response.json();
+            } catch (error) {
+                console.error('Error toggling status:', error);
+                return { success: false, message: 'Lỗi kết nối' };
+            }
+        }
 
-tabAllUsers.addEventListener('click', () => setActiveUserTab(tabAllUsers, 'all'));
-tabCustomers.addEventListener('click', () => setActiveUserTab(tabCustomers, 'customers'));
-tabStaff.addEventListener('click', () => setActiveUserTab(tabStaff, 'staff'));
-tabInactive.addEventListener('click', () => setActiveUserTab(tabInactive, 'inactive'));
+        // Import người dùng
+        async function importUsers(file) {
+            try {
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('action', 'import_users');
 
-// Export dữ liệu
-exportBtn.addEventListener('click', function() {
-    const filteredUsers = filterAndSortUsers();
-    const csvContent = "data:text/csv;charset=utf-8," 
-        + ["Mã ND,Họ tên,Email,Số điện thoại,Vai trò,Trạng thái,Ngày tham gia,Địa chỉ"]
-        .concat(filteredUsers.map(user => 
-            `${user.id},"${user.name}",${user.email},${user.phone},${user.roleText},${user.statusText},${user.joinDate},"${user.address}"`
-        ))
-        .join("\n");
-    
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "nguoidung_foodgo.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    
-    alert(`Đã xuất ${filteredUsers.length} người dùng ra file CSV`);
-});
+                const response = await fetch('user.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                return await response.json();
+            } catch (error) {
+                console.error('Error importing users:', error);
+                return { success: false, message: 'Lỗi kết nối' };
+            }
+        }
 
-// Import dữ liệu
-importBtn.addEventListener('click', function() {
-    importModal.classList.remove('hidden');
-});
+        // Lấy thống kê - SỬA LẠI để tính toán từ danh sách người dùng
+        async function fetchUserStats() {
+            try {
+                // Lấy tất cả người dùng để tính toán thống kê
+                const params = new URLSearchParams({
+                    action: 'get_users',
+                    page: 1,
+                    limit: 1000 // Lấy nhiều để tính toán
+                });
 
-closeImportModalBtn.addEventListener('click', function() {
-    importModal.classList.add('hidden');
-});
+                const response = await fetch(`user.php?${params}`);
+                const result = await response.json();
+                
+                if (result.success && result.data) {
+                    return calculateStatsFromUsers(result.data);
+                } else {
+                    return calculateStatsFromUsers([]);
+                }
+            } catch (error) {
+                console.error('Error fetching stats:', error);
+                return calculateStatsFromUsers([]);
+            }
+        }
 
-cancelImportBtn.addEventListener('click', function() {
-    importModal.classList.add('hidden');
-});
+        // Tính toán thống kê từ danh sách người dùng - HÀM MỚI
+        function calculateStatsFromUsers(users) {
+            const now = new Date();
+            const currentMonth = now.getMonth();
+            const currentYear = now.getFullYear();
+            
+            // Đếm số lượng theo vai trò
+            let customers = 0;
+            let staff = 0;
+            let admins = 0;
+            let newThisMonth = 0;
+            
+            users.forEach(user => {
+                // Đếm theo vai trò
+                if (user.vai_tro === 'khach_hung') customers++;
+                else if (user.vai_tro === 'nhan_vien') staff++;
+                else if (user.vai_tro === 'quan_tri') admins++;
+                
+                // Đếm người dùng mới tháng này
+                if (user.join_date) {
+                    try {
+                        const joinDate = new Date(user.join_date);
+                        if (joinDate.getMonth() === currentMonth && joinDate.getFullYear() === currentYear) {
+                            newThisMonth++;
+                        }
+                    } catch (e) {
+                        console.error('Error parsing date:', e);
+                    }
+                }
+            });
+            
+            const totalUsers = users.length;
+            const lastMonthGrowth = Math.floor(totalUsers * 0.3); // Giả lập tăng trưởng
+            
+            return {
+                total_users: totalUsers,
+                customers: customers,
+                staff: staff,
+                admins: admins,
+                new_this_month: newThisMonth,
+                growth: lastMonthGrowth,
+                customer_percentage: totalUsers > 0 ? Math.round((customers / totalUsers) * 100) : 0
+            };
+        }
 
-selectFileBtn.addEventListener('click', function() {
-    fileInput.click();
-});
+        // ============ DOM ELEMENTS ============
+        const usersTable = document.getElementById('usersTable');
+        const addUserBtn = document.getElementById('addUserBtn');
+        const userModal = document.getElementById('userModal');
+        const closeUserModalBtn = document.getElementById('closeUserModalBtn');
+        const cancelUserBtn = document.getElementById('cancelUserBtn');
+        const userForm = document.getElementById('userForm');
+        const modalTitle = document.getElementById('modalTitle');
+        const searchUserInput = document.getElementById('searchUserInput');
+        const sortUserSelect = document.getElementById('sortUserSelect');
+        const tabAllUsers = document.getElementById('tabAllUsers');
+        const tabCustomers = document.getElementById('tabCustomers');
+        const tabStaff = document.getElementById('tabStaff');
+        const tabInactive = document.getElementById('tabInactive');
+        const exportBtn = document.getElementById('exportBtn');
+        const importBtn = document.getElementById('importBtn');
+        const importModal = document.getElementById('importModal');
+        const closeImportModalBtn = document.getElementById('closeImportModalBtn');
+        const cancelImportBtn = document.getElementById('cancelImportBtn');
+        const selectFileBtn = document.getElementById('selectFileBtn');
+        const fileInput = document.getElementById('fileInput');
+        const importForm = document.getElementById('importForm');
+        const detailModal = document.getElementById('detailModal');
+        const closeDetailModalBtn = document.getElementById('closeDetailModalBtn');
+        const paginationInfo = document.getElementById('paginationInfo');
+        const prevPage = document.getElementById('prevPage');
+        const nextPage = document.getElementById('nextPage');
+        const paginationButtons = document.getElementById('paginationButtons');
+        const confirmLockModal = document.getElementById('confirmLockModal');
+        const confirmLockTitle = document.getElementById('confirmLockTitle');
+        const confirmLockText = document.getElementById('confirmLockText');
+        const cancelLockBtn = document.getElementById('cancelLockBtn');
+        const confirmLockBtn = document.getElementById('confirmLockBtn');
+        const changeRoleModal = document.getElementById('changeRoleModal');
+        const cancelChangeRoleBtn = document.getElementById('cancelChangeRoleBtn');
+        const confirmChangeRoleBtn = document.getElementById('confirmChangeRoleBtn');
+        const newRoleSelect = document.getElementById('newRoleSelect');
+        const changeRoleText = document.getElementById('changeRoleText');
+        const changeRoleUserId = document.getElementById('changeRoleUserId');
+        const toastContainer = document.getElementById('toastContainer');
+        const createAccountCheckbox = document.getElementById('create_account');
+        const accountFields = document.getElementById('accountFields');
+        const selectedFileName = document.getElementById('selectedFileName');
+        const downloadTemplate = document.getElementById('downloadTemplate');
 
-fileInput.addEventListener('change', function(e) {
-    if (e.target.files.length > 0) {
-        const fileName = e.target.files[0].name;
-        selectFileBtn.innerHTML = `<span class="material-symbols-outlined text-xl">check</span> ${fileName}`;
-        selectFileBtn.classList.add('bg-green-100', 'text-green-700', 'border-green-300');
-    }
-});
+        // ============ STATE VARIABLES ============
+        let currentUserFilter = 'all';
+        let currentSort = 'newest';
+        let currentSearch = '';
+        let currentPage = 1;
+        const itemsPerPage = 10;
+        let editingUserId = null;
+        let currentChangeRoleUserId = null;
+        let currentToggleUserId = null;
+        let currentToggleAction = null;
 
-confirmImportBtn.addEventListener('click', function() {
-    if (!fileInput.files[0]) {
-        alert('Vui lòng chọn file để import');
-        return;
-    }
-    
-    // Giả lập import thành công
-    alert('Import dữ liệu thành công! 15 người dùng mới đã được thêm vào hệ thống.');
-    importModal.classList.add('hidden');
-    
-    // Reset button
-    selectFileBtn.innerHTML = `<span class="material-symbols-outlined text-xl">upload</span> Chọn file`;
-    selectFileBtn.classList.remove('bg-green-100', 'text-green-700', 'border-green-300');
-    fileInput.value = '';
-});
+        // Biến cho phân trang
+        let totalFilteredUsers = 0;
+        let totalPages = 0;
+        let currentUsersData = [];
+        let allUsersForStats = []; // Lưu tất cả người dùng để tính toán thống kê
 
-// Đóng modal chi tiết
-closeDetailModalBtn.addEventListener('click', function() {
-    detailModal.classList.add('hidden');
-});
+        // ============ HELPER FUNCTIONS ============
 
-// Phân trang
-prevPage.addEventListener('click', function() {
-    if (currentPage > 1) {
-        currentPage--;
-        updateDisplay();
-    }
-});
+        // Lấy filter role - SỬA LẠI để đúng với backend
+        function getRoleFilter() {
+            const map = {
+                'customers': 'khach_hung',
+                'staff': 'nhan_vien',
+                'admin': 'quan_tri'
+            };
+            return map[currentUserFilter] || '';
+        }
 
-nextPage.addEventListener('click', function() {
-    const filteredUsers = filterAndSortUsers();
-    if (currentPage * itemsPerPage < filteredUsers.length) {
-        currentPage++;
-        updateDisplay();
-    }
-});
+        // Lấy filter status
+        function getStatusFilter() {
+            if (currentUserFilter === 'inactive') return 'vo_hieu_hoa';
+            return '';
+        }
 
-// Cập nhật hiển thị
-function updateDisplay() {
-    const filteredUsers = filterAndSortUsers();
-    displayUsers(filteredUsers);
-}
+        // Hiển thị toast notification
+        function showToast(type, message, duration = 3000) {
+            const toast = document.createElement('div');
+            const toastId = 'toast-' + Date.now();
+            
+            let icon = '';
+            let toastClass = '';
+            
+            switch(type) {
+                case 'success':
+                    icon = '<span class="material-symbols-outlined text-green-600">check_circle</span>';
+                    toastClass = 'toast-success';
+                    break;
+                case 'error':
+                    icon = '<span class="material-symbols-outlined text-red-600">error</span>';
+                    toastClass = 'toast-error';
+                    break;
+                case 'warning':
+                    icon = '<span class="material-symbols-outlined text-yellow-600">warning</span>';
+                    toastClass = 'toast-warning';
+                    break;
+                case 'info':
+                    icon = '<span class="material-symbols-outlined text-blue-600">info</span>';
+                    toastClass = 'toast-info';
+                    break;
+            }
+            
+            toast.className = `p-4 rounded-xl border shadow-lg flex items-center gap-3 slide-in-right ${toastClass}`;
+            toast.id = toastId;
+            toast.innerHTML = `
+                <div class="text-xl">${icon}</div>
+                <div class="flex-1">
+                    <p class="text-sm font-bold text-[#1c140d]">${message}</p>
+                </div>
+                <button onclick="removeToast('${toastId}')" class="p-1 hover:bg-black/5 rounded-lg transition-colors">
+                    <span class="material-symbols-outlined text-sm">close</span>
+                </button>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            // Tự động xóa sau duration
+            setTimeout(() => {
+                removeToast(toastId);
+            }, duration);
+        }
 
-// Khởi tạo
-updateDisplay();
-</script>
+        // Xóa toast
+        function removeToast(toastId) {
+            const toastElement = document.getElementById(toastId);
+            if (toastElement) {
+                toastElement.classList.add('slide-out-right');
+                setTimeout(() => {
+                    if (toastElement.parentNode) {
+                        toastElement.remove();
+                    }
+                }, 300);
+            }
+        }
 
-</body></html>
+        // Tạo nút phân trang
+        function createPageButton(pageNumber, isActive) {
+            const pageBtn = document.createElement('button');
+            pageBtn.className = `h-10 w-10 flex items-center justify-center rounded-xl border transition-colors ${isActive ? 'bg-primary text-white border-primary' : 'border-[#f4ede7] text-[#9c7349] hover:bg-gray-50'}`;
+            pageBtn.textContent = pageNumber;
+            pageBtn.dataset.page = pageNumber;
+            
+            pageBtn.addEventListener('click', function() {
+                const page = parseInt(this.dataset.page);
+                if (page !== currentPage) {
+                    currentPage = page;
+                    updateDisplay();
+                }
+            });
+            
+            return pageBtn;
+        }
+
+        // Cập nhật nút phân trang
+        function updatePaginationButtons(total, currentPage, totalPages) {
+            // Xóa các nút trang cũ
+            const existingButtons = paginationButtons.querySelectorAll('button:not(#prevPage):not(#nextPage)');
+            existingButtons.forEach(btn => btn.remove());
+            
+            if (totalPages <= 1) return;
+            
+            let startPage = 1;
+            let endPage = totalPages;
+            
+            // Hiển thị tối đa 5 nút trang
+            if (totalPages > 5) {
+                if (currentPage <= 3) {
+                    endPage = 5;
+                } else if (currentPage >= totalPages - 2) {
+                    startPage = totalPages - 4;
+                } else {
+                    startPage = currentPage - 2;
+                    endPage = currentPage + 2;
+                }
+            }
+            
+            // Thêm nút trang đầu tiên nếu cần
+            if (startPage > 1) {
+                const firstBtn = createPageButton(1, 1 === currentPage);
+                paginationButtons.insertBefore(firstBtn, paginationButtons.children[1]);
+                
+                if (startPage > 2) {
+                    const dots = document.createElement('span');
+                    dots.className = 'h-10 w-10 flex items-center justify-center text-[#9c7349]';
+                    dots.textContent = '...';
+                    paginationButtons.insertBefore(dots, paginationButtons.children[2]);
+                }
+            }
+            
+            // Thêm các nút trang
+            for (let i = startPage; i <= endPage; i++) {
+                const pageBtn = createPageButton(i, i === currentPage);
+                paginationButtons.insertBefore(pageBtn, paginationButtons.lastChild);
+            }
+            
+            // Thêm nút trang cuối cùng nếu cần
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    const dots = document.createElement('span');
+                    dots.className = 'h-10 w-10 flex items-center justify-center text-[#9c7349]';
+                    dots.textContent = '...';
+                    paginationButtons.insertBefore(dots, paginationButtons.lastChild);
+                }
+                
+                const lastBtn = createPageButton(totalPages, totalPages === currentPage);
+                paginationButtons.insertBefore(lastBtn, paginationButtons.lastChild);
+            }
+            
+            // Cập nhật trạng thái nút prev/next
+            prevPage.disabled = currentPage === 1;
+            nextPage.disabled = currentPage === totalPages;
+        }
+
+        // Hiển thị danh sách người dùng
+        function displayUsers(users) {
+            usersTable.innerHTML = '';
+            
+            if (users.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td colspan="9" class="px-6 py-12 text-center">
+                        <div class="flex flex-col items-center justify-center">
+                            <span class="material-symbols-outlined text-4xl text-gray-300 mb-4">search_off</span>
+                            <p class="text-sm text-[#9c7349]">Không tìm thấy người dùng nào</p>
+                        </div>
+                    </td>
+                `;
+                usersTable.appendChild(row);
+                return;
+            }
+            
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50/50 transition-colors';
+                row.innerHTML = `
+                    <td class="px-6 py-4">
+                        <div class="h-10 w-10 rounded-full bg-cover bg-center border-2 border-primary/20" style='background-image: url("${user.avatar || 'https://via.placeholder.com/100'}")'></div>
+                    </td>
+                    <td class="px-6 py-4 text-sm font-bold text-primary">${user.nguoidung_id || 'N/A'}</td>
+                    <td class="px-6 py-4">
+                        <div class="text-sm font-bold text-[#1c140d]">${user.hoten || 'Chưa có tên'}</div>
+                        <div class="text-xs text-[#9c7349]">${user.email || 'Chưa có email'}</div>
+                    </td>
+                    <td class="px-6 py-4 text-sm text-[#9c7349]">${user.email || 'N/A'}</td>
+                    <td class="px-6 py-4 text-sm text-[#1c140d]">${user.sodienthoai || 'N/A'}</td>
+                    <td class="px-6 py-4">
+                        <span class="px-2.5 py-1 ${getRoleClass(user.vai_tro)} text-[10px] font-bold rounded-md uppercase">
+                            ${getRoleText(user.vai_tro)}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="px-2.5 py-1 ${getStatusClass(user.trang_thai)} text-[10px] font-bold rounded-md uppercase">
+                            ${getStatusText(user.trang_thai)}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-sm text-[#9c7349]">${user.join_date || 'N/A'}</td>
+                    <td class="px-6 py-4">
+                        <div class="flex items-center justify-center gap-2">
+                            <button class="p-2 rounded-lg hover:bg-blue-50 text-blue-600 transition-colors" onclick="viewUserDetails('${user.nguoidung_id}')" title="Xem chi tiết">
+                                <span class="material-symbols-outlined text-lg">visibility</span>
+                            </button>
+                            <button class="p-2 rounded-lg hover:bg-primary/10 text-primary transition-colors" onclick="editUser('${user.nguoidung_id}')" title="Chỉnh sửa">
+                                <span class="material-symbols-outlined text-lg">edit</span>
+                            </button>
+                            <button class="p-2 rounded-lg hover:bg-green-50 text-green-600 transition-colors" onclick="showChangeRoleModal('${user.nguoidung_id}', '${user.hoten}', '${user.vai_tro}')" title="Đổi vai trò">
+                                <span class="material-symbols-outlined text-lg">swap_horiz</span>
+                            </button>
+                            ${user.vai_tro !== 'quan_tri' ? `
+                            ${user.trang_thai === 'hoat_dong' ? 
+                                `<button class="p-2 rounded-lg hover:bg-red-50 text-red-600 transition-colors" onclick="showToggleStatusModal('${user.nguoidung_id}', 'vo_hieu_hoa', '${user.hoten}')" title="Vô hiệu hóa">
+                                    <span class="material-symbols-outlined text-lg">lock</span>
+                                </button>` : 
+                                `<button class="p-2 rounded-lg hover:bg-green-50 text-green-600 transition-colors" onclick="showToggleStatusModal('${user.nguoidung_id}', 'hoat_dong', '${user.hoten}')" title="Kích hoạt">
+                                    <span class="material-symbols-outlined text-lg">lock_open</span>
+                                </button>`
+                            }
+                            ` : ''}
+                        </div>
+                    </td>
+                `;
+                usersTable.appendChild(row);
+            });
+        }
+
+        // Helper functions cho role và status
+        function getRoleClass(role) {
+            switch(role) {
+                case 'khach_hung': return 'role-customer';
+                case 'nhan_vien': return 'role-staff';
+                case 'quan_tri': return 'role-admin';
+                default: return 'bg-gray-100 text-gray-700';
+            }
+        }
+
+        function getRoleText(role) {
+            switch(role) {
+                case 'khach_hung': return 'Khách hàng';
+                case 'nhan_vien': return 'Nhân viên';
+                case 'quan_tri': return 'Quản trị';
+                default: return role;
+            }
+        }
+
+        function getStatusClass(status) {
+            switch(status) {
+                case 'hoat_dong': return 'status-active';
+                case 'vo_hieu_hoa': return 'status-inactive';
+                default: return 'bg-gray-100 text-gray-700';
+            }
+        }
+
+        function getStatusText(status) {
+            switch(status) {
+                case 'hoat_dong': return 'Hoạt động';
+                case 'vo_hieu_hoa': return 'Không hoạt động';
+                default: return status;
+            }
+        }
+
+        // Cập nhật thống kê UI
+        function updateStatsUI(stats) {
+            if (!stats) return;
+            
+            document.getElementById('totalUsers').textContent = stats.total_users || 0;
+            document.getElementById('customerCount').textContent = stats.customers || 0;
+            document.getElementById('staffCount').textContent = stats.staff || 0;
+            document.getElementById('newUsersCount').textContent = stats.new_this_month || 0;
+            
+            const totalUsers = stats.total_users || 1;
+            const customerPercentage = stats.customers ? Math.round((stats.customers / totalUsers) * 100) : 0;
+            
+            document.getElementById('totalUsersGrowth').textContent = `+${stats.growth || 0} so với tháng trước`;
+            document.getElementById('customerPercentage').textContent = `${customerPercentage}% tổng người dùng`;
+            document.getElementById('staffGrowth').textContent = `+${Math.floor((stats.staff || 0) * 0.1)} tháng này`;
+            document.getElementById('newUsersGrowth').textContent = `+${Math.floor((stats.new_this_month || 0) * 0.2)} so với tháng trước`;
+        }
+
+        // Cập nhật hiển thị
+        async function updateDisplay() {
+            try {
+                // Hiển thị loading
+                usersTable.innerHTML = `
+                    <tr id="loadingRow">
+                        <td colspan="9" class="px-6 py-12 text-center">
+                            <div class="flex flex-col items-center justify-center">
+                                <div class="h-12 w-12 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
+                                <p class="text-sm text-[#9c7349]">Đang tải dữ liệu người dùng...</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                
+                const result = await fetchUsers();
+                currentUsersData = result.data || [];
+                totalFilteredUsers = result.pagination?.total || 0;
+                totalPages = result.pagination?.pages || 1;
+                
+                displayUsers(currentUsersData);
+                
+                // Cập nhật thông tin phân trang
+                const start = totalFilteredUsers === 0 ? 0 : ((currentPage - 1) * itemsPerPage) + 1;
+                const end = Math.min(currentPage * itemsPerPage, totalFilteredUsers);
+                paginationInfo.textContent = `Hiển thị ${start}-${end} trong tổng số ${totalFilteredUsers} người dùng`;
+                
+                updatePaginationButtons(totalFilteredUsers, currentPage, totalPages);
+                
+            } catch (error) {
+                console.error('Error updating display:', error);
+                showToast('error', 'Lỗi khi tải dữ liệu');
+            }
+        }
+
+        // Xem chi tiết người dùng
+        async function viewUserDetails(userId) {
+            try {
+                const result = await fetchUserDetail(userId);
+                if (!result) return;
+                
+                const user = result.data;
+                const activities = result.activities || [];
+                
+                // Cập nhật thông tin modal
+                document.getElementById('detailAvatar').style.backgroundImage = `url('${user.avatar || 'https://via.placeholder.com/100'}')`;
+                document.getElementById('detailName').textContent = user.hoten || 'Chưa có tên';
+                document.getElementById('detailEmail').textContent = user.email || 'Chưa có email';
+                document.getElementById('detailEmailFull').textContent = user.email || 'Chưa có email';
+                document.getElementById('detailUserId').textContent = user.nguoidung_id || 'N/A';
+                document.getElementById('detailJoinDate').textContent = user.join_date || 'N/A';
+                document.getElementById('detailRole').textContent = getRoleText(user.vai_tro);
+                document.getElementById('detailPhone').textContent = user.sodienthoai || 'N/A';
+                document.getElementById('detailAddress').textContent = user.diachi || 'Chưa cập nhật';
+                document.getElementById('detailTotalOrders').textContent = user.total_orders || 0;
+                document.getElementById('detailTotalSpent').textContent = user.total_spent_formatted || '0đ';
+                document.getElementById('detailAvgOrder').textContent = user.avg_order || '0đ';
+                document.getElementById('detailAvgRating').textContent = (user.avg_rating_formatted || '0') + '/5';
+                document.getElementById('detailTotalReviews').textContent = user.total_reviews || 0;
+                document.getElementById('detailAccountStatus').textContent = user.account_status_text || 'N/A';
+                document.getElementById('detailLastLogin').textContent = user.last_login || 'N/A';
+                
+                // Cập nhật trạng thái
+                const statusElement = document.getElementById('detailStatus');
+                statusElement.textContent = getStatusText(user.trang_thai);
+                statusElement.className = `inline-block px-3 py-1 rounded-full text-xs font-bold ${getStatusClass(user.trang_thai)}`;
+                
+                // Hiển thị lịch sử hoạt động
+                const activityHistory = document.getElementById('activityHistory');
+                if (activities.length === 0) {
+                    activityHistory.innerHTML = `
+                        <div class="text-center py-8 text-gray-400">
+                            <span class="material-symbols-outlined text-4xl mb-2">history</span>
+                            <p class="text-sm">Chưa có hoạt động nào</p>
+                        </div>
+                    `;
+                } else {
+                    activityHistory.innerHTML = activities.map(activity => `
+                        <div class="flex items-center justify-between text-sm py-2 border-b border-[#f4ede7]">
+                            <span>${activity.description || 'Hoạt động'}</span>
+                            <span class="text-[#9c7349]">${activity.date_formatted || 'N/A'}</span>
+                        </div>
+                    `).join('');
+                }
+                
+                // Hiển thị modal
+                detailModal.classList.remove('hidden');
+            } catch (error) {
+                console.error('Error viewing user details:', error);
+                showToast('error', 'Không thể tải thông tin chi tiết');
+            }
+        }
+
+        // Chỉnh sửa người dùng
+        async function editUser(userId) {
+            try {
+                const result = await fetchUserDetail(userId);
+                if (!result) return;
+                
+                const user = result.data;
+                editingUserId = userId;
+                modalTitle.textContent = 'Chỉnh sửa thông tin người dùng';
+                
+                // Điền thông tin vào form
+                document.getElementById('nguoidung_id').value = user.nguoidung_id || '';
+                document.getElementById('hoten').value = user.hoten || '';
+                document.getElementById('sodienthoai').value = user.sodienthoai || '';
+                document.getElementById('email').value = user.email || '';
+                document.getElementById('vai_tro').value = user.vai_tro || 'khach_hung';
+                document.getElementById('trang_thai').value = user.trang_thai || 'hoat_dong';
+                document.getElementById('diachi').value = user.diachi || '';
+                
+                // Ẩn các trường tài khoản khi chỉnh sửa
+                document.getElementById('create_account').checked = false;
+                accountFields.classList.add('hidden');
+                
+                // Hiển thị modal
+                userModal.classList.remove('hidden');
+            } catch (error) {
+                console.error('Error editing user:', error);
+                showToast('error', 'Không thể tải thông tin người dùng');
+            }
+        }
+
+        // Hiển thị modal đổi vai trò
+        function showChangeRoleModal(userId, userName, currentRole) {
+            currentChangeRoleUserId = userId;
+            changeRoleUserId.value = userId;
+            changeRoleText.textContent = `Đổi vai trò cho: ${userName}\n\nVai trò hiện tại: ${getRoleText(currentRole)}`;
+            newRoleSelect.value = currentRole || 'khach_hung';
+            changeRoleModal.classList.remove('hidden');
+        }
+
+        // Hiển thị modal thay đổi trạng thái
+        function showToggleStatusModal(userId, action, userName) {
+            currentToggleUserId = userId;
+            currentToggleAction = action;
+            
+            const actionText = action === 'vo_hieu_hoa' ? 'vô hiệu hóa' : 'kích hoạt';
+            confirmLockTitle.textContent = action === 'vo_hieu_hoa' ? 'Xác nhận vô hiệu hóa người dùng' : 'Xác nhận kích hoạt người dùng';
+            confirmLockText.textContent = `Bạn có chắc chắn muốn ${actionText} người dùng ${userName}?`;
+            
+            confirmLockModal.classList.remove('hidden');
+        }
+
+        // ============ EVENT LISTENERS ============
+
+        // Mở modal thêm người dùng
+        addUserBtn.addEventListener('click', function() {
+            editingUserId = null;
+            modalTitle.textContent = 'Thêm người dùng mới';
+            userForm.reset();
+            document.getElementById('create_account').checked = true;
+            accountFields.classList.remove('hidden');
+            userModal.classList.remove('hidden');
+        });
+
+        // Toggle account fields
+        createAccountCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                accountFields.classList.remove('hidden');
+            } else {
+                accountFields.classList.add('hidden');
+            }
+        });
+
+        // Đóng modal người dùng
+        function closeUserModal() {
+            userModal.classList.add('hidden');
+            editingUserId = null;
+            userForm.reset();
+            accountFields.classList.add('hidden');
+        }
+
+        closeUserModalBtn.addEventListener('click', closeUserModal);
+        cancelUserBtn.addEventListener('click', closeUserModal);
+
+        // Xử lý submit form
+        userForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const saveBtn = document.getElementById('saveUserBtn');
+            const originalText = saveBtn.textContent;
+            saveBtn.textContent = 'Đang xử lý...';
+            saveBtn.disabled = true;
+            
+            try {
+                const formData = {
+                    hoten: document.getElementById('hoten').value,
+                    sodienthoai: document.getElementById('sodienthoai').value,
+                    email: document.getElementById('email').value,
+                    vai_tro: document.getElementById('vai_tro').value,
+                    trang_thai: document.getElementById('trang_thai').value,
+                    diachi: document.getElementById('diachi').value
+                };
+                
+                let result;
+                
+                if (editingUserId) {
+                    // Cập nhật người dùng
+                    result = await updateUser(editingUserId, formData);
+                } else {
+                    // Thêm người dùng mới
+                    if (document.getElementById('create_account').checked) {
+                        formData.create_account = 'true';
+                        formData.ten_dang_nhap = document.getElementById('ten_dang_nhap').value || formData.email;
+                        formData.mat_khau = document.getElementById('mat_khau').value || '123456';
+                        formData.account_status = document.getElementById('account_status').value;
+                    }
+                    
+                    result = await addUser(formData);
+                }
+                
+                if (result.success) {
+                    showToast('success', result.message);
+                    closeUserModal();
+                    await updateDisplay();
+                    await loadStats();
+                } else {
+                    showToast('error', result.message);
+                }
+            } catch (error) {
+                console.error('Error saving user:', error);
+                showToast('error', 'Đã xảy ra lỗi khi lưu thông tin');
+            } finally {
+                saveBtn.textContent = originalText;
+                saveBtn.disabled = false;
+            }
+        });
+
+        // Xử lý tìm kiếm
+        let searchTimeout;
+        searchUserInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            currentSearch = this.value;
+            currentPage = 1;
+            
+            searchTimeout = setTimeout(() => {
+                updateDisplay();
+            }, 500);
+        });
+
+        // Xử lý sắp xếp
+        sortUserSelect.addEventListener('change', function() {
+            currentSort = this.value;
+            updateDisplay();
+        });
+
+        // Xử lý chuyển tab
+        function setActiveTab(tabElement, filter) {
+            [tabAllUsers, tabCustomers, tabStaff, tabInactive].forEach(tab => {
+                tab.classList.remove('tab-active', 'text-primary');
+                tab.classList.add('text-[#9c7349]', 'border-transparent');
+            });
+            
+            tabElement.classList.remove('text-[#9c7349]', 'border-transparent');
+            tabElement.classList.add('tab-active', 'text-primary');
+            
+            currentUserFilter = filter;
+            currentPage = 1;
+            updateDisplay();
+        }
+
+        tabAllUsers.addEventListener('click', () => setActiveTab(tabAllUsers, 'all'));
+        tabCustomers.addEventListener('click', () => setActiveTab(tabCustomers, 'customers'));
+        tabStaff.addEventListener('click', () => setActiveTab(tabStaff, 'staff'));
+        tabInactive.addEventListener('click', () => setActiveTab(tabInactive, 'inactive'));
+
+        // Export dữ liệu
+        exportBtn.addEventListener('click', function() {
+            const params = new URLSearchParams({
+                action: 'export_users',
+                role: getRoleFilter(),
+                status: getStatusFilter(),
+                search: currentSearch
+            });
+
+            window.open(`user.php?${params}`, '_blank');
+        });
+
+        // Import dữ liệu
+        importBtn.addEventListener('click', function() {
+            importModal.classList.remove('hidden');
+        });
+
+        closeImportModalBtn.addEventListener('click', function() {
+            importModal.classList.add('hidden');
+            importForm.reset();
+            selectedFileName.classList.add('hidden');
+        });
+
+        cancelImportBtn.addEventListener('click', function() {
+            importModal.classList.add('hidden');
+            importForm.reset();
+            selectedFileName.classList.add('hidden');
+        });
+
+        // Chọn file
+        selectFileBtn.addEventListener('click', function() {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                const fileName = e.target.files[0].name;
+                selectedFileName.textContent = fileName;
+                selectedFileName.classList.remove('hidden');
+            }
+        });
+
+        // Download template
+        downloadTemplate.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const csvContent = "\ufeff" + "Họ tên,Email,Số điện thoại,Vai trò\n" +
+                "Nguyễn Văn A,nguyenvana@gmail.com,0901234567,customer\n" +
+                "Trần Thị B,tranthib@gmail.com,0912345678,staff\n" +
+                "Lê Văn C,levanc@gmail.com,0923456789,admin";
+            
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            
+            const link = document.createElement("a");
+            link.setAttribute("href", url);
+            link.setAttribute("download", "template_nguoidung.csv");
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+
+        // Xử lý import form
+        importForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (!fileInput.files[0]) {
+                showToast('error', 'Vui lòng chọn file để import');
+                return;
+            }
+            
+            const confirmBtn = document.getElementById('confirmImportBtn');
+            const originalText = confirmBtn.textContent;
+            confirmBtn.textContent = 'Đang import...';
+            confirmBtn.disabled = true;
+            
+            try {
+                const result = await importUsers(fileInput.files[0]);
+                
+                if (result.success) {
+                    showToast('success', result.message);
+                    importModal.classList.add('hidden');
+                    importForm.reset();
+                    selectedFileName.classList.add('hidden');
+                    await updateDisplay();
+                    await loadStats();
+                } else {
+                    showToast('error', result.message);
+                }
+            } catch (error) {
+                console.error('Error importing:', error);
+                showToast('error', 'Đã xảy ra lỗi khi import dữ liệu');
+            } finally {
+                confirmBtn.textContent = originalText;
+                confirmBtn.disabled = false;
+            }
+        });
+
+        // Đóng modal chi tiết
+        closeDetailModalBtn.addEventListener('click', function() {
+            detailModal.classList.add('hidden');
+        });
+
+        // Phân trang
+        prevPage.addEventListener('click', function() {
+            if (currentPage > 1) {
+                currentPage--;
+                updateDisplay();
+            }
+        });
+
+        nextPage.addEventListener('click', function() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                updateDisplay();
+            }
+        });
+
+        // Hủy đổi vai trò
+        cancelChangeRoleBtn.addEventListener('click', function() {
+            changeRoleModal.classList.add('hidden');
+            currentChangeRoleUserId = null;
+        });
+
+        // Xác nhận đổi vai trò
+        confirmChangeRoleBtn.addEventListener('click', async function() {
+            if (!currentChangeRoleUserId) return;
+            
+            const confirmBtn = this;
+            const originalText = confirmBtn.textContent;
+            confirmBtn.textContent = 'Đang xử lý...';
+            confirmBtn.disabled = true;
+            
+            try {
+                const newRole = newRoleSelect.value;
+                const result = await changeUserRole(currentChangeRoleUserId, newRole);
+                
+                if (result.success) {
+                    showToast('success', result.message);
+                    changeRoleModal.classList.add('hidden');
+                    await updateDisplay();
+                    await loadStats(); // Cập nhật lại thống kê sau khi đổi vai trò
+                } else {
+                    showToast('error', result.message);
+                }
+            } catch (error) {
+                console.error('Error changing role:', error);
+                showToast('error', 'Đã xảy ra lỗi khi đổi vai trò');
+            } finally {
+                confirmBtn.textContent = originalText;
+                confirmBtn.disabled = false;
+            }
+        });
+
+        // Hủy khóa/mở khóa
+        cancelLockBtn.addEventListener('click', function() {
+            confirmLockModal.classList.add('hidden');
+            currentToggleUserId = null;
+            currentToggleAction = null;
+        });
+
+        // Xác nhận khóa/mở khóa
+        confirmLockBtn.addEventListener('click', async function() {
+            if (!currentToggleUserId || !currentToggleAction) return;
+            
+            const confirmBtn = this;
+            const originalText = confirmBtn.textContent;
+            confirmBtn.textContent = 'Đang xử lý...';
+            confirmBtn.disabled = true;
+            
+            try {
+                const result = await toggleUserStatus(currentToggleUserId, currentToggleAction);
+                
+                if (result.success) {
+                    showToast('success', result.message);
+                    confirmLockModal.classList.add('hidden');
+                    await updateDisplay();
+                } else {
+                    showToast('error', result.message);
+                }
+            } catch (error) {
+                console.error('Error toggling status:', error);
+                showToast('error', 'Đã xảy ra lỗi khi thay đổi trạng thái');
+            } finally {
+                confirmBtn.textContent = originalText;
+                confirmBtn.disabled = false;
+            }
+        });
+
+        // ============ INITIALIZATION ============
+
+        // Tải thống kê
+        async function loadStats() {
+            const stats = await fetchUserStats();
+            updateStatsUI(stats);
+        }
+
+        // Khởi tạo
+        window.addEventListener('DOMContentLoaded', async function() {
+            await updateDisplay();
+            await loadStats();
+        });
+
+        // Thêm hàm vào global scope
+        window.removeToast = removeToast;
+        window.viewUserDetails = viewUserDetails;
+        window.editUser = editUser;
+        window.showChangeRoleModal = showChangeRoleModal;
+        window.showToggleStatusModal = showToggleStatusModal;
+    </script>
+</body>
+</html>
