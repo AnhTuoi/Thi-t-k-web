@@ -1,6 +1,4 @@
 <?php
-// Không cần fetch từ PHP nữa, sẽ để JavaScript xử lý
-// Điều này giúp trang load nhanh hơn và dễ quản lý hơn
 ?>
 <!DOCTYPE html>
 <html class="light" lang="vi"><head>
