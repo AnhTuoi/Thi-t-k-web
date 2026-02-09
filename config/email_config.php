@@ -4,11 +4,12 @@ return [
     'smtp' => [
         'host' => 'smtp.gmail.com',
         'port' => 587,
-        'username' => 'phungtuoi1502@gmail.com',
-        'password' => 'mrof dsmm lfvd mqsx',
+        'username' => 'email2@gmail.com',
+        'password' => 'password',
         'encryption' => 'tls',
         'from_email' => 'no-reply@foodgo.vn',
         'from_name' => 'FoodGo',
     ],
     'debug' => true,
 ];
+
