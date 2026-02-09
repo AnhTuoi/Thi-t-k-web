@@ -66,8 +66,8 @@ if (file_exists($configPath)) {
         'smtp' => [
             'host' => 'smtp.gmail.com',
             'port' => 587,
-            'username' => 'phungtuoi1502@gmail.com',
-            'password' => 'mrof dsmm lfvd mqsx',
+            'username' => 'email@gmail.com',
+            'password' => 'password',
             'encryption' => 'tls',
             'from_email' => 'no-reply@foodgo.vn',
             'from_name' => 'FoodGo'
@@ -1399,4 +1399,5 @@ if ($action === 'activate' && empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
     // Xử lý kích hoạt
     handleActivateAccount($conn);
 }
+
 ?>
