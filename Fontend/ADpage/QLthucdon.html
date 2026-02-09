@@ -38,7 +38,7 @@
         #chatbot-toggle:focus-within + #chatbot-window,
         #chatbot-window:hover,
         #chatbot-window:focus-within { display: flex; }
-        .status-instock  { @apply bg-green-100 text-green-700; }
+        .status-instock { @apply bg-green-100 text-green-700; }
         .status-outstock { @apply bg-red-100 text-red-700; }
     </style>
 </head>
@@ -255,6 +255,53 @@
     </div>
 </div>
 
+<!-- Modal Import - Thiết kế giống ảnh chị gửi -->
+<div id="importModal" class="hidden fixed inset-0 bg-black/50 z-[999] flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full overflow-hidden">
+        <div class="bg-primary p-6 text-white flex items-center justify-between">
+            <h3 class="text-lg font-black">Import dữ liệu món ăn</h3>
+            <button id="closeImportModalBtn" class="p-2 hover:bg-white/10 rounded-xl transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="p-6">
+            <div class="border-2 border-dashed border-[#f4ede7] rounded-2xl p-10 text-center mb-6">
+                <span class="material-symbols-outlined text-6xl text-primary mb-4">upload</span>
+                <h4 class="font-bold text-[#1c140d] text-lg mb-2">Kéo thả file hoặc chọn từ máy tính</h4>
+                <p class="text-sm text-[#9c7349] mb-6">Hỗ trợ file CSV, Excel (max 5MB)</p>
+                <input type="file" id="importFileInput" class="hidden" accept=".csv,.xlsx,.xls"/>
+                <button id="selectImportFileBtn" class="px-8 py-3 bg-primary text-white text-sm font-bold rounded-xl hover:bg-primary/90 transition-all">
+                    Chọn file
+                </button>
+            </div>
+
+            <div class="bg-blue-50 rounded-xl p-5 mb-6">
+                <div class="flex items-start gap-3">
+                    <span class="material-symbols-outlined text-blue-600 mt-1 text-xl">info</span>
+                    <div>
+                        <h5 class="text-sm font-bold text-blue-800 mb-2">Lưu ý khi import</h5>
+                        <ul class="text-xs text-blue-700 space-y-1.5 list-disc pl-4">
+                            <li>File CSV cần có các cột: Tên món, Giá bán, Danh mục, ĐVT, Tồn kho</li>
+                            <li>Tên món và giá bán phải là duy nhất trong hệ thống</li>
+                            <li>Danh mục: Pizza, Burger, Pasta, Drink, Dessert</li>
+                            <li>Mẫu file có thể tải <a href="#" class="font-bold underline text-blue-800 hover:underline">tại đây</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-4">
+                <button id="cancelImportBtn" class="px-8 py-3 text-sm font-bold text-[#9c7349] hover:bg-gray-50 rounded-xl transition-all">
+                    Hủy
+                </button>
+                <button id="confirmImportBtn" class="px-8 py-3 bg-primary text-white text-sm font-bold rounded-xl hover:bg-primary/90 transition-all">
+                    Import dữ liệu
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Bảng danh sách món ăn -->
 <section class="bg-white rounded-3xl border border-[#f4ede7] shadow-sm overflow-hidden mb-12">
     <div class="overflow-x-auto">
@@ -296,7 +343,7 @@
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-sm text-[#9c7349]">Tổng món ăn</p>
-                <p class="text-2xl font-black text-[#1c140d]" id="totalDishes">48</p>
+                <p class="text-2xl font-black text-[#1c140d]" id="totalDishes">0</p>
             </div>
             <div class="h-12 w-12 bg-primary/10 rounded-xl flex items-center justify-center">
                 <span class="material-symbols-outlined text-primary">restaurant_menu</span>
@@ -307,7 +354,7 @@
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-sm text-[#9c7349]">Còn hàng</p>
-                <p class="text-2xl font-black text-[#1c140d]" id="inStock">42</p>
+                <p class="text-2xl font-black text-[#1c140d]" id="inStock">0</p>
             </div>
             <div class="h-12 w-12 bg-green-100 rounded-xl flex items-center justify-center">
                 <span class="material-symbols-outlined text-green-600">inventory_2</span>
@@ -318,7 +365,7 @@
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-sm text-[#9c7349]">Hết hàng</p>
-                <p class="text-2xl font-black text-[#1c140d]" id="outStock">6</p>
+                <p class="text-2xl font-black text[#1c140d]" id="outStock">0</p>
             </div>
             <div class="h-12 w-12 bg-red-100 rounded-xl flex items-center justify-center">
                 <span class="material-symbols-outlined text-red-600">block</span>
@@ -329,7 +376,7 @@
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-sm text-[#9c7349]">Giá trị tồn kho</p>
-                <p class="text-2xl font-black text-[#1c140d]" id="stockValue">~85.6tr</p>
+                <p class="text-2xl font-black text[#1c140d]" id="stockValue">~0tr</p>
             </div>
             <div class="h-12 w-12 bg-purple-100 rounded-xl flex items-center justify-center">
                 <span class="material-symbols-outlined text-purple-600">payments</span>
@@ -375,16 +422,16 @@
 <button class="px-3 py-1.5 bg-white border border-[#f4ede7] text-xs font-semibold text-primary rounded-full hover:bg-primary/5 hover:border-primary transition-all">
                             Thống kê doanh thu hôm nay
                         </button>
-<button class="px-3 py-1.5 bg-white border border-[#f4ede7] text-xs font-semibold text-primary rounded-full hover:bg-primary/5 hover:border-primary transition-all">
+<button class="px-3 py-1.5 bg-white border border[#f4ede7] text-xs font-semibold text-primary rounded-full hover:bg-primary/5 hover:border-primary transition-all">
                             Món nào bán chạy nhất?
                         </button>
-<button class="px-3 py-1.5 bg-white border border-[#f4ede7] text-xs font-semibold text-primary rounded-full hover:bg-primary/5 hover:border-primary transition-all">
+<button class="px-3 py-1.5 bg-white border border[#f4ede7] text-xs font-semibold text-primary rounded-full hover:bg-primary/5 hover:border-primary transition-all">
                             Kiểm tra đơn hàng mới
                         </button>
 </div>
 </div>
 </div>
-<div class="p-4 bg-white border-t border-[#f4ede7]">
+<div class="p-4 bg-white border-t border[#f4ede7]">
 <div class="relative flex items-center">
 <input class="w-full h-11 pl-4 pr-12 rounded-xl bg-gray-50 border-none text-sm focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Nhập tin nhắn..." type="text"/>
 <button class="absolute right-2 h-8 w-8 bg-primary text-white rounded-lg flex items-center justify-center hover:bg-primary/90 transition-colors">
@@ -399,12 +446,18 @@
 </div>
 
 <script>
-// Dữ liệu món ăn mẫu (tương tự như usersData)
+// 10 món ăn mẫu (đã chèn đầy đủ, hiển thị ngay khi mở trang)
 let dishesData = [
-    { id: "#MON-001", name: "Pizza Hải Sản Cao Cấp", category: "Pizza", price: 259000, unit: "Cái", stock: 45, image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDE7HfMcRBZG_PL1xI95sGSBmYq6LS1IAGvc5cIJDhG3kqStDMOoYvT6PQGALTG0iESug5lkiiKfm0kgypRoWNpWnYid3-3s3c1oTnjbIYw9Oq8i6GgUxiiarzURC6T4YiOh6g7p9VRMY50YmnPgjzTfJO9ONuWPOYKf6pizy1CUH6gOZat09R-8f3zbn6GeBTn67LpHSzhW1C1nsyxmKj6gKZs3RVVoT8C63ZS77woMX97rcaFf1w7SK_I2B9lAIpkQnQkL0Hs4sg", desc: "Pizza hải sản cao cấp với tôm, mực tươi", addedDate: "10/01/2025" },
-    { id: "#MON-002", name: "Burger Bò Wagyu", category: "Burger", price: 189000, unit: "Phần", stock: 12, image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCl5OJ3IPnxS8LTUE7iEOdM5zMYJmOKms53fEesCk7fRqNke9uyyzdMfeyGXbxgXQUgTmk2HFFwBDj0SoNKmHP44Q2Hgoy1GbUW1KBu8jrym3Xu6cFw8M4w--6OqexwJqtm9QNweCkbGabeXlkEbFs0ssADMgnP_vvpa9Th7R_YA7kJC8JjoEuCScEVYaCoV67JDUtmg3zGHkzn4Zzp7OHNgbKfkf-MRSKtvUyiIreMFzAtjaqZ4r1zmBM47JQttGiQThIfpidG06w", desc: "Burger bò Wagyu thượng hạng", addedDate: "15/01/2025" },
-    { id: "#MON-003", name: "Mì Ý Sốt Bò Bằm", category: "Pasta", price: 145000, unit: "Đĩa", stock: 0, image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCsYcIOTg0TE_dhdGGZlQhThMxmfb1tTkr4quiWmDly3hP-Yi0RCMbpaUg2JUEV3VqOUdY1jnQqsD3HFJpO9juKTKib9gkEK0yi4wddo8fNdxt_byITU8RInVCWLcnC1PlBx2LGFJJrFHRvwQOxn_zcrTf4qSqC2zfZCGIfRPVNYmqNZG7Nj6cMIyg-JS8r2fX36M6NmnxdKABiMhvw06Q4wls7rS6eB6XOsj8ROwwmRxB8QbY8G9DvajXgJv05nho_fs6H6KUj5ak", desc: "Mì Ý sốt bò bằm truyền thống", addedDate: "20/01/2025" },
-    // ... thêm món khác nếu muốn
+    { id: "#MON-001", name: "Pizza Hải Sản Cao Cấp", category: "Pizza", price: 259000, unit: "Cái", stock: 45, image: "https://via.placeholder.com/300/FF6B6B/FFFFFF?text=Pizza+Hải+Sản", desc: "Pizza hải sản cao cấp với tôm, mực tươi", addedDate: "10/01/2025" },
+    { id: "#MON-002", name: "Burger Bò Wagyu", category: "Burger", price: 189000, unit: "Phần", stock: 12, image: "https://via.placeholder.com/300/4ECDC4/FFFFFF?text=Burger+Wagyu", desc: "Burger bò Wagyu thượng hạng", addedDate: "15/01/2025" },
+    { id: "#MON-003", name: "Mì Ý Sốt Bò Bằm", category: "Pasta", price: 145000, unit: "Đĩa", stock: 0, image: "https://via.placeholder.com/300/45B7D1/FFFFFF?text=Mì+Ý+Bò+Bằm", desc: "Mì Ý sốt bò bằm truyền thống", addedDate: "20/01/2025" },
+    { id: "#MON-004", name: "Trà Sữa Trân Châu Đường Đen", category: "Drink", price: 45000, unit: "Ly", stock: 80, image: "https://via.placeholder.com/300/96CEB4/FFFFFF?text=Trà+Sữa", desc: "Trà sữa trân châu đường đen thơm ngon", addedDate: "05/02/2025" },
+    { id: "#MON-005", name: "Bánh Flan Caramel", category: "Dessert", price: 35000, unit: "Phần", stock: 25, image: "https://via.placeholder.com/300/FFEEAD/FFFFFF?text=Bánh+Flan", desc: "Bánh flan caramel mềm mịn", addedDate: "12/02/2025" },
+    { id: "#MON-006", name: "Pizza Margherita", category: "Pizza", price: 189000, unit: "Cái", stock: 30, image: "https://via.placeholder.com/300/D4A5A5/FFFFFF?text=Pizza+Margherita", desc: "Pizza Margherita cổ điển", addedDate: "18/02/2025" },
+    { id: "#MON-007", name: "Burger Gà Cay", category: "Burger", price: 129000, unit: "Phần", stock: 8, image: "https://via.placeholder.com/300/9B59B6/FFFFFF?text=Burger+Gà+Cay", desc: "Burger gà cay nồng nàn", addedDate: "22/02/2025" },
+    { id: "#MON-008", name: "Spaghetti Carbonara", category: "Pasta", price: 165000, unit: "Đĩa", stock: 15, image: "https://via.placeholder.com/300/3498DB/FFFFFF?text=Spaghetti+Carbonara", desc: "Spaghetti sốt kem carbonara", addedDate: "01/03/2025" },
+    { id: "#MON-009", name: "Sinh Tố Dâu", category: "Drink", price: 55000, unit: "Ly", stock: 60, image: "https://via.placeholder.com/300/E74C3C/FFFFFF?text=Sinh+Tố+Dâu", desc: "Sinh tố dâu tươi mát", addedDate: "10/03/2025" },
+    { id: "#MON-010", name: "Tiramisu Ý", category: "Dessert", price: 65000, unit: "Phần", stock: 20, image: "https://via.placeholder.com/300/F1C40F/FFFFFF?text=Tiramisu", desc: "Tiramisu vị cà phê đậm đà", addedDate: "15/03/2025" }
 ];
 
 let currentFilter = 'all';
@@ -414,7 +467,7 @@ let currentPage = 1;
 const itemsPerPage = 8;
 let editingDishId = null;
 
-// DOM elements
+// DOM elements (giữ nguyên)
 const dishesTable = document.getElementById('dishesTable');
 const addDishBtn = document.getElementById('addDishBtn');
 const dishModal = document.getElementById('dishModal');
@@ -436,6 +489,12 @@ const closeDetailDish = document.getElementById('closeDetailDish');
 const paginationInfo = document.getElementById('paginationInfo');
 const prevPage = document.getElementById('prevPage');
 const nextPage = document.getElementById('nextPage');
+const importModal = document.getElementById('importModal');
+const closeImportModalBtn = document.getElementById('closeImportModalBtn');
+const cancelImportBtn = document.getElementById('cancelImportBtn');
+const selectImportFileBtn = document.getElementById('selectImportFileBtn');
+const importFileInput = document.getElementById('importFileInput');
+const confirmImportBtn = document.getElementById('confirmImportBtn');
 
 // Hiển thị bảng món ăn
 function displayDishes(dishes) {
@@ -476,7 +535,6 @@ function displayDishes(dishes) {
     const inStock = dishesData.filter(d => d.stock > 0).length;
     const outStock = total - inStock;
     const stockValue = dishesData.reduce((sum, d) => sum + d.price * d.stock, 0);
-
     document.getElementById('totalDishes').textContent = total;
     document.getElementById('inStock').textContent = inStock;
     document.getElementById('outStock').textContent = outStock;
@@ -517,7 +575,6 @@ function filterAndSortDishes() {
 window.viewDishDetail = function(id) {
     const dish = dishesData.find(d => d.id === id);
     if (!dish) return;
-
     document.getElementById('detailDishImage').style.backgroundImage = `url('${dish.image}')`;
     document.getElementById('detailDishName').textContent = dish.name;
     document.getElementById('detailDishCategory').textContent = dish.category;
@@ -527,11 +584,9 @@ window.viewDishDetail = function(id) {
     document.getElementById('detailDishId').textContent = dish.id;
     document.getElementById('detailDishAdded').textContent = dish.addedDate;
     document.getElementById('detailDishDesc').textContent = dish.desc || 'Không có mô tả';
-
     const statusEl = document.getElementById('detailDishStatus');
     statusEl.textContent = dish.stock > 0 ? 'Còn hàng' : 'Hết hàng';
     statusEl.className = `inline-block px-4 py-1 rounded-full text-sm font-bold ${dish.stock > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`;
-
     detailDishModal.classList.remove('hidden');
 };
 
@@ -539,7 +594,6 @@ window.viewDishDetail = function(id) {
 window.editDish = function(id) {
     const dish = dishesData.find(d => d.id === id);
     if (!dish) return;
-
     editingDishId = id;
     modalTitle.textContent = 'Chỉnh sửa món ăn';
     document.getElementById('dishName').value = dish.name;
@@ -549,7 +603,6 @@ window.editDish = function(id) {
     document.getElementById('dishStock').value = dish.stock;
     document.getElementById('dishImage').value = dish.image;
     document.getElementById('dishDesc').value = dish.desc || '';
-
     dishModal.classList.remove('hidden');
 };
 
@@ -561,7 +614,7 @@ window.deleteDish = function(id) {
     alert('Đã xóa món ăn thành công!');
 };
 
-// Submit form
+// Submit form thêm/sửa
 dishForm.addEventListener('submit', e => {
     e.preventDefault();
     const data = {
@@ -573,7 +626,6 @@ dishForm.addEventListener('submit', e => {
         image: document.getElementById('dishImage').value || 'https://via.placeholder.com/300',
         desc: document.getElementById('dishDesc').value
     };
-
     if (editingDishId) {
         const idx = dishesData.findIndex(d => d.id === editingDishId);
         if (idx !== -1) {
@@ -589,7 +641,6 @@ dishForm.addEventListener('submit', e => {
         });
         alert('Thêm món ăn mới thành công!');
     }
-
     dishModal.classList.add('hidden');
     updateDisplay();
 });
@@ -614,7 +665,6 @@ function setActiveTab(btn, filter) {
     currentPage = 1;
     updateDisplay();
 }
-
 tabAll.addEventListener('click', () => setActiveTab(tabAll, 'all'));
 tabInStock.addEventListener('click', () => setActiveTab(tabInStock, 'instock'));
 tabOutStock.addEventListener('click', () => setActiveTab(tabOutStock, 'outstock'));
@@ -635,9 +685,88 @@ exportBtn.addEventListener('click', () => {
     link.click();
 });
 
-// Import 
+// Import file JSON cục bộ (đã fix hoàn chỉnh)
+confirmImportBtn.addEventListener('click', () => {
+    const file = importFileInput.files[0];
+    if (!file) {
+        alert('Vui lòng chọn file trước!');
+        return;
+    }
+
+    if (!file.name.endsWith('.json')) {
+        alert('Hiện tại chỉ hỗ trợ file .json!');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        try {
+            const importedData = JSON.parse(event.target.result);
+
+            if (!Array.isArray(importedData)) {
+                throw new Error('File phải là mảng JSON (array of objects)');
+            }
+
+            const validDishes = importedData.filter(item => {
+                return item &&
+                    typeof item.name === 'string' && item.name.trim() !== '' &&
+                    typeof item.price === 'number' && item.price > 0 &&
+                    typeof item.stock === 'number' && item.stock >= 0 &&
+                    ['Pizza','Burger','Pasta','Drink','Dessert'].includes(item.category) &&
+                    typeof item.unit === 'string' && item.unit.trim() !== '';
+            });
+
+            if (validDishes.length === 0) {
+                alert('Không tìm thấy món ăn hợp lệ nào trong file!');
+                return;
+            }
+
+            if (confirm(`Tìm thấy ${validDishes.length} món ăn hợp lệ.\nBạn muốn ghi đè toàn bộ danh sách hiện tại không?`)) {
+                dishesData = validDishes.map((item, index) => ({
+                    id: item.id || `#MON-${String(dishesData.length + index + 1).padStart(3, '0')}`,
+                    name: item.name.trim(),
+                    price: item.price,
+                    category: item.category,
+                    unit: item.unit.trim(),
+                    stock: item.stock,
+                    image: item.image || 'https://via.placeholder.com/300',
+                    desc: item.desc || '',
+                    addedDate: item.addedDate || new Date().toLocaleDateString('vi-VN')
+                }));
+
+                updateDisplay();
+                alert(`Import thành công! Đã cập nhật ${dishesData.length} món ăn.`);
+                importModal.classList.add('hidden');
+            }
+        } catch (err) {
+            alert('Lỗi khi đọc file: ' + err.message + '\nVui lòng kiểm tra định dạng JSON!');
+        }
+    };
+
+    reader.readAsText(file);
+});
+
+// Mở modal Import
 importBtn.addEventListener('click', () => {
-    alert('Chức năng import đang được phát triển. Hiện tại hỗ trợ import JSON/CSV trong tương lai.');
+    importModal.classList.remove('hidden');
+    importFileInput.value = '';
+    selectImportFileBtn.innerHTML = 'Chọn file';
+    selectImportFileBtn.classList.remove('bg-green-100', 'text-green-700', 'border-green-300');
+});
+
+// Đóng modal Import
+closeImportModalBtn.addEventListener('click', () => importModal.classList.add('hidden'));
+cancelImportBtn.addEventListener('click', () => importModal.classList.add('hidden'));
+
+// Chọn file → đổi tên nút
+selectImportFileBtn.addEventListener('click', () => importFileInput.click());
+
+importFileInput.addEventListener('change', (e) => {
+    if (e.target.files.length > 0) {
+        const fileName = e.target.files[0].name;
+        selectImportFileBtn.innerHTML = `<span class="material-symbols-outlined text-xl mr-2">check_circle</span> ${fileName}`;
+        selectImportFileBtn.classList.add('bg-green-100', 'text-green-700', 'border-green-300');
+    }
 });
 
 // Phân trang
@@ -661,7 +790,7 @@ addDishBtn.addEventListener('click', () => {
     dishModal.classList.remove('hidden');
 });
 
-updateDisplay();
+updateDisplay(); // Hiển thị 10 món mẫu ngay lập tức
 </script>
 </body>
 </html>
