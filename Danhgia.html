@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Đánh giá món ăn</title>
+
+<style>
+body{
+  font-family: Arial;
+  background:#f5f5f5;
+  padding:20px;
+}
+
+.container{
+  max-width:900px;
+  margin:auto;
+}
+
+.card{
+  background:white;
+  padding:20px;
+  margin-bottom:15px;
+  border-radius:10px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+button{
+  padding:10px 18px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  background:#ff6600;
+  color:white;
+}
+
+textarea{
+  width:100%;
+  margin-top:10px;
+  padding:8px;
+}
+
+/* STAR RATING */
+
+.star-rating{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  font-size:40px;
+  margin:15px 0;
+  cursor:pointer;
+}
+
+.star{
+  color:#ccc;
+  transition:0.2s;
+}
+
+.star.active{
+  color:#ff6600;
+}
+
+.star:hover{
+  transform:scale(1.2);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>🛒 Đơn hàng của bạn</h2>
+<div id="orderList"></div>
+
+<button onclick="submitReviews()">Gửi đánh giá</button>
+
+</div>
+
+<script>
+
+// ================= BACKEND GIẢ LẬP =================
+// Backend xử lý duyệt và lưu dữ liệu (frontend không thấy)
+
+const fakeBackend = {
+
+  database: [],
+
+  submitReview(review){
+
+    // logic duyệt nội bộ
+    if(review.rating >= 3){
+      review.status = "approved";
+    } else {
+      review.status = "rejected";
+    }
+
+    // lưu vào database
+    this.database.push(review);
+
+    console.log("Database hiện tại:", this.database);
+  }
+
+};
+
+
+// ================= DỮ LIỆU ĐƠN =================
+const order = [
+  {id:1, name:"Pizza Hải sản"},
+  {id:2, name:"Gà rán"},
+  {id:3, name:"Trà sữa"}
+];
+
+let selectedRatings = {};
+
+
+// ================= RENDER ĐƠN =================
+function renderOrder(){
+
+  const container = document.getElementById("orderList");
+  container.innerHTML = "";
+
+  order.forEach(item=>{
+    container.innerHTML += `
+      <div class="card">
+        <h3>${item.name}</h3>
+
+        <label>Chọn số sao:</label>
+
+        <div class="star-rating" data-id="${item.id}">
+          <span class="star" data-value="1">★</span>
+          <span class="star" data-value="2">★</span>
+          <span class="star" data-value="3">★</span>
+          <span class="star" data-value="4">★</span>
+          <span class="star" data-value="5">★</span>
+        </div>
+
+        <textarea id="comment-${item.id}" placeholder="Nhận xét..."></textarea>
+      </div>
+    `;
+  });
+
+  setupStarRating();
+}
+
+
+// ================= CHỌN SAO =================
+function setupStarRating(){
+
+  document.querySelectorAll(".star-rating").forEach(container=>{
+
+    const foodId = container.dataset.id;
+    const stars = container.querySelectorAll(".star");
+
+    stars.forEach(star=>{
+      star.addEventListener("click",()=>{
+
+        const value = star.dataset.value;
+        selectedRatings[foodId] = Number(value);
+
+        stars.forEach(s=>s.classList.remove("active"));
+
+        stars.forEach(s=>{
+          if(s.dataset.value <= value){
+            s.classList.add("active");
+          }
+        });
+
+      });
+    });
+
+  });
+}
+
+
+// ================= GỬI REVIEW =================
+// frontend chỉ gửi dữ liệu
+function submitReviews(){
+
+  order.forEach(item=>{
+
+    const rating = selectedRatings[item.id] || 0;
+    const comment = document.getElementById(`comment-${item.id}`).value;
+
+    if(comment.trim() !== "" && rating > 0){
+
+      const review = {
+        food:item.name,
+        rating,
+        comment,
+        createdAt:new Date()
+      };
+
+      // gửi lên backend (xử lý + lưu nội bộ)
+      fakeBackend.submitReview(review);
+    }
+  });
+
+  alert("Đã gửi đánh giá! Hệ thống sẽ xử lý nội bộ.");
+}
+
+
+// ================= KHỞI TẠO =================
+renderOrder();
+
+</script>
+
+</body>
+</html>
